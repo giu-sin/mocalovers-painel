@@ -15,7 +15,6 @@
   h1 span{color:var(--gold);}
   .sub{color:var(--gray);font-size:14px;margin-top:4px;}
   .updated{font-size:13px;color:var(--gray);text-align:right;}
-  /* hero: two key numbers */
   .heros{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px;}
   .hero{border-radius:18px;padding:26px 30px;color:#fff;box-shadow:0 8px 22px rgba(0,36,98,.16);}
   .hero.navy{background:var(--navy);}
@@ -24,7 +23,6 @@
   .hero .biglabel{font-size:14px;color:rgba(255,255,255,.82);text-transform:uppercase;letter-spacing:1px;margin-top:8px;}
   .hero .extra{margin-top:14px;font-size:14px;color:rgba(255,255,255,.92);}
   .hero .extra b{color:#fff;}
-  /* goal */
   .goal{background:#fff;border:1px solid #e7ddc9;border-radius:16px;padding:22px 26px;margin-bottom:22px;}
   .goal h2{font-size:18px;margin-bottom:4px;}
   .goal .gnote{font-size:13.5px;color:#6a6a6a;margin-bottom:16px;}
@@ -67,60 +65,56 @@
       <h1>Moça <span>Lovers</span> — Painel da Comunidade</h1>
       <div class="sub">Status da curadoria de criadoras e alcance potencial</div>
     </div>
-    <div class="updated">Atualizado em<br><b>28/06/2026 · 19:35</b></div>
+    <div class="updated">Atualizado em<br><b id="t-updated"></b></div>
   </header>
 
-  <!-- KEY NUMBERS -->
   <section class="heros">
     <div class="hero navy">
-      <div class="big">1.001</div>
+      <div class="big" id="h-aprovados"></div>
       <div class="biglabel">Criadoras aprovadas</div>
-      <div class="extra">+440 aprovadas nesta rodada (561 → 1.001) · todas <b>maiores de 18 + Instagram público</b></div>
+      <div class="extra">Todas <b>maiores de 18 anos + Instagram público</b>. Curadoria contínua dos cadastros.</div>
     </div>
     <div class="hero gold">
-      <div class="big">~4,7 mi</div>
+      <div class="big" id="h-reach"></div>
       <div class="biglabel">Alcance potencial no Instagram</div>
       <div class="extra">Soma estimada de seguidores das aprovadas · <b>média ~4.700/perfil</b></div>
     </div>
   </section>
 
-  <!-- GOAL vs BASE -->
   <section class="goal">
     <h2>Rumo à meta de 10.000 ativas</h2>
-    <div class="gnote">A meta é <b>10.000 pessoas ativas</b> — mas ainda <b>não temos essa base toda cadastrada</b>. Hoje são <b>3.970 cadastros</b> no total (de todos os status). Ou seja: além de aprovar, o foco também é <b>atrair mais cadastros</b>.</div>
+    <div class="gnote">A meta é <b>10.000 pessoas ativas</b> — mas ainda <b>não temos essa base toda cadastrada</b>. Hoje são <b id="g-total"></b> cadastros no total (de todos os status). Ou seja: além de aprovar, o foco também é <b>atrair mais cadastros</b>.</div>
     <div class="gbar-row">
-      <div class="gbar-label"><span>Aprovadas vs. meta de 10.000 ativas</span><span><b>10%</b> (1.001 de 10.000)</span></div>
-      <div class="gbar"><div style="width:10.01%;background:linear-gradient(90deg,var(--gold),var(--tan))"></div></div>
+      <div class="gbar-label"><span>Aprovadas vs. meta de 10.000 ativas</span><span><b id="g-l1"></b></span></div>
+      <div class="gbar"><div id="g-b1" style="background:linear-gradient(90deg,var(--gold),var(--tan))"></div></div>
     </div>
     <div class="gbar-row">
-      <div class="gbar-label"><span>Cadastros existentes vs. meta de 10.000</span><span><b>40%</b> (3.970 de 10.000)</span></div>
-      <div class="gbar"><div style="width:39.7%;background:var(--navy);opacity:.5"></div></div>
+      <div class="gbar-label"><span>Cadastros existentes vs. meta de 10.000</span><span><b id="g-l2"></b></span></div>
+      <div class="gbar"><div id="g-b2" style="background:var(--navy);opacity:.5"></div></div>
     </div>
     <div class="gbar-row">
-      <div class="gbar-label"><span>Aprovadas dentro da base já cadastrada</span><span><b>25%</b> (1.001 de 3.970)</span></div>
-      <div class="gbar"><div style="width:25.2%;background:var(--green)"></div></div>
+      <div class="gbar-label"><span>Aprovadas dentro da base já cadastrada</span><span><b id="g-l3"></b></span></div>
+      <div class="gbar"><div id="g-b3" style="background:var(--green)"></div></div>
     </div>
   </section>
 
-  <!-- FUNNEL CARDS -->
   <section class="cards">
-    <div class="card navy"><div class="n">3.970</div><div class="l">📋 Total de cadastros</div></div>
-    <div class="card green"><div class="n">1.001</div><div class="l">✅ Aprovadas</div></div>
-    <div class="card amber"><div class="n">1.815</div><div class="l">⏳ Aguardando análise</div></div>
-    <div class="card gray"><div class="n">1.028</div><div class="l">📝 Cadastros incompletos</div></div>
-    <div class="card gray"><div class="n">123</div><div class="l">✉️ Convites pendentes</div></div>
+    <div class="card navy"><div class="n" id="c-total"></div><div class="l">📋 Total de cadastros</div></div>
+    <div class="card green"><div class="n" id="c-aprov"></div><div class="l">✅ Aprovadas</div></div>
+    <div class="card amber"><div class="n" id="c-aguard"></div><div class="l">⏳ Aguardando análise</div></div>
+    <div class="card gray"><div class="n" id="c-incomp"></div><div class="l">📝 Cadastros incompletos</div></div>
+    <div class="card gray"><div class="n" id="c-pend"></div><div class="l">✉️ Convites pendentes</div></div>
   </section>
 
-  <!-- DISTRIBUTION + APPROVAL/REJECTION -->
   <section class="grid2">
     <div class="panel">
       <h2>Distribuição dos cadastros</h2>
-      <div class="psub">Como estão divididos os 3.970 cadastros</div>
+      <div class="psub">Como estão divididos os cadastros</div>
       <div class="chartbox"><canvas id="donut"></canvas></div>
     </div>
     <div class="panel">
       <h2>Aprovação x Reprovação</h2>
-      <div class="psub">Dos cadastros analisados nesta rodada (723 perfis revisados)</div>
+      <div class="psub">Dos cadastros analisados na curadoria</div>
       <div class="approval">
         <div class="ring">
           <canvas id="ring"></canvas>
@@ -138,47 +132,76 @@
     </div>
   </section>
 
-  <!-- REACH DETAIL -->
   <section class="grid2">
     <div class="panel">
       <h2>📣 Alcance potencial da comunidade</h2>
       <div class="psub">Estimativa do total de seguidores no Instagram das criadoras aprovadas</div>
       <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:6px;">
-        <div><div style="font-size:34px;font-weight:800;color:var(--gold);">~4,7 mi</div><div style="font-size:12.5px;color:var(--gray);">seguidores somados (estimado)</div></div>
+        <div><div style="font-size:34px;font-weight:800;color:var(--gold);" id="r-total"></div><div style="font-size:12.5px;color:var(--gray);">seguidores somados (estimado)</div></div>
         <div><div style="font-size:34px;font-weight:800;color:var(--navy);">~4.700</div><div style="font-size:12.5px;color:var(--gray);">seguidores por criadora (média)</div></div>
         <div><div style="font-size:34px;font-weight:800;color:var(--navy);">~1.100</div><div style="font-size:12.5px;color:var(--gray);">mediana (típico)</div></div>
       </div>
-      <div style="font-size:12px;color:var(--gray);margin-top:14px;line-height:1.5;">Estimativa baseada em amostra de <b>27 perfis aprovados</b> (média de seguidores × 1.001 aprovadas). Há criadoras de 100 a 40 mil+ seguidores. <b>O alcance no TikTok é adicional</b> e ainda não foi medido — tende a aumentar o número.</div>
+      <div style="font-size:12px;color:var(--gray);margin-top:14px;line-height:1.5;">Estimativa baseada em amostra de <b>27 perfis aprovados</b> (média de seguidores × nº de aprovadas). Há criadoras de 100 a 40 mil+ seguidores. <b>O alcance no TikTok é adicional</b> e ainda não foi medido — tende a aumentar o número.</div>
     </div>
     <div class="panel">
       <h2>O que isso representa</h2>
       <div class="psub">Por que esse número importa pra marca</div>
       <ul style="list-style:none;font-size:13.5px;color:#444;">
-        <li style="padding:8px 0;border-bottom:1px dashed #e7ddc9;">💛 <b>~4,7 milhões de impressões potenciais</b> a cada onda de conteúdo, se as criadoras postarem.</li>
+        <li style="padding:8px 0;border-bottom:1px dashed #e7ddc9;">💛 <b id="r-imp"></b> a cada onda de conteúdo, se as criadoras postarem.</li>
         <li style="padding:8px 0;border-bottom:1px dashed #e7ddc9;">🎯 Público real e segmentado: criadoras de <b>doces, confeitaria e gastronomia</b>.</li>
-        <li style="padding:8px 0;border-bottom:1px dashed #e7ddc9;">📈 E ainda há <b>1.815 cadastros aguardando</b> — o alcance cresce conforme aprovamos mais.</li>
+        <li style="padding:8px 0;border-bottom:1px dashed #e7ddc9;">📈 E ainda há <b id="r-fila"></b> cadastros aguardando — o alcance cresce conforme aprovamos mais.</li>
         <li style="padding:8px 0;">🚀 Chegando aos 10.000 ativos, o alcance projetado passa de <b>40 milhões</b>.</li>
       </ul>
     </div>
   </section>
 
-  <div class="note"><b>Sobre os números:</b> aprovados, aguardando, incompletos e convites vêm direto da plataforma. O <b>alcance é uma estimativa</b> (a plataforma ainda não registra seguidores; medimos uma amostra). A % de reprovação reflete a curadoria desta rodada.</div>
+  <div class="note"><b>Sobre os números:</b> aprovados, aguardando, incompletos e convites vêm direto da plataforma e são atualizados automaticamente. O <b>alcance é uma estimativa</b> (a plataforma ainda não registra seguidores; medimos uma amostra). A % de reprovação reflete a curadoria.</div>
 
-  <footer>Moça Lovers · Jornada Doce — Painel da Comunidade · Snapshot de 28/06/2026<br>Critério de aprovação: maior de 18 anos + perfil de Instagram público.</footer>
+  <footer>Moça Lovers · Jornada Doce — Painel da Comunidade<br>Critério de aprovação: maior de 18 anos + perfil de Instagram público.</footer>
 </div>
 
 <script>
-new Chart(document.getElementById('donut'),{
-  type:'doughnut',
+/* ===== NUMEROS (atualizados automaticamente pela tarefa diaria) ===== */
+const DATA = {
+  updated: "28/06/2026 · 19:35",
+  aprovados: 1001,
+  aguardando: 1815,
+  incompletos: 1028,
+  pendentes: 123,
+  total: 3970,
+  meta: 10000,
+  reachEstimate: 4700000
+};
+/* ===== render ===== */
+const br = n => n.toLocaleString('pt-BR');
+const pct = (a,b) => Math.round(a/b*1000)/10;
+function milhoes(n){ if(n>=1e6) return '~'+(n/1e6).toLocaleString('pt-BR',{maximumFractionDigits:1})+' mi'; if(n>=1e3) return '~'+Math.round(n/1e3)+' mil'; return br(n);}
+document.getElementById('t-updated').textContent = DATA.updated;
+document.getElementById('h-aprovados').textContent = br(DATA.aprovados);
+document.getElementById('h-reach').textContent = milhoes(DATA.reachEstimate);
+document.getElementById('g-total').textContent = br(DATA.total);
+document.getElementById('c-total').textContent = br(DATA.total);
+document.getElementById('c-aprov').textContent = br(DATA.aprovados);
+document.getElementById('c-aguard').textContent = br(DATA.aguardando);
+document.getElementById('c-incomp').textContent = br(DATA.incompletos);
+document.getElementById('c-pend').textContent = br(DATA.pendentes);
+document.getElementById('r-total').textContent = milhoes(DATA.reachEstimate);
+document.getElementById('r-imp').textContent = milhoes(DATA.reachEstimate)+' de impressoes potenciais';
+document.getElementById('r-fila').textContent = br(DATA.aguardando);
+const p1=pct(DATA.aprovados,DATA.meta), p2=pct(DATA.total,DATA.meta), p3=pct(DATA.aprovados,DATA.total);
+document.getElementById('g-l1').textContent = p1+'% ('+br(DATA.aprovados)+' de '+br(DATA.meta)+')';
+document.getElementById('g-l2').textContent = p2+'% ('+br(DATA.total)+' de '+br(DATA.meta)+')';
+document.getElementById('g-l3').textContent = p3+'% ('+br(DATA.aprovados)+' de '+br(DATA.total)+')';
+document.getElementById('g-b1').style.width = p1+'%';
+document.getElementById('g-b2').style.width = p2+'%';
+document.getElementById('g-b3').style.width = p3+'%';
+new Chart(document.getElementById('donut'),{type:'doughnut',
   data:{labels:['Aprovadas','Aguardando','Incompletos','Convites pendentes'],
-    datasets:[{data:[1001,1815,1028,123],backgroundColor:['#2e7d4f','#e69500','#BBAC79','#8a8f99'],borderColor:'#fff',borderWidth:3}]},
-  options:{plugins:{legend:{position:'bottom',labels:{boxWidth:13,font:{size:11.5},color:'#002462'}}},cutout:'60%'}
-});
-new Chart(document.getElementById('ring'),{
-  type:'doughnut',
+    datasets:[{data:[DATA.aprovados,DATA.aguardando,DATA.incompletos,DATA.pendentes],backgroundColor:['#2e7d4f','#e69500','#BBAC79','#8a8f99'],borderColor:'#fff',borderWidth:3}]},
+  options:{plugins:{legend:{position:'bottom',labels:{boxWidth:13,font:{size:11.5},color:'#002462'}}},cutout:'60%'}});
+new Chart(document.getElementById('ring'),{type:'doughnut',
   data:{labels:['Aprovadas','Reprovadas'],datasets:[{data:[61,39],backgroundColor:['#2e7d4f','#e3c9c5'],borderWidth:0}]},
-  options:{plugins:{legend:{display:false},tooltip:{enabled:false}},cutout:'74%'}
-});
+  options:{plugins:{legend:{display:false},tooltip:{enabled:false}},cutout:'74%'}});
 </script>
 </body>
 </html>
