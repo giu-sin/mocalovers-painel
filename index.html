@@ -207,7 +207,7 @@
     <section class="grid2">
       <div class="panel">
         <h2>Conteúdos aprovados por tipo</h2>
-        <div class="psub">Distribuição dos 79 conteúdos aprovados no desafio</div>
+        <div class="psub">Distribuição dos <b id="d-aprov2"></b> conteúdos aprovados no desafio</div>
         <div class="chartbox"><canvas id="d-donut"></canvas></div>
       </div>
       <div class="panel">
@@ -229,7 +229,7 @@
       </div>
     </section>
 
-    <div class="note"><b>Sobre os números:</b> contabilizamos as submissões do desafio <b>Meu jeito único com Moça</b> (o único ativo) com status <b>aprovado</b> na curadoria. “Criadoras participando” conta pessoas únicas com ao menos um conteúdo aprovado. O desafio <b>Meu Primeiro Recebido</b> é uma etapa de recompensa (rascunho) e não entra na contagem.</div>
+    <div class="note"><b>Sobre os números:</b> contabilizamos as submissões do desafio <b>Meu jeito único com Moça</b> (o único ativo) com status <b>aprovado</b> na curadoria, considerando apenas conteúdos enviados a partir de <b>22/06</b> — data em que a plataforma entrou no ar (envios anteriores eram testes). “Criadoras participando” conta pessoas únicas com ao menos um conteúdo aprovado.</div>
   </div><!-- /view-desafio -->
 
   <footer>Moça Lovers · Jornada Doce — Painel da Comunidade<br>Critério de aprovação: maior de 18 anos + perfil de Instagram público.</footer>
@@ -238,12 +238,12 @@
 <script>
 /* ===== NUMEROS (atualizados automaticamente pela tarefa diaria) ===== */
 const DATA = {
-  updated: "30/06/2026 · 09:13",
-  aprovados: 1620,
-  aguardando: 3224,
-  incompletos: 1330,
-  pendentes: 732,
-  total: 6910,
+  updated: "30/06/2026 · 10:06",
+  aprovados: 1807,
+  aguardando: 3065,
+  incompletos: 1340,
+  pendentes: 737,
+  total: 6952,
   meta: 10000,
   reachEstimate: 5585000
 };
@@ -280,20 +280,21 @@ new Chart(document.getElementById('ring'),{type:'doughnut',
 
 /* ===== DESAFIO (Meu jeito unico com Moca) ===== */
 const DESAFIO = {
-  updated: "30/06/2026 · 09:49",
-  participantes: 37,
-  aprovados: 79,
-  submissoes: 81,
-  reprovados: 2,
+  updated: "30/06/2026 · 10:06",
+  participantes: 34,
+  aprovados: 71,
+  submissoes: 72,
+  reprovados: 1,
   stories: 24,
   reels: 20,
-  tiktok: 22,
-  outros: 13,
-  instagram: 55
+  tiktok: 21,
+  outros: 6,
+  instagram: 50
 };
 document.getElementById('d-updated').textContent = DESAFIO.updated;
 document.getElementById('d-part').textContent   = br(DESAFIO.participantes);
 document.getElementById('d-aprov').textContent  = br(DESAFIO.aprovados);
+document.getElementById('d-aprov2').textContent = br(DESAFIO.aprovados);
 document.getElementById('d-sub').textContent    = br(DESAFIO.submissoes);
 document.getElementById('d-stories').textContent= br(DESAFIO.stories);
 document.getElementById('d-reels').textContent  = br(DESAFIO.reels);
