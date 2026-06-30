@@ -4,57 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Moça Lovers — Painel da Comunidade</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js">
-/* ===== DESAFIO (Meu jeito unico com Moca) ===== */
-const DESAFIO = {
-  participantes: 37,
-  aprovados: 79,
-  submissoes: 81,
-  reprovados: 2,
-  stories: 24,
-  reels: 20,
-  tiktok: 22,
-  outros: 13,
-  instagram: 55
-};
-document.getElementById('d-part').textContent   = br(DESAFIO.participantes);
-document.getElementById('d-aprov').textContent  = br(DESAFIO.aprovados);
-document.getElementById('d-sub').textContent    = br(DESAFIO.submissoes);
-document.getElementById('d-stories').textContent= br(DESAFIO.stories);
-document.getElementById('d-reels').textContent  = br(DESAFIO.reels);
-document.getElementById('d-tiktok').textContent = br(DESAFIO.tiktok);
-document.getElementById('d-outros').textContent = br(DESAFIO.outros);
-const dpct = Math.round(DESAFIO.aprovados/DESAFIO.submissoes*1000)/10;
-document.getElementById('d-pct').textContent = dpct+'%';
-document.getElementById('d-r1').textContent = br(DESAFIO.aprovados);
-document.getElementById('d-r2').textContent = br(DESAFIO.reprovados);
-document.getElementById('d-r3').textContent = br(DESAFIO.submissoes);
-document.getElementById('d-r4').textContent = br(DESAFIO.instagram);
-document.getElementById('d-r5').textContent = br(DESAFIO.tiktok);
-
-/* abas */
-let desafioCharts = false;
-function buildDesafioCharts(){
-  if(desafioCharts) return; desafioCharts = true;
-  new Chart(document.getElementById('d-donut'),{type:'doughnut',
-    data:{labels:['Stories','Reels','TikTok','Outros'],
-      datasets:[{data:[DESAFIO.stories,DESAFIO.reels,DESAFIO.tiktok,DESAFIO.outros],backgroundColor:['#002462','#2e7d4f','#e69500','#8a8f99'],borderColor:'#fff',borderWidth:3}]},
-    options:{plugins:{legend:{position:'bottom',labels:{boxWidth:13,font:{size:11.5},color:'#002462'}}},cutout:'60%'}});
-  new Chart(document.getElementById('d-ring'),{type:'doughnut',
-    data:{labels:['Aprovados','Reprovados'],datasets:[{data:[DESAFIO.aprovados,DESAFIO.reprovados],backgroundColor:['#2e7d4f','#e3c9c5'],borderWidth:0}]},
-    options:{plugins:{legend:{display:false},tooltip:{enabled:false}},cutout:'74%'}});
-}
-document.querySelectorAll('.tab').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    const v = btn.dataset.view;
-    document.getElementById('view-cadastros').hidden = (v!=='cadastros');
-    document.getElementById('view-desafio').hidden   = (v!=='desafio');
-    if(v==='desafio') buildDesafioCharts();
-  });
-});
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   :root{--navy:#002462;--gold:#A0862F;--tan:#BBAC79;--cream:#F1E8DC;--green:#2e7d4f;--red:#c0392b;--amber:#e69500;--gray:#8a8f99;}
   *{box-sizing:border-box;margin:0;padding:0;}
@@ -231,7 +181,7 @@ document.querySelectorAll('.tab').forEach(btn=>{
         <h2 style="font-size:22px;">Desafio: <span style="color:var(--gold);">Meu jeito único com Moça</span><span class="badge">ATIVO</span></h2>
         <div class="sub">Participações com conteúdo aprovado · período de <b>14/06 a 31/07</b></div>
       </div>
-      <div class="updated">Atualizado em<br><b>30/06/2026 · 09:49</b></div>
+      <div class="updated">Atualizado em<br><b id="d-updated"></b></div>
     </div>
 
     <section class="heros">
@@ -327,6 +277,58 @@ new Chart(document.getElementById('donut'),{type:'doughnut',
 new Chart(document.getElementById('ring'),{type:'doughnut',
   data:{labels:['Aprovadas','Reprovadas'],datasets:[{data:[61,39],backgroundColor:['#2e7d4f','#e3c9c5'],borderWidth:0}]},
   options:{plugins:{legend:{display:false},tooltip:{enabled:false}},cutout:'74%'}});
+
+/* ===== DESAFIO (Meu jeito unico com Moca) ===== */
+const DESAFIO = {
+  updated: "30/06/2026 · 09:49",
+  participantes: 37,
+  aprovados: 79,
+  submissoes: 81,
+  reprovados: 2,
+  stories: 24,
+  reels: 20,
+  tiktok: 22,
+  outros: 13,
+  instagram: 55
+};
+document.getElementById('d-updated').textContent = DESAFIO.updated;
+document.getElementById('d-part').textContent   = br(DESAFIO.participantes);
+document.getElementById('d-aprov').textContent  = br(DESAFIO.aprovados);
+document.getElementById('d-sub').textContent    = br(DESAFIO.submissoes);
+document.getElementById('d-stories').textContent= br(DESAFIO.stories);
+document.getElementById('d-reels').textContent  = br(DESAFIO.reels);
+document.getElementById('d-tiktok').textContent = br(DESAFIO.tiktok);
+document.getElementById('d-outros').textContent = br(DESAFIO.outros);
+const dpct = Math.round(DESAFIO.aprovados/DESAFIO.submissoes*1000)/10;
+document.getElementById('d-pct').textContent = dpct+'%';
+document.getElementById('d-r1').textContent = br(DESAFIO.aprovados);
+document.getElementById('d-r2').textContent = br(DESAFIO.reprovados);
+document.getElementById('d-r3').textContent = br(DESAFIO.submissoes);
+document.getElementById('d-r4').textContent = br(DESAFIO.instagram);
+document.getElementById('d-r5').textContent = br(DESAFIO.tiktok);
+
+/* abas */
+let desafioCharts = false;
+function buildDesafioCharts(){
+  if(desafioCharts) return; desafioCharts = true;
+  new Chart(document.getElementById('d-donut'),{type:'doughnut',
+    data:{labels:['Stories','Reels','TikTok','Outros'],
+      datasets:[{data:[DESAFIO.stories,DESAFIO.reels,DESAFIO.tiktok,DESAFIO.outros],backgroundColor:['#002462','#2e7d4f','#e69500','#8a8f99'],borderColor:'#fff',borderWidth:3}]},
+    options:{plugins:{legend:{position:'bottom',labels:{boxWidth:13,font:{size:11.5},color:'#002462'}}},cutout:'60%'}});
+  new Chart(document.getElementById('d-ring'),{type:'doughnut',
+    data:{labels:['Aprovados','Reprovados'],datasets:[{data:[DESAFIO.aprovados,DESAFIO.reprovados],backgroundColor:['#2e7d4f','#e3c9c5'],borderWidth:0}]},
+    options:{plugins:{legend:{display:false},tooltip:{enabled:false}},cutout:'74%'}});
+}
+document.querySelectorAll('.tab').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const v = btn.dataset.view;
+    document.getElementById('view-cadastros').hidden = (v!=='cadastros');
+    document.getElementById('view-desafio').hidden   = (v!=='desafio');
+    if(v==='desafio') buildDesafioCharts();
+  });
+});
 </script>
 </body>
 </html>
