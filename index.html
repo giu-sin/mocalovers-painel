@@ -422,10 +422,10 @@ fetch('./history.json?cb='+Date.now()).then(r=>r.json()).then(H=>{
 
   document.getElementById('c-since').textContent = 'vs. ' + prev.date;
   document.getElementById('c-growth').innerHTML =
-    deltaCard('Base total', cur.cad.total, prev.cad.total) +
-    deltaCard('Aprovadas', cur.cad.aprovados, prev.cad.aprovados) +
     deltaCard('Novas inscrições', cur.cad.total, prev.cad.total) +
-    deltaCard('Conteúdos aprovados', cur.des.aprovados, prev.des.aprovados);
+    deltaCard('Novas aprovadas', cur.cad.aprovados, prev.cad.aprovados) +
+    deltaCard('Conteúdos aprovados', cur.des.aprovados, prev.des.aprovados) +
+    deltaCard('Novas participantes', cur.des.participantes, prev.des.participantes);
 
   document.getElementById('d-since').textContent = 'vs. ' + prev.date;
   document.getElementById('d-growth').innerHTML =
