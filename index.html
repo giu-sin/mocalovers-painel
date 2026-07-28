@@ -427,31 +427,31 @@
 <script>
 /* ===== NUMEROS (atualizados a cada rodada) ===== */
 const DATA = {
-  updated: "27/07/2026 · 20:43",
+  updated: "28/07/2026 · 18:23",
   aprovados: 19470,
-  aguardando: 656,
-  incompletos: 5078,
-  pendentes: 9560,
-  total: 38196,
+  aguardando: 1325,
+  incompletos: 5242,
+  pendentes: 9685,
+  total: 39073,
   metaAno: 10000,
   launch: "2026-06-22"
 };
 const DESAFIO = {
-  updated: "27/07/2026 · 20:43",
-  participantes: 2851,
-  aprovados: 7286,
-  submissoes: 7817,
-  reprovados: 531,
-  stories: 1991,
-  reels: 2562,
-  tiktok: 2505,
-  outros: 228,
-  instagram: 4781
+  updated: "28/07/2026 · 18:23",
+  participantes: 3049,
+  aprovados: 7955,
+  submissoes: 8498,
+  reprovados: 543,
+  stories: 2360,
+  reels: 2876,
+  tiktok: 2717,
+  outros: 2,
+  instagram: 5238
 };
 /* alcance combinado: Instagram (todas aprovadas) + TikTok (criadoras ativas no TikTok) */
 const REACH = {
   igCreators: 19470, igAvg: 4700,
-  ttCreators: 2436,  ttAvg: 5500
+  ttCreators: 2611,  ttAvg: 5500
 };
 REACH.ig = REACH.igCreators * REACH.igAvg;          // 91.509.000
 REACH.tiktok = REACH.ttCreators * REACH.ttAvg;      // 13.398.000
@@ -459,27 +459,27 @@ REACH.combinado = REACH.ig + REACH.tiktok;          // 104.907.000
 
 /* ranking top criadoras (conteudos aprovados no desafio) */
 const RANK = [
-  {handle:"@amandaprucoli.ugc", total:7, ig:5, tt:2},
-  {handle:"@dudafortess_",      total:6, ig:4, tt:2},
-  {handle:"@rlorenugc",         total:6, ig:4, tt:2},
-  {handle:"@hgcamila",          total:6, ig:4, tt:2},
-  {handle:"@tiamhay.prof",      total:6, ig:4, tt:2},
-  {handle:"@sah_oliveira93",    total:6, ig:4, tt:2},
-  {handle:"@sil_costa_silva",   total:6, ig:4, tt:2},
-  {handle:"@costamandy42",      total:6, ig:4, tt:2},
-  {handle:"@rotinadasaah",      total:6, ig:4, tt:2},
-  {handle:"@pritucci.doces",    total:6, ig:4, tt:2}
+  {handle:"@Jessica_jecanaroca",    total:9, ig:6, tt:3},
+  {handle:"@julianalemos.ro",       total:8, ig:5, tt:3},
+  {handle:"@Shirleeysantos33",      total:7, ig:4, tt:3},
+  {handle:"@amandaprucoli.ugc",     total:7, ig:5, tt:2},
+  {handle:"@byamandy._",            total:6, ig:4, tt:2},
+  {handle:"@lari_ferrer10",         total:6, ig:4, tt:2},
+  {handle:"@sugomes97",             total:6, ig:4, tt:2},
+  {handle:"@casadali.26",           total:6, ig:4, tt:2},
+  {handle:"@casinha_da_thais1",     total:6, ig:4, tt:2},
+  {handle:"@Mimosedeliciasdomeular",total:6, ig:4, tt:2}
 ];
 /* conteudos em destaque (aprovados mais recentes) */
 const DESTAQUES = [
-  {plat:"ig", type:"Reels",  handle:"@Djpam_00",             date:"27/07", url:"https://www.instagram.com/reel/DbR4e8asZiz/"},
-  {plat:"tt", type:"Vídeo",  handle:"anacrosstraing",        date:"27/07", url:"https://vt.tiktok.com/ZSXEEp31u/"},
-  {plat:"tt", type:"Vídeo",  handle:"Djpam_00",              date:"27/07", url:"https://vt.tiktok.com/ZSXo1LprQ/"},
-  {plat:"tt", type:"Vídeo",  handle:"housee_906",            date:"27/07", url:"https://vt.tiktok.com/ZSXo1psCw/"},
-  {plat:"ig", type:"Reels",  handle:"@LAR_DA_TAMIRIS_",      date:"27/07", url:"https://www.instagram.com/reel/DbR6ZfaRlcs/"},
-  {plat:"tt", type:"Vídeo",  handle:"tamiris.reis.sa",       date:"27/07", url:"https://vt.tiktok.com/ZSXoJWbhA/"},
-  {plat:"ig", type:"Reels",  handle:"@anjoagourmet_oficial", date:"27/07", url:"https://www.instagram.com/reel/DbR6k7Kshx4/"},
-  {plat:"ig", type:"Story",  handle:"@gabi.drianougc",       date:"27/07", url:"https://www.instagram.com/stories/gabi.drianougc/3950212953777496890"}
+  {plat:"tt", type:"Vídeo",  handle:"eduardasantoss",       date:"28/07", url:"https://vt.tiktok.com/ZS4dE6Pd1/"},
+  {plat:"tt", type:"Vídeo",  handle:"iza_fms",              date:"28/07", url:"https://vt.tiktok.com/ZS4doXc1c/"},
+  {plat:"ig", type:"Story",  handle:"@isabelfelisardo",     date:"28/07", url:"https://www.instagram.com/stories/isabelfelisardo/3951238755730444574"},
+  {plat:"ig", type:"Reels",  handle:"@julianasilvss_",      date:"28/07", url:"https://www.instagram.com/reel/DbVxq0iJwRl/"},
+  {plat:"tt", type:"Vídeo",  handle:"julianasilvss_",       date:"28/07", url:"https://vt.tiktok.com/ZS4ReAh9M/"},
+  {plat:"ig", type:"Reels",  handle:"@rairanemenezes",      date:"28/07", url:"https://www.instagram.com/reel/DbVyO5xxAqw/"},
+  {plat:"ig", type:"Story",  handle:"@Confeitariamylena",   date:"28/07", url:"https://www.instagram.com/stories/mylenaaleixodantas/3951303579126334424"},
+  {plat:"ig", type:"Story",  handle:"@rehsantosyt",         date:"28/07", url:"https://www.instagram.com/stories/rehsantosyt/3951307720833766201"}
 ];
 
 /* ===== helpers ===== */
