@@ -193,54 +193,24 @@
 <script>
 /* ===== CADASTROS (atualizados automaticamente pela tarefa diaria) ===== */
 const DATA = {
-      updated: "10/08/2026 · 09:29",
-      aprovados: 22865,
-      aguardando: 463,
-      incompletos: 5994,
-      pendentes: 11119,
-      total: 44648,
-      meta: 10000,
-      reachEstimate: 107465500
-    };
+  "updated": "10/08/2026 · 18:10",
+  "aprovados": 23209,
+  "aguardando": 56,
+  "incompletos": 6032,
+  "pendentes": 11148,
+  "total": 44780,
+  "reachEstimate": 109082300,
+  "meta": 10000
+};
 
 /* ===== DESAFIOS (um objeto por desafio; a tarefa diaria mantem esta lista) =====
    status: "ativo" | "encerrado" | "em_breve"
    Separacao por desafio = janela de datas (created_at) de cada campanha,
    pois a API de submissoes nao guarda o desafio de origem. */
 const DESAFIOS = [
-      {
-        id: 4,
-        title: "Meu jeito único com Moça",
-        status: "encerrado",
-        periodo: "22/06 a 31/07",
-        updated: "10/08/2026 · 09:29",
-        participantes: 4455,
-        aprovados: 11849,
-        submissoes: 12399,
-        reprovados: 550,
-        stories: 3634,
-        reels: 4256,
-        tiktok: 3957,
-        outros: 2,
-        instagram: 7892
-      },
-      {
-        id: 6,
-        title: "Desafio de Agosto: Mesa Posta com Moça ✨",
-        status: "ativo",
-        periodo: "07/08 a 31/08",
-        updated: "10/08/2026 · 09:29",
-        participantes: 268,
-        aprovados: 624,
-        submissoes: 625,
-        reprovados: 1,
-        stories: 0,
-        reels: 224,
-        tiktok: 198,
-        outros: 202,
-        instagram: 426
-      }
-    ];
+  { id: 4, title: "Meu jeito único com Moça", status: "encerrado", periodo: "22/06 a 31/07", updated: "10/08/2026 · 18:10", participantes: 4455, aprovados: 11849, submissoes: 12399, reprovados: 550, stories: 3634, reels: 4256, tiktok: 3957, outros: 2, instagram: 7892 },
+  { id: 6, title: "Desafio de Agosto: Mesa Posta com Moça ✨", status: "ativo", periodo: "07/08 a 31/08", updated: "10/08/2026 · 18:10", participantes: 316, aprovados: 762, submissoes: 763, reprovados: 1, stories: 0, reels: 272, tiktok: 244, outros: 246, instagram: 518 }
+];
 
 /* ===== helpers ===== */
 const br = n => (n==null ? '—' : n.toLocaleString('pt-BR'));
