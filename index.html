@@ -242,6 +242,9 @@ const DESAFIOS = [
   }
 ];
 
+/* ===== EVOLUCAO DIARIA (series diarias; a tarefa diaria regenera este bloco) ===== */
+const DAILY = {"g":"21/08/2026 · 11:25","su":{"s":"15/06","c":[9,2,19,4,6,1,2,1695,926,599,214,176,168,944,2010,1781,2252,1570,1855,886,425,783,639,563,557,444,175,186,474,1044,1123,1432,1217,1040,855,1928,1971,2239,1843,1551,1170,768,955,922,953,715,693,274,198,488,468,383,262,389,246,139,248,284,269,239,229,133,120,194,201,158,254,50]},"ch":[{"id":4,"t":"Meu jeito único com Moça","s":"22/06","sub":[3,4,0,0,1,0,0,64,48,98,122,120,0,419,0,350,224,83,0,401,79,218,97,238,465,228,15,219,319,350,760,733,682,288,971,218,681,1721,1509,671],"apr":[3,4,0,0,0,0,0,64,48,88,105,95,0,410,0,343,197,83,0,397,77,205,85,203,446,212,15,218,310,270,644,648,662,288,961,205,669,1716,1507,671],"nov":[2,1,0,0,0,0,0,31,23,35,47,45,0,158,0,131,85,27,0,152,26,81,33,90,160,87,6,84,130,127,280,254,202,113,358,83,198,627,543,236]},{"id":6,"t":"Desafio de Agosto: Mesa Posta com Moça ✨","s":"07/08","sub":[145,182,280,237,118,318,163,192,172,271,260,173,221,131,13],"apr":[144,182,280,237,118,318,163,192,172,271,260,173,221,131,13],"nov":[65,74,117,94,48,125,68,82,68,109,107,70,86,54,5]}]};
+
 /* ===== helpers ===== */
 const br = n => (n==null ? '—' : n.toLocaleString('pt-BR'));
 const pct = (a,b) => b ? Math.round(a/b*1000)/10 : 0;
@@ -444,8 +447,55 @@ function buildComparativoView(){
   };
 }
 
+
+/* ===== render EVOLUCAO DIARIA ===== */
+function buildEvolucaoView(){
+  const view='evolucao';
+  const el=document.createElement('div'); el.className='view'; el.id='view-'+view; el.hidden=true;
+  function lbls(start,n){ const p=start.split('/').map(Number); const base=new Date(2026,p[1]-1,p[0]); const o=[]; for(let i=0;i<n;i++){ const dt=new Date(base); dt.setDate(base.getDate()+i); o.push(String(dt.getDate()).padStart(2,'0')+'/'+String(dt.getMonth()+1).padStart(2,'0')); } return o; }
+  function keyList(start,n){ const p=start.split('/').map(Number); const base=new Date(2026,p[1]-1,p[0]); const o=[]; for(let i=0;i<n;i++){ const dt=new Date(base); dt.setDate(base.getDate()+i); o.push(dt.getTime()); } return o; }
+  const su=DAILY.su; const suLabels=lbls(su.s,su.c.length); let cc=0; const suCum=su.c.map(v=>cc+=v);
+  const last=su.c[su.c.length-1]; const avg7=Math.round(su.c.slice(-7).reduce((a,b)=>a+b,0)/Math.min(7,su.c.length));
+  el.innerHTML =
+    '<div style="margin-bottom:18px;"><h2 style="font-size:22px;">📈 Evolução diária</h2>'+
+      '<div class="sub">Inscrições por dia e crescimento da participação · atualizado '+DAILY.g+'</div></div>'+
+    '<section class="cards4">'+
+      '<div class="card navy"><div class="n">'+br(suCum[suCum.length-1])+'</div><div class="l">Inscrições acumuladas</div></div>'+
+      '<div class="card green"><div class="n">'+br(last)+'</div><div class="l">Inscrições no último dia</div></div>'+
+      '<div class="card amber"><div class="n">'+br(avg7)+'</div><div class="l">Média/dia (últimos 7)</div></div>'+
+      '<div class="card gray"><div class="n">'+su.c.length+'</div><div class="l">Dias registrados</div></div>'+
+    '</section>'+
+    '<div class="panel" style="margin-bottom:22px;"><h2>Inscrições por dia</h2><div class="psub">Novos cadastros por dia (barras) e total acumulado (linha)</div><div class="chartbox" style="height:300px;"><canvas id="ev-signups"></canvas></div></div>'+
+    '<section class="grid2">'+
+      '<div class="panel"><h2>Participação por dia do desafio</h2><div class="psub">Submissões por dia, alinhadas no <b>dia 1</b> de cada desafio</div><div class="chartbox"><canvas id="ev-align-sub"></canvas></div></div>'+
+      '<div class="panel"><h2>Novos participantes por dia do desafio</h2><div class="psub">Criadoras entrando a cada dia, alinhadas no <b>dia 1</b></div><div class="chartbox"><canvas id="ev-align-nov"></canvas></div></div>'+
+    '</section>'+
+    '<div class="panel" style="margin-bottom:22px;"><h2>Participação por data (calendário)</h2><div class="psub">Submissões por dia de cada desafio na linha do tempo real</div><div class="chartbox" style="height:300px;"><canvas id="ev-cal"></canvas></div></div>'+
+    '<div class="note"><b>Como ler:</b> os gráficos “por dia do desafio” alinham todos no dia 1, então dá pra comparar um desafio novo com os anteriores no mesmo ponto da jornada. O de calendário mostra os picos por data real. As inscrições consideram todos os cadastros (qualquer status), pela data do convite.</div>';
+  rootEl.appendChild(el);
+  addTab(view, '📈 Evolução diária');
+  chartBuilders[view]=function(){
+    new Chart(document.getElementById('ev-signups'),{ data:{labels:suLabels, datasets:[
+        {type:'bar', label:'Inscrições/dia', data:su.c, backgroundColor:'#A0862F', order:2},
+        {type:'line', label:'Acumulado', data:suCum, borderColor:'#002462', backgroundColor:'transparent', yAxisID:'y1', tension:.3, pointRadius:0, order:1} ]},
+      options:{plugins:{legend:{position:'bottom',labels:{boxWidth:13,font:{size:11.5},color:'#002462'}}}, scales:{y:{beginAtZero:true,position:'left'}, y1:{beginAtZero:true,position:'right',grid:{drawOnChartArea:false}}, x:{ticks:{maxTicksLimit:16}}}}});
+    const maxDays=Math.max.apply(null, DAILY.ch.map(c=>c.sub.length));
+    const dayLabels=Array.from({length:maxDays},(_,i)=>'Dia '+(i+1));
+    function alignedDS(field){ return DAILY.ch.map((c,idx)=>({label:c.t, data:c[field], borderColor:PALETTE[idx%PALETTE.length], backgroundColor:'transparent', tension:.3, pointRadius:0, spanGaps:true})); }
+    new Chart(document.getElementById('ev-align-sub'),{type:'line', data:{labels:dayLabels, datasets:alignedDS('sub')}, options:{plugins:{legend:{position:'bottom',labels:{boxWidth:13,font:{size:11},color:'#002462'}}}, scales:{y:{beginAtZero:true}}}});
+    new Chart(document.getElementById('ev-align-nov'),{type:'line', data:{labels:dayLabels, datasets:alignedDS('nov')}, options:{plugins:{legend:{position:'bottom',labels:{boxWidth:13,font:{size:11},color:'#002462'}}}, scales:{y:{beginAtZero:true}}}});
+    const times=DAILY.ch.map(c=>keyList(c.s,c.sub.length));
+    const allMin=Math.min.apply(null,times.map(t=>t[0])), allMax=Math.max.apply(null,times.map(t=>t[t.length-1]));
+    const calKeys=[]; for(let t=allMin;t<=allMax;t+=86400000) calKeys.push(t);
+    const calLabels=calKeys.map(t=>{const d=new Date(t); return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0');});
+    const calDS=DAILY.ch.map((c,idx)=>{ const m={}; times[idx].forEach((t,i)=>m[t]=c.sub[i]); return {label:c.t, data:calKeys.map(t=>(t in m)?m[t]:null), borderColor:PALETTE[idx%PALETTE.length], backgroundColor:'transparent', tension:.3, pointRadius:0, spanGaps:false}; });
+    new Chart(document.getElementById('ev-cal'),{type:'line', data:{labels:calLabels, datasets:calDS}, options:{plugins:{legend:{position:'bottom',labels:{boxWidth:13,font:{size:11},color:'#002462'}}}, scales:{y:{beginAtZero:true}, x:{ticks:{maxTicksLimit:14}}}}});
+  };
+}
+
 DESAFIOS.forEach(buildDesafioView);
 buildComparativoView();
+buildEvolucaoView();
 
 /* ===== troca de abas (delegacao) ===== */
 function activate(view){
