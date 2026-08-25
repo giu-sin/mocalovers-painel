@@ -612,7 +612,7 @@ tabsEl.addEventListener('click', function(e){
       '<b>'+brn(DATA.aprovados)+'</b> criadoras aprovadas &mdash; alcance potencial estimado de <b>'+milhoes(DATA.reachEstimate)+'</b> no Instagram.',
       'Entre os cadastros ja analisados, <b>'+pct(DATA.aprovados,completos)+'%</b> foram aprovados ('+brn(DATA.aprovados)+' de '+brn(completos)+').',
       t?('Na ultima semana: <b>'+brn(t.ls)+'</b> novos cadastros (~'+brn(t.avg)+'/dia)'+dtxt(t.delta)):null,
-      'Meta de '+brn(DATA.meta)+' ativas <b>ja superada</b> &mdash; hoje sao <b>'+metaX+'x</b> a meta.'
+      'Aprovadas j\u00e1 passam de <b>'+metaX+'x</b> a meta de '+brn(DATA.meta)+', mas <b>ativas de fato</b> (que postaram) s\u00e3o <b>'+brn(COMM.ativas)+'</b> ('+COMM.metaAtivas+' = meta real) \u2014 veja a aba Neg\u00f3cio.'
     ]));
   }catch(e){}
   try{
