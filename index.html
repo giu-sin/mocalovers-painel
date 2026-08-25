@@ -252,6 +252,17 @@ const DAILY = {
   ]
 };
 
+const COMM = {
+  "updated": "25/08/2026 · 13:28",
+  "ativas": 5048,
+  "ativacaoPct": 20.4,
+  "recorrentes": 880,
+  "recorrenciaPct": 17.4,
+  "metaAtivas": 10000,
+  "funil": { "convites": 47625, "completos": 29312, "aprovadas": 24757, "ativas": 5048 },
+  "emv": { "total": 3895580, "story": 3634, "reels": 5602, "tiktok": 5132, "outros": 1079, "rates": { "story": 120, "reels": 350, "tiktok": 250, "outros": 200 } }
+};
+
 /* ===== helpers ===== */
 const br = n => (n==null ? '—' : n.toLocaleString('pt-BR'));
 const pct = (a,b) => b ? Math.round(a/b*1000)/10 : 0;
@@ -514,6 +525,68 @@ tabsEl.addEventListener('click', function(e){
   const b=e.target.closest('.tab');
   if(b) activate(b.dataset.view);
 });
+
+
+/* ===== VISAO DE NEGOCIO (aba Negocio; usa COMM/DATA/DESAFIOS) ===== */
+(function(){
+  try{
+    var brn=function(n){return Number(n).toLocaleString('pt-BR');};
+    function emvFmt(n){ if(n>=1e6) return 'R$ '+(n/1e6).toLocaleString('pt-BR',{maximumFractionDigits:1})+' mi'; if(n>=1e3) return 'R$ '+Math.round(n/1e3)+' mil'; return 'R$ '+brn(n); }
+    var F=COMM.funil, base=F.convites;
+    function bar(label,val,color,convPrev){
+      var pctBase=Math.round(val/base*100);
+      var conv=convPrev?(' &middot; '+Math.round(val/convPrev*100)+'% da etapa anterior'):'';
+      return '<div class="gbar-row"><div class="gbar-label"><span>'+label+'</span><span><b>'+brn(val)+'</b> ('+pctBase+'% dos convites'+conv+')</span></div>'
+        +'<div class="gbar"><div style="width:'+Math.max(pctBase,3)+'%;background:'+color+'"></div></div></div>';
+    }
+    var e=COMM.emv, r=e.rates;
+    var metaPct=Math.round(COMM.ativas/COMM.metaAtivas*1000)/10;
+    var naoAtivadas=COMM.funil.aprovadas-COMM.ativas;
+    var html=''
+    +'<div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px;margin-bottom:20px;">'
+    +'<div><h2 style="font-size:22px;">Vis&atilde;o de <span style="color:var(--gold);">neg&oacute;cio</span></h2>'
+    +'<div class="sub">Da base de cadastros ao conte&uacute;do que virou m&iacute;dia</div></div>'
+    +'<div class="updated">Atualizado em<br><b>'+COMM.updated+'</b></div></div>'
+    +'<div class="insightbox" style="background:#fff;border:1px solid #e7ddc9;border-left:4px solid var(--gold);border-radius:12px;padding:14px 18px;margin:0 0 22px;">'
+    +'<div style="font-weight:800;color:var(--navy);font-size:14px;margin-bottom:6px;">&#128161; Leitura honesta</div>'
+    +'<ul style="list-style:none;margin:0;padding:0;font-size:13.5px;color:#444;line-height:1.5;">'
+    +'<li style="margin:5px 0;">De cada 100 aprovadas, ~'+Math.round(COMM.ativacaoPct)+' j&aacute; postaram. H&aacute; <b>'+brn(naoAtivadas)+'</b> aprovadas ainda n&atilde;o ativadas &mdash; base pronta para reativar.</li>'
+    +'<li style="margin:5px 0;">Entre as ativas, <b>'+COMM.recorrenciaPct+'%</b> participaram de mais de um desafio &mdash; sinal de comunidade, n&atilde;o s&oacute; campanha.</li>'
+    +'<li style="margin:5px 0;">Meta de <b>'+brn(COMM.metaAtivas)+' ativas</b>: hoje em <b>'+metaPct+'%</b> ('+brn(COMM.ativas)+'). Obs.: o topo do painel conta <i>aprovadas</i>; aqui contamos quem realmente <b>postou</b>.</li>'
+    +'<li style="margin:5px 0;">M&iacute;dia equivalente estimada: <b>'+emvFmt(e.total)+'</b> (estimativa conservadora por formato &mdash; <b>n&atilde;o &eacute; receita</b>).</li>'
+    +'</ul></div>'
+    +'<section class="heros">'
+    +'<div class="hero navy"><div class="big">'+brn(COMM.ativas)+'</div><div class="biglabel">Criadoras ativas</div><div class="extra">Postaram <b>pelo menos um conte&uacute;do aprovado</b> &mdash; '+COMM.ativacaoPct+'% das aprovadas.</div></div>'
+    +'<div class="hero gold"><div class="big">'+emvFmt(e.total)+'</div><div class="biglabel">M&iacute;dia equivalente (estimada)</div><div class="extra">Valor estimado do conte&uacute;do aprovado &middot; <b>n&atilde;o &eacute; receita</b></div></div>'
+    +'</section>'
+    +'<section class="goal"><h2>Funil da comunidade</h2><div class="gnote">Do convite at&eacute; quem <b>realmente produziu conte&uacute;do</b> aprovado.</div>'
+    +bar('&#9993;&#65039; Convites enviados',F.convites,'linear-gradient(90deg,var(--navy),#3a5a9a)',0)
+    +bar('&#128221; Cadastros completos',F.completos,'linear-gradient(90deg,#3a5a9a,var(--tan))',F.convites)
+    +bar('&#9989; Aprovadas',F.aprovadas,'linear-gradient(90deg,var(--gold),var(--tan))',F.completos)
+    +bar('&#128248; Ativas (postaram)',F.ativas,'var(--green)',F.aprovadas)
+    +'</section>'
+    +'<section class="cards">'
+    +'<div class="card green"><div class="n">'+COMM.ativacaoPct+'%</div><div class="l">&#128248; Taxa de ativa&ccedil;&atilde;o</div></div>'
+    +'<div class="card navy"><div class="n">'+brn(COMM.ativas)+'</div><div class="l">&#128100; Criadoras ativas</div></div>'
+    +'<div class="card amber"><div class="n">'+COMM.recorrenciaPct+'%</div><div class="l">&#128257; Recorrentes (2+ desafios)</div></div>'
+    +'<div class="card gray"><div class="n">'+metaPct+'%</div><div class="l">&#127919; Rumo &agrave; meta de 10 mil ativas</div></div>'
+    +'</section>'
+    +'<div class="panel"><h2>M&iacute;dia equivalente &mdash; como calculamos</h2><div class="psub">Conte&uacute;dos aprovados &times; valor estimado por formato. Estimativa conservadora e <b>ajust&aacute;vel</b>.</div>'
+    +'<ul style="list-style:none;font-size:13.5px;color:#444;line-height:1.7;">'
+    +'<li>&#127909; '+brn(e.reels)+' reels &times; R$ '+brn(r.reels)+' = <b>'+emvFmt(e.reels*r.reels)+'</b></li>'
+    +'<li>&#127925; '+brn(e.tiktok)+' TikTok &times; R$ '+brn(r.tiktok)+' = <b>'+emvFmt(e.tiktok*r.tiktok)+'</b></li>'
+    +'<li>&#128248; '+brn(e.story)+' stories &times; R$ '+brn(r.story)+' = <b>'+emvFmt(e.story*r.story)+'</b></li>'
+    +'<li>&#10133; '+brn(e.outros)+' outros &times; R$ '+brn(r.outros)+' = <b>'+emvFmt(e.outros*r.outros)+'</b></li>'
+    +'<li style="border-top:1px dashed #e7ddc9;margin-top:8px;padding-top:8px;">Total estimado: <b style="color:var(--gold);font-size:16px;">'+emvFmt(e.total)+'</b> ('+brn(e.total)+')</li>'
+    +'</ul></div>';
+    var v=document.createElement('div'); v.className='view'; v.id='view-negocio'; v.hidden=true; v.innerHTML=html;
+    var cad=document.getElementById('view-cadastros');
+    if(cad&&cad.parentNode){ cad.parentNode.insertBefore(v, cad.nextSibling); }
+    // tab (insert as 2nd)
+    var b=document.createElement('button'); b.className='tab'; b.dataset.view='negocio'; b.innerHTML='&#128202; Neg&oacute;cio';
+    var tabsEl=document.querySelector('.tabs'); if(tabsEl){ tabsEl.insertBefore(b, tabsEl.children[1]||null); }
+  }catch(e){ console.log('negocio err',e); }
+})();
 
 /* ===== INSIGHTS AUTOMATICOS (gerados dos numeros; atualizam sozinhos) ===== */
 (function(){
