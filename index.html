@@ -4,738 +4,237 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Moça Lovers — Painel da Comunidade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-  :root{--navy:#002462;--gold:#A0862F;--tan:#BBAC79;--cream:#F1E8DC;--green:#2e7d4f;--red:#c0392b;--amber:#e69500;--gray:#8a8f99;}
+  :root{
+    --bg:#080b14; --bg2:#0c1120; --panel:rgba(255,255,255,.045); --panel2:rgba(255,255,255,.03);
+    --br:rgba(255,255,255,.09); --br2:rgba(255,255,255,.06);
+    --ink:#eef2fb; --sub:#9aa6c0; --dim:#6a7793;
+    --gold:#e7c66b; --gold2:#caa64d; --blue:#6aa8ff; --violet:#a98bff; --green:#3ddc9a; --red:#ff6d6d; --amber:#ffbd5a;
+    --grad-gold:linear-gradient(135deg,#f4d987,#c79b3f);
+    --grad-blue:linear-gradient(135deg,#8ec0ff,#5a86ff);
+  }
   *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:var(--cream);color:var(--navy);padding:30px 18px;line-height:1.45;}
-  .wrap{max-width:1100px;margin:0 auto;}
-  header{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px;border-bottom:3px solid var(--gold);padding-bottom:16px;margin-bottom:26px;}
-  h1{font-size:30px;letter-spacing:-.5px;}
-  h1 span{color:var(--gold);}
-  .sub{color:var(--gray);font-size:14px;margin-top:4px;}
-  .updated{font-size:13px;color:var(--gray);text-align:right;}
-  .heros{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px;}
-  .hero{border-radius:18px;padding:26px 30px;color:#fff;box-shadow:0 8px 22px rgba(0,36,98,.16);}
-  .hero.navy{background:var(--navy);}
-  .hero.gold{background:linear-gradient(135deg,#A0862F,#BBAC79);}
-  .hero .big{font-size:56px;font-weight:800;line-height:1;}
-  .hero .biglabel{font-size:14px;color:rgba(255,255,255,.82);text-transform:uppercase;letter-spacing:1px;margin-top:8px;}
-  .hero .extra{margin-top:14px;font-size:14px;color:rgba(255,255,255,.92);}
-  .hero .extra b{color:#fff;}
-  .goal{background:#fff;border:1px solid #e7ddc9;border-radius:16px;padding:22px 26px;margin-bottom:22px;}
-  .goal h2{font-size:18px;margin-bottom:4px;}
-  .goal .gnote{font-size:13.5px;color:#6a6a6a;margin-bottom:16px;}
-  .goal .gnote b{color:var(--navy);}
-  .gbar-row{margin-bottom:14px;}
-  .gbar-label{display:flex;justify-content:space-between;font-size:13px;color:var(--navy);margin-bottom:5px;}
-  .gbar{background:#efe7d6;border-radius:99px;height:20px;overflow:hidden;}
-  .gbar>div{height:100%;border-radius:99px;}
-  .cards{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:22px;}
-  .card{background:#fff;border-radius:14px;padding:16px 18px;border:1px solid #e7ddc9;}
-  .card .n{font-size:26px;font-weight:800;}
-  .card .l{font-size:12.5px;color:var(--gray);margin-top:2px;}
-  .card.green .n{color:var(--green);} .card.amber .n{color:var(--amber);} .card.gray .n{color:var(--gray);} .card.navy .n{color:var(--navy);}
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:22px;}
-  .panel{background:#fff;border-radius:14px;padding:22px 24px;border:1px solid #e7ddc9;}
-  .panel h2{font-size:17px;margin-bottom:6px;}
-  .panel .psub{font-size:12.5px;color:var(--gray);margin-bottom:14px;}
-  .chartbox{position:relative;height:235px;}
-  .approval{display:flex;align-items:center;gap:18px;}
-  .approval .ring{position:relative;width:130px;height:130px;flex:0 0 130px;}
-  .approval .ringtext{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-  .approval .ringtext .pct{font-size:30px;font-weight:800;color:var(--green);}
-  .approval .ringtext .pl{font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:.5px;}
-  ul.reasons{list-style:none;flex:1;}
-  ul.reasons li{margin-bottom:9px;font-size:13px;}
-  ul.reasons .rl{display:flex;justify-content:space-between;margin-bottom:3px;}
-  ul.reasons .rl b{color:var(--navy);}
-  ul.reasons .rb{background:#f0e9d9;border-radius:6px;height:8px;overflow:hidden;}
-  ul.reasons .rb>div{height:100%;background:var(--red);opacity:.78;border-radius:6px;}
-  .note{background:#fff;border-left:4px solid var(--gold);border-radius:8px;padding:15px 20px;font-size:13.5px;color:#4a4a4a;margin-bottom:12px;}
-  .note b{color:var(--navy);}
-  footer{text-align:center;color:var(--gray);font-size:11.5px;margin-top:24px;line-height:1.6;}
-  @media(max-width:820px){.heros,.grid2{grid-template-columns:1fr;}.cards{grid-template-columns:1fr 1fr;}.approval{flex-direction:column;align-items:flex-start;}}
-  /* ===== abas ===== */
-  .tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;border-bottom:2px solid #e7ddc9;}
-  .tab{appearance:none;border:none;background:none;cursor:pointer;font:inherit;font-size:15px;font-weight:700;color:var(--gray);padding:11px 18px;border-radius:10px 10px 0 0;border-bottom:3px solid transparent;margin-bottom:-2px;transition:.15s;}
-  .tab:hover{color:var(--navy);}
-  .tab.active{color:var(--navy);border-bottom-color:var(--gold);background:#fff;}
+  html{-webkit-text-size-adjust:100%;}
+  body{font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:var(--ink);
+    background:var(--bg);line-height:1.5;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+  body::before{content:'';position:fixed;inset:0;z-index:-2;background:
+    radial-gradient(900px 500px at 12% -8%, rgba(106,168,255,.14), transparent 60%),
+    radial-gradient(1000px 600px at 92% 0%, rgba(231,198,107,.12), transparent 55%),
+    linear-gradient(180deg,#0a0f1c,#080b14 40%);}
+  body::after{content:'';position:fixed;inset:0;z-index:-1;opacity:.5;pointer-events:none;
+    background-image:radial-gradient(rgba(255,255,255,.025) 1px,transparent 1px);background-size:26px 26px;}
+  .wrap{max-width:1180px;margin:0 auto;padding:26px 20px 60px;}
+  h1{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;letter-spacing:-.4px;}
+  h1 .g{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  h2{font-family:'Sora',sans-serif;font-weight:700;letter-spacing:-.3px;}
+  .top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:6px;}
+  .brandsub{color:var(--sub);font-size:13.5px;margin-top:3px;}
+  .stamp{font-size:12px;color:var(--dim);text-align:right;white-space:nowrap;}
+  .stamp b{color:var(--sub);font-weight:600;}
+  .exec{margin:18px 0 24px;padding:16px 20px;border:1px solid var(--br);border-radius:16px;
+    background:linear-gradient(135deg,rgba(231,198,107,.08),rgba(106,168,255,.05));backdrop-filter:blur(6px);}
+  .exec .lb{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:6px;}
+  .exec p{font-size:14.5px;color:#dbe3f5;}
+  .exec p b{color:#fff;}
+  /* KPI */
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:26px;}
+  .kpi{position:relative;border:1px solid var(--br);border-radius:18px;padding:18px 18px 16px;overflow:hidden;
+    background:var(--panel);backdrop-filter:blur(8px);box-shadow:0 10px 30px rgba(0,0,0,.25);}
+  .kpi::before{content:'';position:absolute;left:0;top:0;height:3px;width:100%;background:var(--grad-gold);opacity:.9;}
+  .kpi.blue::before{background:var(--grad-blue);} .kpi.green::before{background:linear-gradient(135deg,#7ff0c4,#2bbf87);}
+  .kpi.violet::before{background:linear-gradient(135deg,#c3aaff,#8f6bff);}
+  .kpi .kl{font-size:12.5px;color:var(--sub);font-weight:600;display:flex;align-items:center;gap:7px;}
+  .kpi .kn{font-family:'Sora',sans-serif;font-size:34px;font-weight:800;letter-spacing:-1px;margin-top:8px;line-height:1;}
+  .kpi .kf{font-size:12px;color:var(--dim);margin-top:7px;}
+  .delta{display:inline-flex;align-items:center;gap:3px;font-size:12px;font-weight:700;padding:2px 8px;border-radius:99px;margin-top:9px;}
+  .delta.up{color:#8ff0c8;background:rgba(61,220,154,.12);} .delta.down{color:#ffa3a3;background:rgba(255,109,109,.12);}
+  .delta.flat{color:var(--sub);background:rgba(255,255,255,.06);}
+  /* tabs */
+  nav.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:22px;scrollbar-width:none;
+    border-bottom:1px solid var(--br2);}
+  nav.tabs::-webkit-scrollbar{display:none;}
+  .tab{flex:0 0 auto;appearance:none;border:1px solid transparent;background:transparent;cursor:pointer;font:inherit;
+    font-size:14px;font-weight:700;color:var(--sub);padding:9px 15px;border-radius:11px;transition:.16s;white-space:nowrap;}
+  .tab:hover{color:var(--ink);background:rgba(255,255,255,.04);}
+  .tab.active{color:#0a0f1c;background:var(--grad-gold);box-shadow:0 6px 18px rgba(231,198,107,.25);}
   .view[hidden]{display:none;}
-  .cards4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;}
-  .badge{display:inline-block;background:#eaf3ec;color:var(--green);font-size:12px;font-weight:700;padding:3px 11px;border-radius:99px;margin-left:10px;vertical-align:middle;}
-  .badge.gray{background:#eceef1;color:var(--gray);}
-  .badge.amber{background:#fbeecd;color:#b47500;}
-  /* ===== comparativo ===== */
-  .ctable{width:100%;border-collapse:collapse;font-size:13.5px;}
-  .ctable th,.ctable td{padding:11px 14px;border-bottom:1px solid #eee7d7;text-align:right;}
-  .ctable th:first-child,.ctable td:first-child{text-align:left;}
-  .ctable thead th{color:var(--navy);font-weight:800;font-size:14px;border-bottom:2px solid #e7ddc9;}
-  .ctable td.metric{color:#4a4a4a;font-weight:600;}
-  .ctable tbody tr:hover{background:#faf6ee;}
-  .ctable .win{color:var(--green);font-weight:800;}
-  @media(max-width:820px){.cards4{grid-template-columns:1fr 1fr;}.tab{padding:10px 12px;font-size:14px;}.ctable th,.ctable td{padding:9px 8px;}}
+  .view{animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  /* cards / panels */
+  .grid{display:grid;gap:16px;}
+  .g2{grid-template-columns:1fr 1fr;} .g3{grid-template-columns:repeat(3,1fr);} .g4{grid-template-columns:repeat(4,1fr);}
+  .card{border:1px solid var(--br);border-radius:16px;padding:18px 20px;background:var(--panel);backdrop-filter:blur(8px);}
+  .card.soft{background:var(--panel2);}
+  .card h3{font-family:'Sora',sans-serif;font-size:16px;font-weight:700;margin-bottom:3px;}
+  .psub{font-size:12.5px;color:var(--dim);margin-bottom:14px;}
+  .stat{border:1px solid var(--br);border-radius:14px;padding:14px 16px;background:var(--panel2);}
+  .stat .n{font-family:'Sora',sans-serif;font-size:24px;font-weight:800;letter-spacing:-.5px;}
+  .stat .l{font-size:12px;color:var(--sub);margin-top:3px;}
+  .gold{color:var(--gold);} .cblue{color:var(--blue);} .cgreen{color:var(--green);} .cred{color:var(--red);} .camber{color:var(--amber);} .cviolet{color:var(--violet);}
+  .chartbox{position:relative;height:250px;}
+  .chartbox.sm{height:200px;}
+  /* funnel */
+  .fn{margin:6px 0 2px;}
+  .fn .row{margin-bottom:13px;}
+  .fn .lab{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;color:var(--sub);}
+  .fn .lab b{color:var(--ink);}
+  .fn .bar{height:14px;border-radius:99px;background:rgba(255,255,255,.05);overflow:hidden;}
+  .fn .bar>div{height:100%;border-radius:99px;background:var(--grad-gold);box-shadow:0 0 14px rgba(231,198,107,.35);}
+  /* insight */
+  .insight{border:1px solid var(--br);border-left:3px solid var(--gold);border-radius:14px;padding:14px 18px;
+    background:linear-gradient(135deg,rgba(231,198,107,.07),transparent);}
+  .insight .h{font-weight:800;font-size:13.5px;color:#fff;margin-bottom:7px;display:flex;align-items:center;gap:7px;}
+  .insight ul{list-style:none;font-size:13.5px;color:#cfd7ea;}
+  .insight li{margin:5px 0;padding-left:16px;position:relative;}
+  .insight li::before{content:'';position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;background:var(--gold);}
+  .insight li b{color:#fff;}
+  .badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;vertical-align:middle;margin-left:8px;}
+  .badge.on{background:rgba(61,220,154,.15);color:#7ff0c4;} .badge.off{background:rgba(255,255,255,.07);color:var(--sub);}
+  /* rank */
+  .rank{list-style:none;}
+  .rank li{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--br2);}
+  .rank li:last-child{border-bottom:none;}
+  .rank .pos{font-family:'Sora',sans-serif;font-weight:800;width:22px;text-align:center;color:var(--gold);}
+  .rank .av{width:38px;height:38px;border-radius:50%;object-fit:cover;flex:0 0 38px;background:rgba(255,255,255,.08);border:1px solid var(--br);}
+  .rank .nm{flex:1;min-width:0;} .rank .nm .n1{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .rank .nm .n2{font-size:12px;color:var(--dim);}
+  .rank .ct{font-family:'Sora',sans-serif;font-weight:800;color:var(--green);font-size:16px;}
+  .rank a{color:var(--blue);font-size:12px;text-decoration:none;white-space:nowrap;margin-left:6px;}
+  /* gallery */
+  .gal{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .gcard{display:block;text-decoration:none;color:inherit;border:1px solid var(--br);border-radius:14px;padding:14px 15px;
+    background:var(--panel2);transition:.16s;}
+  .gcard:hover{transform:translateY(-2px);border-color:var(--gold);background:rgba(231,198,107,.06);}
+  .gcard .ic{font-size:20px;} .gcard .cn{font-weight:700;font-size:13px;margin-top:6px;line-height:1.25;}
+  .gcard .cu{font-size:12px;color:var(--dim);} .gcard .cf{font-size:11.5px;color:var(--gold);font-weight:700;margin-top:8px;}
+  .note{font-size:12px;color:var(--dim);margin-top:14px;line-height:1.6;}
+  .note b{color:var(--sub);}
+  .ring{position:relative;width:150px;height:150px;flex:0 0 150px;margin:0 auto;}
+  .ring .rt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .ring .rt .p{font-family:'Sora',sans-serif;font-size:30px;font-weight:800;color:var(--green);}
+  .ring .rt .s{font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--dim);}
+  footer{text-align:center;color:var(--dim);font-size:11.5px;margin-top:34px;line-height:1.7;}
+  @media(max-width:900px){.kpis{grid-template-columns:1fr 1fr;} .g2,.g3,.g4{grid-template-columns:1fr;} .gal{grid-template-columns:1fr 1fr;} h1{font-size:22px;} .kpi .kn{font-size:28px;}}
+  @media(max-width:520px){.gal{grid-template-columns:1fr;} .kpis{grid-template-columns:1fr 1fr;}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div>
-      <h1>Moça <span>Lovers</span> — Painel da Comunidade</h1>
-      <div class="sub">Status da curadoria de criadoras e alcance potencial</div>
-    </div>
-    <div class="updated">Atualizado em<br><b id="t-updated"></b></div>
-  </header>
-
-  <nav class="tabs" id="tabs">
-    <button class="tab active" data-view="cadastros">Cadastros</button>
-  </nav>
-
-  <div id="view-cadastros" class="view">
-
-  <section class="heros">
-    <div class="hero navy">
-      <div class="big" id="h-aprovados"></div>
-      <div class="biglabel">Criadoras aprovadas</div>
-      <div class="extra">Todas <b>maiores de 18 anos + Instagram público</b>. Curadoria contínua dos cadastros.</div>
-    </div>
-    <div class="hero gold">
-      <div class="big" id="h-reach"></div>
-      <div class="biglabel">Alcance potencial no Instagram</div>
-      <div class="extra">Soma estimada de seguidores das aprovadas · <b>média ~4.700/perfil</b></div>
-    </div>
-  </section>
-
-  <section class="goal">
-    <h2>Rumo à meta de 10.000 ativas</h2>
-    <div class="gnote">A meta é <b>10.000 pessoas ativas</b> — mas ainda <b>não temos essa base toda cadastrada</b>. Hoje são <b id="g-total"></b> cadastros no total (de todos os status). Ou seja: além de aprovar, o foco também é <b>atrair mais cadastros</b>.</div>
-    <div class="gbar-row">
-      <div class="gbar-label"><span>Aprovadas vs. meta de 10.000 ativas</span><span><b id="g-l1"></b></span></div>
-      <div class="gbar"><div id="g-b1" style="background:linear-gradient(90deg,var(--gold),var(--tan))"></div></div>
-    </div>
-    <div class="gbar-row">
-      <div class="gbar-label"><span>Cadastros existentes vs. meta de 10.000</span><span><b id="g-l2"></b></span></div>
-      <div class="gbar"><div id="g-b2" style="background:var(--navy);opacity:.5"></div></div>
-    </div>
-    <div class="gbar-row">
-      <div class="gbar-label"><span>Aprovadas dentro da base já cadastrada</span><span><b id="g-l3"></b></span></div>
-      <div class="gbar"><div id="g-b3" style="background:var(--green)"></div></div>
-    </div>
-  </section>
-
-  <section class="cards">
-    <div class="card navy"><div class="n" id="c-total"></div><div class="l">📋 Total de cadastros</div></div>
-    <div class="card green"><div class="n" id="c-aprov"></div><div class="l">✅ Aprovadas</div></div>
-    <div class="card amber"><div class="n" id="c-aguard"></div><div class="l">⏳ Aguardando análise</div></div>
-    <div class="card gray"><div class="n" id="c-incomp"></div><div class="l">📝 Cadastros incompletos</div></div>
-    <div class="card gray"><div class="n" id="c-pend"></div><div class="l">✉️ Convites pendentes</div></div>
-  </section>
-
-  <section class="grid2">
-    <div class="panel">
-      <h2>Distribuição dos cadastros</h2>
-      <div class="psub">Como estão divididos os cadastros</div>
-      <div class="chartbox"><canvas id="donut"></canvas></div>
-    </div>
-    <div class="panel">
-      <h2>Aprovação x Reprovação</h2>
-      <div class="psub">Dos cadastros analisados na curadoria</div>
-      <div class="approval">
-        <div class="ring">
-          <canvas id="ring"></canvas>
-          <div class="ringtext"><div class="pct">61%</div><div class="pl">aprovadas</div></div>
-        </div>
-        <ul class="reasons">
-          <li><div style="font-weight:700;color:var(--red);margin-bottom:6px;">39% reprovadas — por quê:</div></li>
-          <li><div class="rl"><span>🔒 Instagram privado/fechado</span><b>~48%</b></div><div class="rb"><div style="width:48%"></div></div></li>
-          <li><div class="rl"><span>❌ @ não encontrado / inexistente</span><b>~22%</b></div><div class="rb"><div style="width:22%"></div></div></li>
-          <li><div class="rl"><span>✏️ @ mal preenchido (URL, nome, e-mail…)</span><b>~18%</b></div><div class="rb"><div style="width:18%"></div></div></li>
-          <li><div class="rl"><span>🫥 Perfil vazio (0 posts)</span><b>~8%</b></div><div class="rb"><div style="width:8%"></div></div></li>
-          <li><div class="rl"><span>🚫 Sem Instagram informado</span><b>~4%</b></div><div class="rb"><div style="width:4%"></div></div></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section class="grid2">
-    <div class="panel">
-      <h2>📣 Alcance potencial da comunidade</h2>
-      <div class="psub">Estimativa do total de seguidores no Instagram das criadoras aprovadas</div>
-      <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:6px;">
-        <div><div style="font-size:34px;font-weight:800;color:var(--gold);" id="r-total"></div><div style="font-size:12.5px;color:var(--gray);">seguidores somados (estimado)</div></div>
-        <div><div style="font-size:34px;font-weight:800;color:var(--navy);">~4.700</div><div style="font-size:12.5px;color:var(--gray);">seguidores por criadora (média)</div></div>
-        <div><div style="font-size:34px;font-weight:800;color:var(--navy);">~1.100</div><div style="font-size:12.5px;color:var(--gray);">mediana (típico)</div></div>
-      </div>
-      <div style="font-size:12px;color:var(--gray);margin-top:14px;line-height:1.5;">Estimativa baseada em amostra de <b>27 perfis aprovados</b> (média de seguidores × nº de aprovadas). Há criadoras de 100 a 40 mil+ seguidores. <b>O alcance no TikTok é adicional</b> e ainda não foi medido — tende a aumentar o número.</div>
-    </div>
-    <div class="panel">
-      <h2>O que isso representa</h2>
-      <div class="psub">Por que esse número importa pra marca</div>
-      <ul style="list-style:none;font-size:13.5px;color:#444;">
-        <li style="padding:8px 0;border-bottom:1px dashed #e7ddc9;">💛 <b id="r-imp"></b> a cada onda de conteúdo, se as criadoras postarem.</li>
-        <li style="padding:8px 0;border-bottom:1px dashed #e7ddc9;">🎯 Público real e segmentado: criadoras de <b>doces, confeitaria e gastronomia</b>.</li>
-        <li style="padding:8px 0;border-bottom:1px dashed #e7ddc9;">📈 E ainda há <b id="r-fila"></b> cadastros aguardando — o alcance cresce conforme aprovamos mais.</li>
-        <li style="padding:8px 0;">🚀 Chegando aos 10.000 ativos, o alcance projetado passa de <b>40 milhões</b>.</li>
-      </ul>
-    </div>
-  </section>
-
-  <div class="note"><b>Sobre os números:</b> aprovados, aguardando, incompletos e convites vêm direto da plataforma e são atualizados automaticamente. O <b>alcance é uma estimativa</b> (a plataforma ainda não registra seguidores; medimos uma amostra). A % de reprovação reflete a curadoria.</div>
-
-  </div><!-- /view-cadastros -->
-
-  <!-- As abas e telas de cada desafio + o comparativo são geradas via JS a partir de DESAFIOS -->
-  <div id="desafios-root"></div>
-
-  <footer>Moça Lovers · Jornada Doce — Painel da Comunidade<br>Critério de aprovação: maior de 18 anos + perfil de Instagram público.</footer>
-</div>
-
+<div class="wrap" id="root"></div>
 <script>
-/* ===== CADASTROS (atualizados automaticamente pela tarefa diaria) ===== */
-const DATA = {
-  "updated": "25/08/2026 · 11:20",
-  "aprovados": 24757,
-  "aguardando": 6,
-  "incompletos": 6480,
-  "pendentes": 11819,
-  "total": 47601,
-  "meta": 10000,
-  "reachEstimate": 116357900
-};
+const DATA = {"updated":"25/08/2026 · 14:14","aprovados":24757,"aguardando":24,"incompletos":6487,"pendentes":11836,"total":47637,"meta":10000,"reachEstimate":116357900};
+const DESAFIOS = [{"id":4,"title":"Meu jeito único com Moça","status":"encerrado","periodo":"22/06 a 31/07","updated":"25/08/2026 · 14:14","participantes":4452,"aprovados":11292,"submissoes":11760,"reprovados":468,"stories":3476,"reels":3941,"tiktok":3873,"outros":2,"instagram":7419},{"id":6,"title":"Desafio de Agosto: Mesa Posta com Moça ✨","status":"ativo","periodo":"07/08 a 31/08","updated":"25/08/2026 · 14:14","participantes":1470,"aprovados":3464,"submissoes":3465,"reprovados":1,"stories":0,"reels":1288,"tiktok":1137,"outros":1039,"instagram":2327}];
+const DAILY = {"g":"25/08/2026 · 14:14","su":{"s":"15/06","c":[11,2,19,4,6,1,2,1695,926,599,214,176,167,944,2009,1781,2251,1570,1855,886,425,783,639,563,557,444,175,186,474,1044,1123,1431,1217,1040,855,1928,1971,2239,1843,1549,1169,768,955,922,953,715,693,274,198,488,468,383,262,389,246,139,248,284,269,239,229,133,120,194,201,158,254,160,113,107,224,41]},"ch":[{"id":4,"t":"Meu jeito único com Moça","s":"22/06","sub":[3,3,0,0,1,0,0,64,48,95,120,117,0,410,0,347,216,78,0,393,76,213,94,232,428,214,15,212,301,328,719,679,598,269,928,210,613,1653,1440,643],"apr":[3,3,0,0,0,0,0,64,48,87,105,95,0,402,0,340,193,78,0,393,75,201,84,200,411,198,15,211,296,254,620,607,584,269,922,201,603,1649,1438,643],"nov":[2,1,0,0,0,0,0,31,23,35,47,45,0,158,0,131,85,27,0,152,26,81,33,90,161,87,6,84,130,127,279,254,201,112,358,83,197,626,543,236]},{"id":6,"t":"Desafio de Agosto: Mesa Posta com Moça ✨","s":"07/08","sub":[134,165,267,222,112,299,149,184,160,261,257,173,221,131,151,124,197,4,254],"apr":[133,165,267,222,112,299,149,184,160,261,257,173,221,131,151,124,197,4,254],"nov":[66,74,116,94,48,124,68,81,68,108,106,70,86,54,62,48,89,1,107]}]};
+const COMM = {"updated":"25/08/2026 · 14:14","ativas":5042,"ativacaoPct":20.4,"recorrentes":879,"recorrenciaPct":17.4,"metaAtivas":10000,"funil":{"convites":47637,"completos":29314,"aprovadas":24757,"ativas":5042},"emv":{"story":3476,"reels":5229,"tiktok":5010,"outros":1041,"rates":{"story":120,"reels":350,"tiktok":250,"outros":200},"total":3707970}};
+const TOP = [{"name":"Samira Rocha madeira","nick":"Sammy","ig":"cantinhoda.sammy","tk":"cantinhoda.sammy","photo":"https://api.jornadadoce.com.br/api/media/files/10487/307f7ee3-fd32-47c0-baa2-6e0d3b458da6_82616.png","count":9},{"name":"Renata Clebsa Lins da Silva","nick":"Renata","ig":"renatalins.s","tk":"renatalins.s","photo":"https://api.jornadadoce.com.br/api/media/files/13871/2a1145db-5815-438d-b316-0c19dbe38644_1000192924.png","count":9},{"name":"Viviane Karla Dantas Siqueira Alves dos Santos","nick":"Doutora Mesa","ig":"doutoramesa","tk":"doutoramesa","photo":"https://api.jornadadoce.com.br/api/media/files/8822/07614aea-4f8c-4774-85c8-15575d7c1c3c_67149.jpg","count":8},{"name":"Diana Maria Carneiro Gomes","nick":"Dih","ig":"casa_dadih","tk":null,"photo":"https://api.jornadadoce.com.br/api/media/files/10461/6bc62956-c394-4d4c-868f-bba80f880ed6_dacd7fde-e2b1-4c8d-9207-d4fb198151e9.jpeg","count":8},{"name":"Jéssica Rodrigues da Silva","nick":"Jeca na roça","ig":"Jessica_jecanaroca","tk":"Jeca190","photo":"https://api.jornadadoce.com.br/api/media/files/14213/d48d88d4-9d7a-43c1-9348-495dee4569d8_inbound2419598797395683637.jpg","count":8},{"name":"Laine da silva","nick":"Lima","ig":"laydud_ugc_creator","tk":"layugc0","photo":"https://api.jornadadoce.com.br/api/media/files/11822/d547d3ee-03dc-429d-b2e1-03209b363bc5_37d3f809-a2f7-41e4-b1ec-274823bd63cc.jpeg","count":8},{"name":"Izabel bernando","nick":"Izabel","ig":"Izabelbernardo123","tk":"Izabelbernardo123","photo":"https://api.jornadadoce.com.br/api/media/files/13086/3e82f8ba-e73c-4a05-9ba5-45566cd97059_4b4cd987adf81bbff1437e77d296427c-0.jpeg","count":8},{"name":"Rejanne Cristina Barbosa Gomes","nick":"Rê","ig":"sabores_d_re","tk":null,"photo":"https://api.jornadadoce.com.br/api/media/files/12940/d3a23283-8dff-4855-ad33-dfe7454d2924_inbound2251132304983820416.jpg","count":8},{"name":"Julcemara Corvalan testa","nick":"Julcemara","ig":"julcemaracorvalan","tk":"Julcemaracorvalan","photo":null,"count":8},{"name":"Ana Kelly da Silva e Silva","nick":"Ana","ig":"a_kelly_nails_designer","tk":"kelly_nailss","photo":"https://api.jornadadoce.com.br/api/media/files/25457/eb5c8c0d-279b-47ce-a39a-25f41a5a79f4_1000231387.png","count":8},{"name":"Jaqueline Albano da Silva","nick":"Jaque","ig":"jaqueline_allbano21","tk":"jaque_allba","photo":"https://api.jornadadoce.com.br/api/media/files/14498/686e9743-4f41-4911-9d22-8994c79bdebc_50ffeb9e-a098-4968-ba9a-06176ecda152.png","count":7},{"name":"Luana Aparecida Ferreira dos Santos","nick":"Lulu","ig":"lulu_ferreira_30","tk":"luluferreira87","photo":"https://api.jornadadoce.com.br/api/media/files/6913/03cf920f-a3a5-4599-b65d-72a2c308d482_img-20200715-130444.jpg","count":7},{"name":"Tatiane Fernandes Costa","nick":"Thay","ig":"acasinhadathay","tk":"acasinhadathay31","photo":"https://api.jornadadoce.com.br/api/media/files/9568/6bb810b5-1c00-467b-80ac-1aac33e41532_inbound671292698383268800.jpg","count":7},{"name":"Débora de Assis","nick":"Débora","ig":"deboramaximo28","tk":null,"photo":null,"count":7},{"name":"Beatriz Lima Machado Lopes","nick":"Bia","ig":"lar_dabeatryz","tk":"_rotinadabeatryz","photo":"https://api.jornadadoce.com.br/api/media/files/11436/c3459769-d2c2-4581-8ea6-750febe1d4a4_1000453577.png","count":7},{"name":"Ângela AP marcolim da Silva","nick":"Angela","ig":"angela_marcolim","tk":"Receitasemforma03","photo":"https://api.jornadadoce.com.br/api/media/files/14651/2abab19d-b95c-42e5-a679-0fddf64251f4_1000424601.jpg","count":7},{"name":"Karen Cristina  Marques de Araújo","nick":"Karenzinha","ig":"Diario_do_meu_cantinho","tk":"rotinasmeudiadia","photo":"https://api.jornadadoce.com.br/api/media/files/12010/910b38a6-d678-49bd-9514-96b966af7b33_img-0004.jpeg","count":7},{"name":"Valéria da Silva de Carvalho","nick":"Val","ig":"casinha_daval","tk":"Casinhadaval","photo":"https://api.jornadadoce.com.br/api/media/files/12240/0abf6934-4f3c-4a4a-9c1f-c6d5b648bf00_img-6331-original.jpeg","count":7},{"name":"Lígia Rodrigues","nick":"Li","ig":"casadali.26","tk":"Ligia.rotina","photo":"https://api.jornadadoce.com.br/api/media/files/13784/8c8347e2-c887-4322-8771-b7ef6b63048f_17736.jpg","count":7},{"name":"Josimara Ferreira Barbosa Evangelista","nick":"Josi","ig":"Mimosedeliciasdomeular","tk":"Josimara","photo":"https://api.jornadadoce.com.br/api/media/files/13389/2df58761-4013-4db7-acaf-22e2161e35d3_ff9d6ea4-5ba9-44d4-b494-217f9c23663f.jpeg","count":7}];
+const GAL = [{"id":4,"t":"Meu jeito único com Moça","posts":[{"name":"Taís Dos Santos Jacomassi","ig":"taisdsantos23","prov":"tiktok","ct":"video","link":"https://vt.tiktok.com/ZS4MvDNR9/"},{"name":"Alexandra Cristina Prates","ig":"alexandraprattess","prov":"tiktok","ct":"video","link":"https://vt.tiktok.com/ZS4Mv5yWN/"},{"name":"Liliane Targino Vicente","ig":"lardocelar.lili","prov":"instagram","ct":"reels","link":"https://www.instagram.com/reel/DbdoJEeufG0/?igsh=NWVweHd6cDFsYm1m"},{"name":"Joice Maria da Silva Ribeiro Turbiani","ig":"casinha_da_jhoy","prov":"instagram","ct":"story","link":"https://www.instagram.com/stories/casinha_da_jhoy/3953495255672332638?utm_source=ig_story_item_share&igsh=ZHBmNWtmdnEycmE0"},{"name":"Leticia Mariano Ribeiro","ig":"casa1.05","prov":"instagram","ct":"story","link":"https://www.instagram.com/reel/Dbde9nWu6IF/?igsh=MWU2MTFuZGQwcmFqNQ=="},{"name":"Bianca Nishimura Sales","ig":"biasalesmake","prov":"tiktok","ct":"video","link":"https://vt.tiktok.com/ZS4M7gxPj/"},{"name":"Bianca Nishimura Sales","ig":"biasalesmake","prov":"instagram","ct":"reels","link":"https://www.instagram.com/reel/DbVz9DvBKtR/?igsh=eDZ1Zml4cHAxY3Vs"},{"name":"eliziane nascimento","ig":"maede3meninas2026","prov":"tiktok","ct":"video","link":"https://vt.tiktok.com/ZS4M7KtWg/"},{"name":"Isabela Simões Bueno","ig":"oolhodojaguar","prov":"instagram","ct":"story","link":"https://www.instagram.com/stories/oolhodojaguar/3953494989737103436?utm_source=ig_story_item_share&igsh=MXNtaHYwZjYzZTRmeQ=="}]},{"id":6,"t":"Desafio de Agosto: Mesa Posta com Moça ✨","posts":[{"name":"Cristiane Fuzzo","ig":"_crishome","prov":"instagram","ct":"reels","link":"https://www.instagram.com/reel/Dcd2h36O5k8/?igsi=MTVxbHQwa3BiYjZ4Mg=="},{"name":"Jani santos","ig":"Janesantsoof","prov":"instagram","ct":"reels","link":"https://www.instagram.com/reel/Dcd2bkiSPJj/?igsi=ZjVpeTJrd2U2MXF0"},{"name":"Marta Solange Camarinha Ramos Costa","ig":"mesasdamartasolange","prov":"instagram","ct":"reels","link":"https://www.instagram.com/reel/DccM1dGxdb5/?igsi=M25oMWY0ZmxrY2to"},{"name":"Aline Borges Pires","ig":"alineborges_p","prov":"instagram","ct":"reels","link":"https://www.instagram.com/reel/Dcd2ZE6AziI/?igsi=b3U2cm9ha3J5amxi"},{"name":"Paloma Assis","ig":"ninna.santiago.25","prov":"instagram","ct":"photo","link":"https://www.instagram.com/p/DcZEPTfhNT_/?igsi=bmttMzJkbDl3aXZj"},{"name":"José Antônio Souza","ig":"ton.ton.60","prov":"instagram","ct":"reels","link":"https://www.instagram.com/reel/DcZFhimpE4f/?igsi=MTRtazZ1Z3pxNWxsMQ=="},{"name":"Leila Duarte","ig":"leiladuarte_oficial","prov":"tiktok","ct":"video","link":"https://vt.tiktok.com/ZSVXktddK/"},{"name":"Lauane Oliveira","ig":"_lauos","prov":"instagram","ct":"photo","link":"https://www.instagram.com/p/DcdxSCGEUC1/?igsi=MXV4ZW0weXJpZXc5eA=="},{"name":"Leila Duarte","ig":"leiladuarte_oficial","prov":"instagram","ct":"reels","link":"https://www.instagram.com/reel/DcdvkEMBO4z/?utm_source=ig_web_copy_link&igsi=MzRlODBiNWFlZA=="}]}];
+const REACH = {"updated":"25/08/2026 · 13:57","sampleTotal":150,"sampleN":146,"mean":7978,"median":3200,"p90":18687,"max":120706,"tiers":{"nano":115,"micro":30,"mid":1,"macro":0},"engMedianPct":3.6,"activeBase":5048,"reachActivated":40272944};
+(function(){
+var D=DATA,DE=DESAFIOS,DL=DAILY,CO=COMM,TP=TOP,GA=GAL,RE=(typeof REACH!=='undefined'?REACH:null);
+function $(t,c,h){var e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e;}
+function br(n){return Number(n||0).toLocaleString('pt-BR');}
+function pct(a,b){return b>0?Math.round(a/b*1000)/10:0;}
+function money(n){if(n>=1e6)return 'R$ '+(n/1e6).toLocaleString('pt-BR',{maximumFractionDigits:1})+' mi';if(n>=1e3)return 'R$ '+Math.round(n/1e3)+' mil';return 'R$ '+br(n);}
+function big(n){if(n>=1e6)return (n/1e6).toLocaleString('pt-BR',{maximumFractionDigits:1})+' mi';if(n>=1e3)return Math.round(n/1e3)+' mil';return br(n);}
+function sum(a){return a.reduce(function(x,y){return x+y;},0);}
+function trend(a){if(!a||a.length<8)return null;var l=a.slice(-7),p=a.slice(-14,-7),ls=sum(l),ps=sum(p);return{ls:ls,avg:Math.round(ls/7),delta:ps>0?Math.round((ls-ps)/ps*100):null};}
+function chip(d){if(d==null)return '<span class=\"delta flat\">estável</span>';var u=d>=0;return '<span class=\"delta '+(u?'up':'down')+'\">'+(u?'▲':'▼')+' '+Math.abs(d)+'% / 7d</span>';}
+var GOLD='#e7c66b',BLUE='#6aa8ff',GREEN='#3ddc9a',AMBER='#ffbd5a',VIOLET='#a98bff',RED='#ff6d6d',GRID='rgba(255,255,255,.06)';
+if(window.Chart){Chart.defaults.color='#9aa6c0';Chart.defaults.font.family='Manrope';Chart.defaults.font.size=11.5;Chart.defaults.plugins.legend.labels.usePointStyle=true;Chart.defaults.plugins.legend.labels.boxWidth=8;}
+function fdate(startBR,i){var p=startBR.split('/').map(Number);var d=new Date(2026,p[1]-1,p[0]+i);return ('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2);}
+function labels(startBR,n){var o=[];for(var i=0;i<n;i++)o.push(fdate(startBR,i));return o;}
+function ma(a,w){var o=[];for(var i=0;i<a.length;i++){var s=0,c=0;for(var j=Math.max(0,i-w+1);j<=i;j++){s+=a[j];c++;}o.push(Math.round(s/c));}return o;}
+var charts={};function mk(id,cfg){var el=document.getElementById(id);if(!el)return;if(charts[id])charts[id].destroy();charts[id]=new Chart(el,cfg);}
+function donut(id,labs,data,colors){mk(id,{type:'doughnut',data:{labels:labs,datasets:[{data:data,backgroundColor:colors,borderColor:'rgba(8,11,20,.9)',borderWidth:3,hoverOffset:6}]},options:{cutout:'64%',plugins:{legend:{position:'bottom',labels:{padding:14,color:'#cfd7ea'}}}}});}
+function ring(id,ap,tot){mk(id,{type:'doughnut',data:{labels:['Aprovado','Resto'],datasets:[{data:[ap,Math.max(tot-ap,0)],backgroundColor:[GREEN,'rgba(255,255,255,.07)'],borderWidth:0}]},options:{cutout:'78%',plugins:{legend:{display:false},tooltip:{enabled:false}}}});}
+function area(id,labs,data,color,label){var el=document.getElementById(id);if(!el)return;var ctx=el.getContext('2d');var g=ctx.createLinearGradient(0,0,0,250);g.addColorStop(0,color+'66');g.addColorStop(1,color+'05');mk(id,{type:'line',data:{labels:labs,datasets:[{label:label,data:data,borderColor:color,backgroundColor:g,fill:true,tension:.35,pointRadius:0,borderWidth:2.5},{label:'média 7d',data:ma(data,7),borderColor:'#ffffff',borderDash:[5,4],borderWidth:1.3,pointRadius:0,tension:.35,fill:false}]},options:{plugins:{legend:{display:true,labels:{color:'#9aa6c0'}}},scales:{x:{grid:{display:false},ticks:{maxTicksLimit:8}},y:{grid:{color:GRID},ticks:{callback:function(v){return big(v);}}}}});}
+function stacked(id,labs,ds){mk(id,{type:'bar',data:{labels:labs,datasets:ds},options:{plugins:{legend:{labels:{color:'#9aa6c0'}}},scales:{x:{stacked:true,grid:{display:false},ticks:{maxTicksLimit:9}},y:{stacked:true,grid:{color:GRID}}}}});}
+window.__mk=mk;window.__donut=donut;window.__ring=ring;window.__area=area;window.__stacked=stacked;
+window.__H={$:$,br:br,pct:pct,money:money,big:big,sum:sum,trend:trend,chip:chip,labels:labels,fdate:fdate,GOLD:GOLD,BLUE:BLUE,GREEN:GREEN,AMBER:AMBER,VIOLET:VIOLET,RED:RED};
+})();
 
-/* ===== DESAFIOS (um objeto por desafio; a tarefa diaria mantem esta lista) =====
-   status: "ativo" | "encerrado" | "em_breve"
-   Separacao por desafio = janela de datas (created_at) de cada campanha,
-   pois a API de submissoes nao guarda o desafio de origem. */
-const DESAFIOS = [
-  {
-    "id": 4,
-    "title": "Meu jeito único com Moça",
-    "status": "encerrado",
-    "periodo": "22/06 a 31/07",
-    "updated": "25/08/2026 · 11:20",
-    "participantes": 4455,
-    "aprovados": 11849,
-    "submissoes": 12399,
-    "reprovados": 550,
-    "stories": 3634,
-    "reels": 4256,
-    "tiktok": 3957,
-    "outros": 2,
-    "instagram": 7892
-  },
-  {
-    "id": 6,
-    "title": "Desafio de Agosto: Mesa Posta com Moça ✨",
-    "status": "ativo",
-    "periodo": "07/08 a 31/08",
-    "updated": "25/08/2026 · 11:20",
-    "participantes": 1423,
-    "aprovados": 3471,
-    "submissoes": 3472,
-    "reprovados": 1,
-    "stories": 0,
-    "reels": 1299,
-    "tiktok": 1140,
-    "outros": 1032,
-    "instagram": 2331
-  }
-];
-
-/* ===== EVOLUCAO DIARIA (series diarias; a tarefa diaria regenera este bloco) ===== */
-const DAILY = {
-  "g": "25/08/2026 · 11:20",
-  "su": { "s": "15/06", "c": [11,2,19,4,6,1,2,1695,926,599,214,176,167,944,2009,1781,2251,1570,1855,886,425,783,639,563,557,444,175,186,474,1044,1123,1431,1217,1040,855,1928,1971,2239,1843,1549,1169,768,955,922,953,715,693,274,198,488,468,383,262,389,246,139,248,284,269,239,229,133,120,194,201,158,254,160,113,107,224,41] },
-  "ch": [
-    { "id": 4, "t": "Meu jeito único com Moça", "s": "22/06", "sub": [3,4,0,0,1,0,0,64,48,98,122,120,0,419,0,350,224,83,0,401,79,218,97,238,465,228,15,219,319,350,760,733,682,288,971,218,681,1721,1509,671], "apr": [3,4,0,0,0,0,0,64,48,88,105,95,0,410,0,343,197,83,0,397,77,205,85,203,446,212,15,218,310,270,644,648,662,288,961,205,669,1716,1507,671], "nov": [2,1,0,0,0,0,0,31,23,35,47,45,0,158,0,131,85,27,0,152,26,81,33,90,160,87,6,84,130,127,280,254,202,113,358,83,198,626,543,236] },
-    { "id": 6, "t": "Desafio de Agosto: Mesa Posta com Moça ✨", "s": "07/08", "sub": [145,182,280,237,118,318,163,192,172,271,260,173,221,131,151,124,197,4,133], "apr": [144,182,280,237,118,318,163,192,172,271,260,173,221,131,151,124,197,4,133], "nov": [65,74,117,94,48,125,68,82,68,109,107,70,86,54,62,48,87,1,58] }
-  ]
-};
-
-const COMM = {
-  "updated": "25/08/2026 · 13:28",
-  "ativas": 5048,
-  "ativacaoPct": 20.4,
-  "recorrentes": 880,
-  "recorrenciaPct": 17.4,
-  "metaAtivas": 10000,
-  "funil": { "convites": 47625, "completos": 29312, "aprovadas": 24757, "ativas": 5048 },
-  "emv": { "total": 3895580, "story": 3634, "reels": 5602, "tiktok": 5132, "outros": 1079, "rates": { "story": 120, "reels": 350, "tiktok": 250, "outros": 200 } }
-};
-
-const REACH = {
-  "updated": "25/08/2026 · 13:57",
-  "sampleTotal": 150,
-  "sampleN": 146,
-  "mean": 7978,
-  "median": 3200,
-  "p90": 18687,
-  "max": 120706,
-  "tiers": { "nano": 115, "micro": 30, "mid": 1, "macro": 0 },
-  "engMedianPct": 3.6,
-  "activeBase": 5048,
-  "reachActivated": 40272944
-};
-
-const TOP = [{"name":"Juliana Lemos","nick":"Juliana Lemos","ig":"julianalemos.ro","tk":null,"photo":"https://api.jornadadoce.com.br/api/media/files/13635/00731b4e-a8e8-4a53-9b18-dd51d7d856e5_img-5306.jpeg","count":11},{"name":"Shirley","nick":"Shirley","ig":"Shirleeysantos33","tk":null,"photo":"https://api.jornadadoce.com.br/api/media/files/13726/e729d335-a5b2-4e4d-8ed1-dfe74856aafc_img-3213.jpeg","count":10},{"name":"Viviane Karla Dantas Siqueira Alves dos Santos","nick":"Doutora Mesa","ig":"doutoramesa","tk":"doutoramesa","photo":"https://api.jornadadoce.com.br/api/media/files/8822/07614aea-4f8c-4774-85c8-15575d7c1c3c_67149.jpg","count":9},{"name":"Diana Maria Carneiro Gomes","nick":"Dih","ig":"casa_dadih","tk":null,"photo":"https://api.jornadadoce.com.br/api/media/files/10461/6bc62956-c394-4d4c-868f-bba80f880ed6_dacd7fde-e2b1-4c8d-9207-d4fb198151e9.jpeg","count":9},{"name":"Samira Rocha madeira","nick":"Sammy","ig":"cantinhoda.sammy","tk":"cantinhoda.sammy","photo":"https://api.jornadadoce.com.br/api/media/files/10487/307f7ee3-fd32-47c0-baa2-6e0d3b458da6_82616.png","count":9},{"name":"Jéssica Rodrigues da Silva","nick":"Jeca na roça","ig":"Jessica_jecanaroca","tk":"Jeca190","photo":"https://api.jornadadoce.com.br/api/media/files/14213/d48d88d4-9d7a-43c1-9348-495dee4569d8_inbound2419598797395683637.jpg","count":9},{"name":"Izabel bernando","nick":"Izabel","ig":"Izabelbernardo123","tk":"Izabelbernardo123","photo":"https://api.jornadadoce.com.br/api/media/files/13086/3e82f8ba-e73c-4a05-9ba5-45566cd97059_4b4cd987adf81bbff1437e77d296427c-0.jpeg","count":9},{"name":"Lígia Rodrigues","nick":"Li","ig":"casadali.26","tk":"Ligia.rotina","photo":"https://api.jornadadoce.com.br/api/media/files/13784/8c8347e2-c887-4322-8771-b7ef6b63048f_17736.jpg","count":9},{"name":"Josimara Ferreira Barbosa Evangelista","nick":"Josi","ig":"Mimosedeliciasdomeular","tk":"Josimara","photo":"https://api.jornadadoce.com.br/api/media/files/13389/2df58761-4013-4db7-acaf-22e2161e35d3_ff9d6ea4-5ba9-44d4-b494-217f9c23663f.jpeg","count":9},{"name":"Renata Clebsa Lins da Silva","nick":"Renata","ig":"renatalins.s","tk":"renatalins.s","photo":"https://api.jornadadoce.com.br/api/media/files/13871/2a1145db-5815-438d-b316-0c19dbe38644_1000192924.png","count":9},{"name":"Ana Kelly da Silva e Silva","nick":"Ana","ig":"a_kelly_nails_designer","tk":"kelly_nailss","photo":"https://api.jornadadoce.com.br/api/media/files/25457/eb5c8c0d-279b-47ce-a39a-25f41a5a79f4_1000231387.png","count":9},{"name":"Regiane Silva Costa","nick":"Regiane","ig":"regiane_silva202","tk":"Regiane_costa50","photo":"https://api.jornadadoce.com.br/api/media/files/17188/229c9952-1c3b-452a-a97b-6b1946c71b2e_img-0520.jpeg","count":9},{"name":"Jaqueline Albano da Silva","nick":"Jaque","ig":"jaqueline_allbano21","tk":"jaque_allba","photo":"https://api.jornadadoce.com.br/api/media/files/14498/686e9743-4f41-4911-9d22-8994c79bdebc_50ffeb9e-a098-4968-ba9a-06176ecda152.png","count":8},{"name":"Juliana Gonçalves dos Santos","nick":"Ju","ig":"julianagoncalves726","tk":"julianagoncalves377","photo":"https://api.jornadadoce.com.br/api/media/files/10014/80b48ed0-6ddc-4105-9381-15111d14d309_18538.png","count":8},{"name":"Luana Aparecida Ferreira dos Santos","nick":"Lulu","ig":"lulu_ferreira_30","tk":"luluferreira87","photo":"https://api.jornadadoce.com.br/api/media/files/6913/03cf920f-a3a5-4599-b65d-72a2c308d482_img-20200715-130444.jpg","count":8},{"name":"Eduarda fortes","nick":"Duda","ig":"dudafortess_","tk":"Eduarda.fortes5","photo":"https://api.jornadadoce.com.br/api/media/files/11524/055c8c05-92f5-4cd2-bcda-b923612200b2_0798acab-c917-426a-ae12-3b3d04df79b6.jpeg","count":8},{"name":"Ângela AP marcolim da Silva","nick":"Angela","ig":"angela_marcolim","tk":"Receitasemforma03","photo":"https://api.jornadadoce.com.br/api/media/files/14651/2abab19d-b95c-42e5-a679-0fddf64251f4_1000424601.jpg","count":8},{"name":"Laine da silva","nick":"Lima","ig":"laydud_ugc_creator","tk":"layugc0","photo":"https://api.jornadadoce.com.br/api/media/files/11822/d547d3ee-03dc-429d-b2e1-03209b363bc5_37d3f809-a2f7-41e4-b1ec-274823bd63cc.jpeg","count":8},{"name":"Karen Cristina  Marques de Araújo","nick":"Karenzinha","ig":"Diario_do_meu_cantinho","tk":"rotinasmeudiadia","photo":"https://api.jornadadoce.com.br/api/media/files/12010/910b38a6-d678-49bd-9514-96b966af7b33_img-0004.jpeg","count":8},{"name":"Valéria da Silva de Carvalho","nick":"Val","ig":"casinha_daval","tk":"Casinhadaval","photo":"https://api.jornadadoce.com.br/api/media/files/12240/0abf6934-4f3c-4a4a-9c1f-c6d5b648bf00_img-6331-original.jpeg","count":8}];
-
-const GAL = [{"id":4,"t":"Meu jeito único com Moça","posts":[{"name":"Taís Dos Santos Jacomassi","ig":"taisdsantos23","prov":"tiktok","ct":"video","link":"https://vt.tiktok.com/ZS4MvDNR9/"},{"name":"Alexandra Cristina Prates","ig":"alexandraprattess","prov":"tiktok","ct":"video","link":"https://vt.tiktok.com/ZS4Mv5yWN/"},{"name":"Liliane Targino Vicente","ig":"lardocelar.lili","prov":"instagram","ct":"reels","link":"https://www.instagram.com/reel/DbdoJEeufG0/?igsh=NWVweHd6cDFsYm1m"},{"name":"Joice Maria da Silva Ribeiro Turbiani","ig":"casinha_da_jhoy","prov":"instagram","ct":"story","link":"https://www.instagram.com/stories/casinha_da_jhoy/3953495255672332638?utm_source=ig_story_item_share&igsh=ZHBmNWtmdnEycmE0"},{"name":"Leticia Mariano Ribeiro","ig":"casa1.05","prov":"tiktok","ct":"video","link":"https://www.instagram.com/reel/Dbde9nWu6IF/?igsh=MWU2MTFuZGQwcmFqNQ=="},{"name":"Bianca Nishimura Sales","ig":"biasalesmake","prov":"tiktok","ct":"video","link":"https://vt.tiktok.com/ZS4M7gxPj/"},{"name":"Bianca Nishimura Sales","ig":"biasalesmake","prov":"instagram","ct":"reels","link":"https://www.instagram.com/reel/DbVz9DvBKtR/?igsh=eDZ1Zml4cHAxY3Vs"},{"name":"Leticia Mariano Ribeiro","ig":"casa1.05","prov":"instagram","ct":"story","link":"https://www.instagram.com/reel/Dbde9nWu6IF/?igsh=MWU2MTFuZGQwcmFqNQ=="},{"name":"eliziane nascimento","ig":"maede3meninas2026","prov":"tiktok","ct":"video","link":"https://vt.tiktok.com/ZS4M7KtWg/"}]},{"id":6,"t":"Desafio de Agosto: Mesa Posta com Moça ✨","posts":[{"name":"Cristiane Fuzzo","ig":"_crishome","prov":"instagram","ct":"reels","link":"https://www.instagram.com/reel/Dcd2h36O5k8/?igsi=MTVxbHQwa3BiYjZ4Mg=="},{"name":"Jani santos","ig":"Janesantsoof","prov":"instagram","ct":"reels","link":"https://www.instagram.com/reel/Dcd2bkiSPJj/?igsi=ZjVpeTJrd2U2MXF0"},{"name":"Marta Solange Camarinha Ramos Costa","ig":"mesasdamartasolange","prov":"instagram","ct":"reels","link":"https://www.instagram.com/reel/DccM1dGxdb5/?igsi=M25oMWY0ZmxrY2to"},{"name":"Aline Borges Pires","ig":"alineborges_p","prov":"instagram","ct":"reels","link":"https://www.instagram.com/reel/Dcd2ZE6AziI/?igsi=b3U2cm9ha3J5amxi"},{"name":"Paloma Assis","ig":"ninna.santiago.25","prov":"instagram","ct":"photo","link":"https://www.instagram.com/p/DcZEPTfhNT_/?igsi=bmttMzJkbDl3aXZj"},{"name":"José Antônio Souza","ig":"ton.ton.60","prov":"instagram","ct":"reels","link":"https://www.instagram.com/reel/DcZFhimpE4f/?igsi=MTRtazZ1Z3pxNWxsMQ=="},{"name":"Leila Duarte","ig":"leiladuarte_oficial","prov":"tiktok","ct":"video","link":"https://vt.tiktok.com/ZSVXktddK/"},{"name":"Lauane Oliveira","ig":"_lauos","prov":"instagram","ct":"photo","link":"https://www.instagram.com/p/DcdxSCGEUC1/?igsi=MXV4ZW0weXJpZXc5eA=="},{"name":"Leila Duarte","ig":"leiladuarte_oficial","prov":"instagram","ct":"reels","link":"https://www.instagram.com/reel/DcdvkEMBO4z/?utm_source=ig_web_copy_link&igsi=MzRlODBiNWFlZA=="}]}];
-
-/* ===== helpers ===== */
-const br = n => (n==null ? '—' : n.toLocaleString('pt-BR'));
-const pct = (a,b) => b ? Math.round(a/b*1000)/10 : 0;
-function milhoes(n){ if(n>=1e6) return '~'+(n/1e6).toLocaleString('pt-BR',{maximumFractionDigits:1})+' mi'; if(n>=1e3) return '~'+Math.round(n/1e3)+' mil'; return br(n);}
-const PALETTE = ['#002462','#A0862F','#2e7d4f','#e69500','#8a8f99'];
-
-/* ===== render CADASTROS ===== */
-document.getElementById('t-updated').textContent = DATA.updated;
-document.getElementById('h-aprovados').textContent = br(DATA.aprovados);
-document.getElementById('h-reach').textContent = milhoes(DATA.reachEstimate);
-document.getElementById('g-total').textContent = br(DATA.total);
-document.getElementById('c-total').textContent = br(DATA.total);
-document.getElementById('c-aprov').textContent = br(DATA.aprovados);
-document.getElementById('c-aguard').textContent = br(DATA.aguardando);
-document.getElementById('c-incomp').textContent = br(DATA.incompletos);
-document.getElementById('c-pend').textContent = br(DATA.pendentes);
-document.getElementById('r-total').textContent = milhoes(DATA.reachEstimate);
-document.getElementById('r-imp').textContent = milhoes(DATA.reachEstimate)+' de impressoes potenciais';
-document.getElementById('r-fila').textContent = br(DATA.aguardando);
-const p1=pct(DATA.aprovados,DATA.meta), p2=pct(DATA.total,DATA.meta), p3=pct(DATA.aprovados,DATA.total);
-document.getElementById('g-l1').textContent = p1+'% ('+br(DATA.aprovados)+' de '+br(DATA.meta)+')';
-document.getElementById('g-l2').textContent = p2+'% ('+br(DATA.total)+' de '+br(DATA.meta)+')';
-document.getElementById('g-l3').textContent = p3+'% ('+br(DATA.aprovados)+' de '+br(DATA.total)+')';
-document.getElementById('g-b1').style.width = Math.min(p1,100)+'%';
-document.getElementById('g-b2').style.width = Math.min(p2,100)+'%';
-document.getElementById('g-b3').style.width = Math.min(p3,100)+'%';
-new Chart(document.getElementById('donut'),{type:'doughnut',
-  data:{labels:['Aprovadas','Aguardando','Incompletos','Convites pendentes'],
-    datasets:[{data:[DATA.aprovados,DATA.aguardando,DATA.incompletos,DATA.pendentes],backgroundColor:['#2e7d4f','#e69500','#BBAC79','#8a8f99'],borderColor:'#fff',borderWidth:3}]},
-  options:{plugins:{legend:{position:'bottom',labels:{boxWidth:13,font:{size:11.5},color:'#002462'}}},cutout:'60%'}});
-new Chart(document.getElementById('ring'),{type:'doughnut',
-  data:{labels:['Aprovadas','Reprovadas'],datasets:[{data:[61,39],backgroundColor:['#2e7d4f','#e3c9c5'],borderWidth:0}]},
-  options:{plugins:{legend:{display:false},tooltip:{enabled:false}},cutout:'74%'}});
-
-/* ===== render DESAFIOS (uma aba por desafio) + COMPARATIVO ===== */
-const tabsEl = document.getElementById('tabs');
-const rootEl = document.getElementById('desafios-root');
-const chartBuilders = {};   // viewId -> funcao que monta os graficos
-const built = {};           // viewId -> ja montado?
-
-function badge(status){
-  if(status==='ativo')     return '<span class="badge">ATIVO</span>';
-  if(status==='encerrado') return '<span class="badge gray">ENCERRADO</span>';
-  return '<span class="badge amber">EM BREVE</span>';
-}
-function tabLabel(d){
-  if(d.status==='ativo')     return d.title;
-  if(d.status==='encerrado') return d.title;
-  return d.title + ' • em breve';
-}
-
-function addTab(view, label){
-  const b=document.createElement('button');
-  b.className='tab'; b.dataset.view=view; b.textContent=label;
-  tabsEl.appendChild(b);
-}
-
-function buildDesafioView(d, i){
-  const view='des-'+i;
-  const el=document.createElement('div');
-  el.className='view'; el.id='view-'+view; el.hidden=true;
-  const hasData = d.submissoes>0;
-
-  if(!hasData){
-    el.innerHTML =
-      '<div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px;margin-bottom:20px;">'+
-        '<div><h2 style="font-size:22px;">Desafio: <span style="color:var(--gold);">'+d.title+'</span>'+badge(d.status)+'</h2>'+
-        '<div class="sub">'+d.periodo+'</div></div></div>'+
-      '<div class="note" style="text-align:center;padding:44px 20px;border-left:none;border:1px solid #e7ddc9;">'+
-        '<div style="font-size:42px;">🍮</div>'+
-        '<div style="font-size:18px;font-weight:800;color:var(--navy);margin:10px 0 6px;">Esse desafio ainda não começou</div>'+
-        '<div style="max-width:520px;margin:0 auto;">O <b>'+d.title+'</b> entra no ar <b>'+d.periodo+'</b>. Assim que as primeiras participações chegarem, os números aparecem aqui automaticamente — e passam a valer no comparativo.</div>'+
-      '</div>';
-    rootEl.appendChild(el);
-    addTab(view, tabLabel(d));
-    return;
-  }
-
-  const apPct = pct(d.aprovados, d.submissoes);
-  el.innerHTML =
-    '<div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px;margin-bottom:20px;">'+
-      '<div><h2 style="font-size:22px;">Desafio: <span style="color:var(--gold);">'+d.title+'</span>'+badge(d.status)+'</h2>'+
-      '<div class="sub">Participações com conteúdo aprovado · período de <b>'+d.periodo+'</b></div></div>'+
-      '<div class="updated">Atualizado em<br><b>'+(d.updated||'—')+'</b></div>'+
-    '</div>'+
-    '<section class="heros">'+
-      '<div class="hero navy"><div class="big">'+br(d.participantes)+'</div><div class="biglabel">Criadoras participando</div>'+
-        '<div class="extra">Pessoas com <b>pelo menos um conteúdo aprovado</b> no desafio.</div></div>'+
-      '<div class="hero gold"><div class="big">'+br(d.aprovados)+'</div><div class="biglabel">Conteúdos aprovados</div>'+
-        '<div class="extra">Stories, Reels e vídeos validados na curadoria · de <b>'+br(d.submissoes)+'</b> submissões no total.</div></div>'+
-    '</section>'+
-    '<section class="cards4">'+
-      '<div class="card navy"><div class="n">'+br(d.stories)+'</div><div class="l">📸 Instagram Stories</div></div>'+
-      '<div class="card green"><div class="n">'+br(d.reels)+'</div><div class="l">🎬 Instagram Reels</div></div>'+
-      '<div class="card amber"><div class="n">'+br(d.tiktok)+'</div><div class="l">🎵 TikTok</div></div>'+
-      '<div class="card gray"><div class="n">'+br(d.outros)+'</div><div class="l">➕ Outros (feed/carrossel)</div></div>'+
-    '</section>'+
-    '<section class="grid2">'+
-      '<div class="panel"><h2>Conteúdos aprovados por tipo</h2>'+
-        '<div class="psub">Distribuição dos <b>'+br(d.aprovados)+'</b> conteúdos aprovados no desafio</div>'+
-        '<div class="chartbox"><canvas id="d-donut-'+i+'"></canvas></div></div>'+
-      '<div class="panel"><h2>Curadoria do desafio</h2>'+
-        '<div class="psub">Aproveitamento dos conteúdos enviados</div>'+
-        '<div class="approval">'+
-          '<div class="ring"><canvas id="d-ring-'+i+'"></canvas>'+
-            '<div class="ringtext"><div class="pct">'+apPct+'%</div><div class="pl">aprovados</div></div></div>'+
-          '<ul class="reasons">'+
-            '<li><div class="rl"><span>✅ Conteúdos aprovados</span><b>'+br(d.aprovados)+'</b></div></li>'+
-            '<li><div class="rl"><span>❌ Conteúdos reprovados</span><b>'+br(d.reprovados)+'</b></div></li>'+
-            '<li><div class="rl"><span>📨 Submissões no total</span><b>'+br(d.submissoes)+'</b></div></li>'+
-            '<li style="margin-top:8px;"><div class="rl"><span>📷 Instagram</span><b>'+br(d.instagram)+'</b></div></li>'+
-            '<li><div class="rl"><span>🎵 TikTok</span><b>'+br(d.tiktok)+'</b></div></li>'+
-          '</ul>'+
-        '</div></div>'+
-    '</section>'+
-    '<div class="note"><b>Sobre os números:</b> contabilizamos as submissões do desafio <b>'+d.title+'</b> com status <b>aprovado</b> na curadoria, considerando apenas conteúdos enviados no período do desafio (<b>'+d.periodo+'</b>). “Criadoras participando” conta pessoas únicas com ao menos um conteúdo aprovado.</div>';
-  rootEl.appendChild(el);
-  addTab(view, tabLabel(d));
-
-  chartBuilders[view] = function(){
-    new Chart(document.getElementById('d-donut-'+i),{type:'doughnut',
-      data:{labels:['Stories','Reels','TikTok','Outros'],
-        datasets:[{data:[d.stories,d.reels,d.tiktok,d.outros],backgroundColor:['#002462','#2e7d4f','#e69500','#8a8f99'],borderColor:'#fff',borderWidth:3}]},
-      options:{plugins:{legend:{position:'bottom',labels:{boxWidth:13,font:{size:11.5},color:'#002462'}}},cutout:'60%'}});
-    new Chart(document.getElementById('d-ring-'+i),{type:'doughnut',
-      data:{labels:['Aprovados','Reprovados'],datasets:[{data:[d.aprovados,d.reprovados],backgroundColor:['#2e7d4f','#e3c9c5'],borderWidth:0}]},
-      options:{plugins:{legend:{display:false},tooltip:{enabled:false}},cutout:'74%'}});
-  };
-}
-
-function buildComparativoView(){
-  const view='comparativo';
-  const el=document.createElement('div');
-  el.className='view'; el.id='view-'+view; el.hidden=true;
-
-  const withData = DESAFIOS.filter(d=>d.submissoes>0);
-
-  // linhas da tabela: [rotulo, funcao(d), destaca_maior?]
-  const rows = [
-    ['Período',                d=>d.periodo, false],
-    ['Status',                 d=>(d.status==='ativo'?'Ativo':d.status==='encerrado'?'Encerrado':'Em breve'), false],
-    ['Criadoras participando', d=>d.participantes, true],
-    ['Conteúdos aprovados',    d=>d.aprovados, true],
-    ['Submissões',             d=>d.submissoes, true],
-    ['Aproveitamento',         d=>(d.submissoes?pct(d.aprovados,d.submissoes):null), true, true],
-    ['📸 Stories',             d=>d.stories, true],
-    ['🎬 Reels',               d=>d.reels, true],
-    ['🎵 TikTok',              d=>d.tiktok, true],
-    ['➕ Outros',              d=>d.outros, true],
-    ['📷 Instagram (total)',   d=>d.instagram, true]
-  ];
-
-  let thead = '<tr><th>Métrica</th>'+DESAFIOS.map(d=>'<th>'+d.title+'</th>').join('')+'</tr>';
-  let tbody = rows.map(function(r){
-    const label=r[0], fn=r[1], numeric=r[2], isPct=r[3];
-    // valor bruto por desafio (pra achar o maior)
-    const raw = DESAFIOS.map(d=> d.submissoes ? fn(d) : (numeric?null:fn(d)) );
-    let maxVal=-Infinity;
-    if(numeric){ raw.forEach(v=>{ if(typeof v==='number' && v>maxVal) maxVal=v; }); }
-    const tds = DESAFIOS.map(function(d,idx){
-      const v = raw[idx];
-      if(v==null) return '<td>—</td>';
-      let disp = (typeof v==='number') ? (isPct ? v+'%' : br(v)) : v;
-      const win = (numeric && withData.length>1 && typeof v==='number' && v===maxVal && maxVal>0);
-      return '<td class="'+(win?'win':'')+'">'+disp+'</td>';
-    }).join('');
-    return '<tr><td class="metric">'+label+'</td>'+tds+'</tr>';
-  }).join('');
-
-  const compareNote = withData.length>1
-    ? '<div style="font-size:12px;color:var(--gray);margin-top:10px;">Em verde, o desafio com o maior número em cada métrica.</div>'
-    : '<div style="font-size:12px;color:var(--gray);margin-top:10px;">Assim que o <b>'+(DESAFIOS.find(d=>d.submissoes===0)||{}).title+'</b> tiver participações, os dois desafios ficam lado a lado aqui — com destaque pra quem estiver indo melhor em cada métrica.</div>';
-
-  el.innerHTML =
-    '<div style="margin-bottom:18px;"><h2 style="font-size:22px;">Comparativo entre desafios</h2>'+
-      '<div class="sub">Como cada desafio se saiu, lado a lado</div></div>'+
-    '<div class="panel" style="margin-bottom:22px;overflow-x:auto;">'+
-      '<table class="ctable"><thead>'+thead+'</thead><tbody>'+tbody+'</tbody></table>'+
-      compareNote+
-    '</div>'+
-    '<section class="grid2">'+
-      '<div class="panel"><h2>Volume por desafio</h2><div class="psub">Participantes, aprovados e submissões</div>'+
-        '<div class="chartbox"><canvas id="cmp-bar"></canvas></div></div>'+
-      '<div class="panel"><h2>Mix de formatos aprovados</h2><div class="psub">Stories, Reels, TikTok e outros</div>'+
-        '<div class="chartbox"><canvas id="cmp-mix"></canvas></div></div>'+
-    '</section>';
-  rootEl.appendChild(el);
-  addTab(view, 'Comparativo');
-
-  chartBuilders[view] = function(){
-    if(withData.length===0) return;
-    const ds1 = withData.map((d,idx)=>({label:d.title, data:[d.participantes,d.aprovados,d.submissoes], backgroundColor:PALETTE[idx%PALETTE.length]}));
-    new Chart(document.getElementById('cmp-bar'),{type:'bar',
-      data:{labels:['Participantes','Aprovados','Submissões'], datasets:ds1},
-      options:{plugins:{legend:{position:'bottom',labels:{boxWidth:13,font:{size:11.5},color:'#002462'}}},scales:{y:{beginAtZero:true}}}});
-    const ds2 = withData.map((d,idx)=>({label:d.title, data:[d.stories,d.reels,d.tiktok,d.outros], backgroundColor:PALETTE[idx%PALETTE.length]}));
-    new Chart(document.getElementById('cmp-mix'),{type:'bar',
-      data:{labels:['Stories','Reels','TikTok','Outros'], datasets:ds2},
-      options:{plugins:{legend:{position:'bottom',labels:{boxWidth:13,font:{size:11.5},color:'#002462'}}},scales:{y:{beginAtZero:true}}}});
-  };
-}
-
-
-/* ===== render EVOLUCAO DIARIA ===== */
-function buildEvolucaoView(){
-  const view='evolucao';
-  const el=document.createElement('div'); el.className='view'; el.id='view-'+view; el.hidden=true;
-  function lbls(start,n){ const p=start.split('/').map(Number); const base=new Date(2026,p[1]-1,p[0]); const o=[]; for(let i=0;i<n;i++){ const dt=new Date(base); dt.setDate(base.getDate()+i); o.push(String(dt.getDate()).padStart(2,'0')+'/'+String(dt.getMonth()+1).padStart(2,'0')); } return o; }
-  function keyList(start,n){ const p=start.split('/').map(Number); const base=new Date(2026,p[1]-1,p[0]); const o=[]; for(let i=0;i<n;i++){ const dt=new Date(base); dt.setDate(base.getDate()+i); o.push(dt.getTime()); } return o; }
-  const su=DAILY.su; const suLabels=lbls(su.s,su.c.length); let cc=0; const suCum=su.c.map(v=>cc+=v);
-  const last=su.c[su.c.length-1]; const avg7=Math.round(su.c.slice(-7).reduce((a,b)=>a+b,0)/Math.min(7,su.c.length));
-  el.innerHTML =
-    '<div style="margin-bottom:18px;"><h2 style="font-size:22px;">📈 Evolução diária</h2>'+
-      '<div class="sub">Inscrições por dia e crescimento da participação · atualizado '+DAILY.g+'</div></div>'+
-    '<section class="cards4">'+
-      '<div class="card navy"><div class="n">'+br(suCum[suCum.length-1])+'</div><div class="l">Inscrições acumuladas</div></div>'+
-      '<div class="card green"><div class="n">'+br(last)+'</div><div class="l">Inscrições no último dia</div></div>'+
-      '<div class="card amber"><div class="n">'+br(avg7)+'</div><div class="l">Média/dia (últimos 7)</div></div>'+
-      '<div class="card gray"><div class="n">'+su.c.length+'</div><div class="l">Dias registrados</div></div>'+
-    '</section>'+
-    '<div class="panel" style="margin-bottom:22px;"><h2>Inscrições por dia</h2><div class="psub">Novos cadastros por dia (barras) e total acumulado (linha)</div><div class="chartbox" style="height:300px;"><canvas id="ev-signups"></canvas></div></div>'+
-    '<section class="grid2">'+
-      '<div class="panel"><h2>Participação por dia do desafio</h2><div class="psub">Submissões por dia, alinhadas no <b>dia 1</b> de cada desafio</div><div class="chartbox"><canvas id="ev-align-sub"></canvas></div></div>'+
-      '<div class="panel"><h2>Novos participantes por dia do desafio</h2><div class="psub">Criadoras entrando a cada dia, alinhadas no <b>dia 1</b></div><div class="chartbox"><canvas id="ev-align-nov"></canvas></div></div>'+
-    '</section>'+
-    '<div class="panel" style="margin-bottom:22px;"><h2>Participação por data (calendário)</h2><div class="psub">Submissões por dia de cada desafio na linha do tempo real</div><div class="chartbox" style="height:300px;"><canvas id="ev-cal"></canvas></div></div>'+
-    '<div class="note"><b>Como ler:</b> os gráficos “por dia do desafio” alinham todos no dia 1, então dá pra comparar um desafio novo com os anteriores no mesmo ponto da jornada. O de calendário mostra os picos por data real. As inscrições consideram todos os cadastros (qualquer status), pela data do convite.</div>';
-  rootEl.appendChild(el);
-  addTab(view, '📈 Evolução diária');
-  chartBuilders[view]=function(){
-    new Chart(document.getElementById('ev-signups'),{ data:{labels:suLabels, datasets:[
-        {type:'bar', label:'Inscrições/dia', data:su.c, backgroundColor:'#A0862F', order:2},
-        {type:'line', label:'Acumulado', data:suCum, borderColor:'#002462', backgroundColor:'transparent', yAxisID:'y1', tension:.3, pointRadius:0, order:1} ]},
-      options:{plugins:{legend:{position:'bottom',labels:{boxWidth:13,font:{size:11.5},color:'#002462'}}}, scales:{y:{beginAtZero:true,position:'left'}, y1:{beginAtZero:true,position:'right',grid:{drawOnChartArea:false}}, x:{ticks:{maxTicksLimit:16}}}}});
-    const maxDays=Math.max.apply(null, DAILY.ch.map(c=>c.sub.length));
-    const dayLabels=Array.from({length:maxDays},(_,i)=>'Dia '+(i+1));
-    function alignedDS(field){ return DAILY.ch.map((c,idx)=>({label:c.t, data:c[field], borderColor:PALETTE[idx%PALETTE.length], backgroundColor:'transparent', tension:.3, pointRadius:0, spanGaps:true})); }
-    new Chart(document.getElementById('ev-align-sub'),{type:'line', data:{labels:dayLabels, datasets:alignedDS('sub')}, options:{plugins:{legend:{position:'bottom',labels:{boxWidth:13,font:{size:11},color:'#002462'}}}, scales:{y:{beginAtZero:true}}}});
-    new Chart(document.getElementById('ev-align-nov'),{type:'line', data:{labels:dayLabels, datasets:alignedDS('nov')}, options:{plugins:{legend:{position:'bottom',labels:{boxWidth:13,font:{size:11},color:'#002462'}}}, scales:{y:{beginAtZero:true}}}});
-    const times=DAILY.ch.map(c=>keyList(c.s,c.sub.length));
-    const allMin=Math.min.apply(null,times.map(t=>t[0])), allMax=Math.max.apply(null,times.map(t=>t[t.length-1]));
-    const calKeys=[]; for(let t=allMin;t<=allMax;t+=86400000) calKeys.push(t);
-    const calLabels=calKeys.map(t=>{const d=new Date(t); return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0');});
-    const calDS=DAILY.ch.map((c,idx)=>{ const m={}; times[idx].forEach((t,i)=>m[t]=c.sub[i]); return {label:c.t, data:calKeys.map(t=>(t in m)?m[t]:null), borderColor:PALETTE[idx%PALETTE.length], backgroundColor:'transparent', tension:.3, pointRadius:0, spanGaps:false}; });
-    new Chart(document.getElementById('ev-cal'),{type:'line', data:{labels:calLabels, datasets:calDS}, options:{plugins:{legend:{position:'bottom',labels:{boxWidth:13,font:{size:11},color:'#002462'}}}, scales:{y:{beginAtZero:true}, x:{ticks:{maxTicksLimit:14}}}}});
-  };
-}
-
-DESAFIOS.forEach(buildDesafioView);
-buildComparativoView();
-buildEvolucaoView();
-
-/* ===== troca de abas (delegacao) ===== */
-function activate(view){
-  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active', b.dataset.view===view));
-  document.querySelectorAll('.view').forEach(v=>{ v.hidden = (v.id !== 'view-'+view); });
-  if(chartBuilders[view] && !built[view]){ built[view]=true; chartBuilders[view](); }
-}
-tabsEl.addEventListener('click', function(e){
-  const b=e.target.closest('.tab');
-  if(b) activate(b.dataset.view);
+(function(){
+var H=window.__H,donut=window.__donut,ring=window.__ring,area=window.__area,stacked=window.__stacked,mk=window.__mk;
+var $=H.$,br=H.br,pct=H.pct,money=H.money,big=H.big,sum=H.sum,trend=H.trend,chip=H.chip,labels=H.labels;
+var D=DATA,DE=DESAFIOS,DL=DAILY,CO=COMM,TP=TOP,GA=GAL,RE=(typeof REACH!=='undefined'?REACH:null);
+var GOLD=H.GOLD,BLUE=H.BLUE,GREEN=H.GREEN,AMBER=H.AMBER,VIOLET=H.VIOLET,RED=H.RED;
+var root=document.getElementById('root');
+var head=$('div','top');head.innerHTML='<div><h1>Moça <span class="g">Lovers</span></h1><div class="brandsub">Painel da comunidade · Jornada Doce</div></div><div class="stamp">Atualizado em<br><b>'+D.updated+'</b></div>';root.appendChild(head);
+var t=trend(DL.su.c);
+var execP='A comunidade reúne <b>'+br(D.aprovados)+'</b> criadoras aprovadas, e <b>'+br(CO.ativas)+'</b> já publicaram conteúdo (<b>'+CO.ativacaoPct+'%</b> de ativação). '+(t?('Na última semana entraram <b>'+br(t.ls)+'</b> novos cadastros. '):'')+'O conteúdo aprovado equivale a <b>'+money(CO.emv.total)+'</b> em mídia'+(RE?(', com alcance real de <b>~'+big(RE.reachActivated)+'</b> e engajamento mediano de <b>'+RE.engMedianPct+'%</b>'):'')+'.';
+root.appendChild($('div','exec','<div class="lb">Resumo executivo</div><p>'+execP+'</p>'));
+function kpi(cls,label,num,foot,delta){return '<div class="kpi '+cls+'"><div class="kl">'+label+'</div><div class="kn">'+num+'</div>'+(delta!==undefined?chip(delta):'')+'<div class="kf">'+foot+'</div></div>';}
+var krow=$('div','kpis');krow.innerHTML=kpi('blue','Criadoras aprovadas',br(D.aprovados),'de '+br(D.total)+' cadastros',t?t.delta:undefined)+kpi('gold','Criadoras ativas',br(CO.ativas),CO.ativacaoPct+'% já postaram')+kpi('green','Alcance real',(RE?'~'+big(RE.reachActivated):'—'),(RE?('mediana '+br(RE.median)+' seg · '+RE.engMedianPct+'% eng'):''))+kpi('violet','Mídia equivalente',money(CO.emv.total),'conteúdo aprovado · estimado');
+root.appendChild(krow);
+var nav=$('nav','tabs');var main=$('div');main.id='views';root.appendChild(nav);root.appendChild(main);
+var TABS=[['cadastros','Visão geral'],['negocio','Negócio']];DE.forEach(function(d,i){TABS.push(['des'+i,d.title.replace('Desafio de Agosto: ','').slice(0,24)]);});TABS.push(['comparativo','Comparativo'],['evolucao','Evolução'],['galeria','Galeria']);
+TABS.forEach(function(tb){var b=$('button','tab',tb[1]);b.dataset.view=tb[0];nav.appendChild(b);});
+var built={};
+nav.addEventListener('click',function(e){var b=e.target.closest('.tab');if(b)activate(b.dataset.view);});
+function view(id){var v=$('div','view');v.id='v_'+id;v.hidden=true;main.appendChild(v);return v;}
+function insight(title,lines){var h='<div class="insight"><div class="h">'+title+'</div><ul>';lines.filter(Boolean).forEach(function(l){h+='<li>'+l+'</li>';});return h+'</ul></div>';}
+function stat(cls,n,l){return '<div class="stat"><div class="n '+cls+'">'+n+'</div><div class="l">'+l+'</div></div>';}
+// ---- VISAO GERAL ----
+(function(){var v=view('cadastros');var completos=D.total-D.incompletos-D.pendentes;var metaP=pct(CO.ativas,CO.metaAtivas);
+ v.innerHTML='<div class="grid g2" style="margin-bottom:16px;">'
+ +'<div class="card"><h3>Distribuição dos cadastros</h3><div class="psub">Como estão divididos os '+br(D.total)+' cadastros</div><div class="chartbox"><canvas id="c_donut"></canvas></div></div>'
+ +'<div class="card"><h3>Rumo à meta</h3><div class="psub">Meta de 10.000 criadoras ativas</div>'
+ +'<div class="grid g2" style="gap:12px;margin-bottom:14px;">'+stat('gold',br(D.aprovados),'✅ Aprovadas')+stat('cgreen',br(CO.ativas),'📸 Ativas (postaram)')+stat('camber',br(D.aguardando),'⏳ Aguardando')+stat('cblue',metaP+'%','🎯 Ativas vs meta')+'</div>'
+ +'<div class="fn"><div class="row"><div class="lab"><span>Ativas vs. meta de 10.000</span><b>'+metaP+'%</b></div><div class="bar"><div style="width:'+Math.min(metaP,100)+'%"></div></div></div></div></div>'
+ +'</div>'
+ +insight('💡 Destaques',['<b>'+br(D.aprovados)+'</b> aprovadas · alcance real ~<b>'+big(RE?RE.reachActivated:0)+'</b>.','Entre os cadastros já analisados, <b>'+pct(D.aprovados,completos)+'%</b> foram aprovados.',t?('Última semana: <b>'+br(t.ls)+'</b> novos cadastros (~'+br(t.avg)+'/dia)'+(t.delta!=null?', '+(t.delta>=0?'+':'')+t.delta+'% vs. semana anterior.':'.')):null,'Só <b>'+CO.ativacaoPct+'%</b> das aprovadas já postaram — há <b>'+br(D.aprovados-CO.ativas)+'</b> para reativar.']);
+})();
+// ---- NEGOCIO ----
+(function(){var v=view('negocio');var F=CO.funil,e=CO.emv,r=e.rates,base=F.convites;
+ function fbar(lab,val,prev){var p=Math.round(val/base*100);return '<div class="row"><div class="lab"><span>'+lab+'</span><b>'+br(val)+' · '+p+'%'+(prev?(' ('+Math.round(val/prev*100)+'% da etapa)'):'')+'</b></div><div class="bar"><div style="width:'+Math.max(p,3)+'%"></div></div></div>';}
+ var tiersH='';if(RE){var tt=RE.tiers,tot=tt.nano+tt.micro+tt.mid+tt.macro;tiersH='<div class="note" style="margin-top:12px;"><b>Perfil:</b> '+Math.round(tt.nano/tot*100)+'% nano · '+Math.round(tt.micro/tot*100)+'% micro · '+Math.round((tt.mid+tt.macro)/tot*100)+'% médio+. Maior: '+br(RE.max)+' seg.</div>';}
+ var rankH='';TP.forEach(function(c,i){var ig=(c.ig||'').replace(/^@/,'');var prof=ig?('https://instagram.com/'+encodeURIComponent(ig)):null;var av=c.photo?('<img class="av" src="'+c.photo+'" onerror="this.style.visibility=&#39;hidden&#39;">'):'<div class="av"></div>';rankH+='<li><div class="pos">'+(i+1)+'</div>'+av+'<div class="nm"><div class="n1">'+(c.name||c.nick||'-')+'</div>'+(ig?'<div class="n2">@'+ig+'</div>':'')+'</div><div class="ct">'+c.count+'</div>'+(prof?'<a href="'+prof+'" target="_blank" rel="noopener">↗</a>':'')+'</li>';});
+ v.innerHTML='<div class="card" style="margin-bottom:16px;"><h3>Funil da comunidade</h3><div class="psub">Do convite até quem realmente produziu conteúdo aprovado</div><div class="fn">'+fbar('✉️ Convites enviados',F.convites,0)+fbar('📝 Cadastros completos',F.completos,F.convites)+fbar('✅ Aprovadas',F.aprovadas,F.completos)+fbar('📸 Ativas (postaram)',F.ativas,F.aprovadas)+'</div></div>'
+ +'<div class="grid g4" style="margin-bottom:16px;">'+stat('cgreen',CO.ativacaoPct+'%','Taxa de ativação')+stat('gold',br(CO.ativas),'Criadoras ativas')+stat('camber',CO.recorrenciaPct+'%','Recorrentes (2+ desafios)')+stat('cblue',pct(CO.ativas,CO.metaAtivas)+'%','Rumo à meta 10k')+'</div>'
+ +'<div class="grid g2" style="margin-bottom:16px;">'
+ +'<div class="card"><h3>Mídia equivalente</h3><div class="psub">Conteúdos aprovados × valor por formato (estimativa ajustável · não é receita)</div><ul style="list-style:none;font-size:13.5px;line-height:1.9;color:#cfd7ea;"><li>🎬 '+br(e.reels)+' reels × R$ '+br(r.reels)+' = <b>'+money(e.reels*r.reels)+'</b></li><li>🎵 '+br(e.tiktok)+' TikTok × R$ '+br(r.tiktok)+' = <b>'+money(e.tiktok*r.tiktok)+'</b></li><li>📸 '+br(e.story)+' stories × R$ '+br(r.story)+' = <b>'+money(e.story*r.story)+'</b></li><li>➕ '+br(e.outros)+' outros × R$ '+br(r.outros)+' = <b>'+money(e.outros*r.outros)+'</b></li><li style="border-top:1px solid var(--br2);margin-top:6px;padding-top:6px;">Total: <b class="gold" style="font-size:16px;">'+money(e.total)+'</b></li></ul></div>'
+ +'<div class="card"><h3>📡 Alcance real '+(RE?'<span class="badge on">amostra</span>':'')+'</h3><div class="psub">'+(RE?('Medição de '+RE.sampleN+' criadoras ativas via Apify'):'Sem dados')+'</div>'+(RE?('<div class="grid g2" style="gap:12px;">'+stat('cblue',br(RE.median),'Mediana seg.')+stat('',br(RE.mean),'Média seg.')+stat('cgreen',RE.engMedianPct+'%','Engajamento')+stat('gold','~'+big(RE.reachActivated),'Alcance ativado')+'</div>'+tiersH):'')+'</div>'
+ +'</div>'
+ +'<div class="card" style="margin-bottom:16px;"><h3>🏆 Top embaixadoras</h3><div class="psub">Criadoras com mais conteúdos únicos aprovados</div><ul class="rank">'+rankH+'</ul></div>'
+ +insight('💡 Leitura honesta',['De cada 100 aprovadas, ~'+Math.round(CO.ativacaoPct)+' já postaram — <b>'+br(F.aprovadas-F.ativas)+'</b> aprovadas ainda não ativadas, prontas para reativar.','<b>'+CO.recorrenciaPct+'%</b> das ativas participaram de mais de um desafio — sinal de comunidade.',RE?('Alcance <b>real</b> (~'+big(RE.reachActivated)+') soma quem realmente posta — menor e mais honesto que o potencial da base inteira.'):null,'Números de conteúdo contam <b>posts únicos</b> (sem duplicatas).']);
+})();
+// ---- DESAFIOS ----
+DE.forEach(function(d,i){var v=view('des'+i);var ch=(DL.ch||[]).find(function(x){return x.id===d.id;});var taxa=pct(d.aprovados,d.submissoes);var mix=[];if(d.reels)mix.push(br(d.reels)+' reels');if(d.stories)mix.push(br(d.stories)+' stories');if(d.tiktok)mix.push(br(d.tiktok)+' TikTok');if(d.outros)mix.push(br(d.outros)+' outros');var tt=ch?trend(ch.apr):null;var bcls=d.status==='ativo'?'on':'off';
+ v.innerHTML='<div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:16px;"><h2 style="font-size:20px;">'+d.title+' <span class="badge '+bcls+'">'+d.status.toUpperCase()+'</span></h2><div class="stamp">período · <b>'+d.periodo+'</b></div></div>'
+ +'<div class="grid g4" style="margin-bottom:16px;">'+stat('gold',br(d.participantes),'Criadoras')+stat('cgreen',br(d.aprovados),'Conteúdos aprovados')+stat('',br(d.submissoes),'Envios totais')+stat('cblue',taxa+'%','Taxa de aprovação')+'</div>'
+ +'<div class="grid g2" style="margin-bottom:16px;"><div class="card"><h3>Mix de conteúdo</h3><div class="psub">Distribuição dos aprovados por formato</div><div class="chartbox"><canvas id="dmix'+i+'"></canvas></div></div>'
+ +'<div class="card"><h3>Curadoria</h3><div class="psub">Aproveitamento dos envios</div><div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;"><div class="ring"><canvas id="dring'+i+'"></canvas><div class="rt"><div class="p">'+taxa+'%</div><div class="s">aprovados</div></div></div><div style="flex:1;font-size:13.5px;line-height:2;color:#cfd7ea;"><div>✅ Aprovados: <b>'+br(d.aprovados)+'</b></div><div>❌ Reprovados: <b>'+br(d.reprovados)+'</b></div><div>📷 Instagram: <b>'+br(d.instagram)+'</b></div><div>🎵 TikTok: <b>'+br(d.tiktok)+'</b></div></div></div></div></div>'
+ +'<div class="card" style="margin-bottom:16px;"><h3>Conteúdos aprovados por dia</h3><div class="psub">Evolução diária no período do desafio</div><div class="chartbox"><canvas id="dday'+i+'"></canvas></div></div>'
+ +insight('💡 Destaques',['<b>'+br(d.participantes)+'</b> criadoras, <b>'+br(d.aprovados)+'</b> conteúdos aprovados de '+br(d.submissoes)+' (<b>'+taxa+'%</b>).',mix.length?('Mix: '+mix.join(' · ')+'.'):null,(d.status==='ativo'&&tt)?('Ritmo: <b>'+br(tt.ls)+'</b> aprovados nos últimos 7 dias'+(tt.delta!=null?', '+(tt.delta>=0?'+':'')+tt.delta+'% vs. semana anterior.':'.')):null,(d.status==='encerrado'&&ch)?('Encerrado — média de <b>'+br(Math.round(d.aprovados/ch.apr.length))+'</b> aprovados/dia.'):null]);
 });
-
-
-/* ===== VISAO DE NEGOCIO (aba Negocio; usa COMM/DATA/DESAFIOS) ===== */
-(function(){
-  try{
-    var brn=function(n){return Number(n).toLocaleString('pt-BR');};
-    function emvFmt(n){ if(n>=1e6) return 'R$ '+(n/1e6).toLocaleString('pt-BR',{maximumFractionDigits:1})+' mi'; if(n>=1e3) return 'R$ '+Math.round(n/1e3)+' mil'; return 'R$ '+brn(n); }
-    var F=COMM.funil, base=F.convites;
-    function bar(label,val,color,convPrev){
-      var pctBase=Math.round(val/base*100);
-      var conv=convPrev?(' &middot; '+Math.round(val/convPrev*100)+'% da etapa anterior'):'';
-      return '<div class="gbar-row"><div class="gbar-label"><span>'+label+'</span><span><b>'+brn(val)+'</b> ('+pctBase+'% dos convites'+conv+')</span></div>'
-        +'<div class="gbar"><div style="width:'+Math.max(pctBase,3)+'%;background:'+color+'"></div></div></div>';
-    }
-    var e=COMM.emv, r=e.rates;
-    var metaPct=Math.round(COMM.ativas/COMM.metaAtivas*1000)/10;
-    var naoAtivadas=COMM.funil.aprovadas-COMM.ativas;
-    var html=''
-    +'<div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px;margin-bottom:20px;">'
-    +'<div><h2 style="font-size:22px;">Vis&atilde;o de <span style="color:var(--gold);">neg&oacute;cio</span></h2>'
-    +'<div class="sub">Da base de cadastros ao conte&uacute;do que virou m&iacute;dia</div></div>'
-    +'<div class="updated">Atualizado em<br><b>'+COMM.updated+'</b></div></div>'
-    +'<div class="insightbox" style="background:#fff;border:1px solid #e7ddc9;border-left:4px solid var(--gold);border-radius:12px;padding:14px 18px;margin:0 0 22px;">'
-    +'<div style="font-weight:800;color:var(--navy);font-size:14px;margin-bottom:6px;">&#128161; Leitura honesta</div>'
-    +'<ul style="list-style:none;margin:0;padding:0;font-size:13.5px;color:#444;line-height:1.5;">'
-    +'<li style="margin:5px 0;">De cada 100 aprovadas, ~'+Math.round(COMM.ativacaoPct)+' j&aacute; postaram. H&aacute; <b>'+brn(naoAtivadas)+'</b> aprovadas ainda n&atilde;o ativadas &mdash; base pronta para reativar.</li>'
-    +'<li style="margin:5px 0;">Entre as ativas, <b>'+COMM.recorrenciaPct+'%</b> participaram de mais de um desafio &mdash; sinal de comunidade, n&atilde;o s&oacute; campanha.</li>'
-    +'<li style="margin:5px 0;">Meta de <b>'+brn(COMM.metaAtivas)+' ativas</b>: hoje em <b>'+metaPct+'%</b> ('+brn(COMM.ativas)+'). Obs.: o topo do painel conta <i>aprovadas</i>; aqui contamos quem realmente <b>postou</b>.</li>'
-    +'<li style="margin:5px 0;">M&iacute;dia equivalente estimada: <b>'+emvFmt(e.total)+'</b> (estimativa conservadora por formato &mdash; <b>n&atilde;o &eacute; receita</b>).</li>'
-    +'</ul></div>'
-    +'<section class="heros">'
-    +'<div class="hero navy"><div class="big">'+brn(COMM.ativas)+'</div><div class="biglabel">Criadoras ativas</div><div class="extra">Postaram <b>pelo menos um conte&uacute;do aprovado</b> &mdash; '+COMM.ativacaoPct+'% das aprovadas.</div></div>'
-    +'<div class="hero gold"><div class="big">'+emvFmt(e.total)+'</div><div class="biglabel">M&iacute;dia equivalente (estimada)</div><div class="extra">Valor estimado do conte&uacute;do aprovado &middot; <b>n&atilde;o &eacute; receita</b></div></div>'
-    +'</section>'
-    +'<section class="goal"><h2>Funil da comunidade</h2><div class="gnote">Do convite at&eacute; quem <b>realmente produziu conte&uacute;do</b> aprovado.</div>'
-    +bar('&#9993;&#65039; Convites enviados',F.convites,'linear-gradient(90deg,var(--navy),#3a5a9a)',0)
-    +bar('&#128221; Cadastros completos',F.completos,'linear-gradient(90deg,#3a5a9a,var(--tan))',F.convites)
-    +bar('&#9989; Aprovadas',F.aprovadas,'linear-gradient(90deg,var(--gold),var(--tan))',F.completos)
-    +bar('&#128248; Ativas (postaram)',F.ativas,'var(--green)',F.aprovadas)
-    +'</section>'
-    +'<section class="cards">'
-    +'<div class="card green"><div class="n">'+COMM.ativacaoPct+'%</div><div class="l">&#128248; Taxa de ativa&ccedil;&atilde;o</div></div>'
-    +'<div class="card navy"><div class="n">'+brn(COMM.ativas)+'</div><div class="l">&#128100; Criadoras ativas</div></div>'
-    +'<div class="card amber"><div class="n">'+COMM.recorrenciaPct+'%</div><div class="l">&#128257; Recorrentes (2+ desafios)</div></div>'
-    +'<div class="card gray"><div class="n">'+metaPct+'%</div><div class="l">&#127919; Rumo &agrave; meta de 10 mil ativas</div></div>'
-    +'</section>'
-    +'<div class="panel"><h2>M&iacute;dia equivalente &mdash; como calculamos</h2><div class="psub">Conte&uacute;dos aprovados &times; valor estimado por formato. Estimativa conservadora e <b>ajust&aacute;vel</b>.</div>'
-    +'<ul style="list-style:none;font-size:13.5px;color:#444;line-height:1.7;">'
-    +'<li>&#127909; '+brn(e.reels)+' reels &times; R$ '+brn(r.reels)+' = <b>'+emvFmt(e.reels*r.reels)+'</b></li>'
-    +'<li>&#127925; '+brn(e.tiktok)+' TikTok &times; R$ '+brn(r.tiktok)+' = <b>'+emvFmt(e.tiktok*r.tiktok)+'</b></li>'
-    +'<li>&#128248; '+brn(e.story)+' stories &times; R$ '+brn(r.story)+' = <b>'+emvFmt(e.story*r.story)+'</b></li>'
-    +'<li>&#10133; '+brn(e.outros)+' outros &times; R$ '+brn(r.outros)+' = <b>'+emvFmt(e.outros*r.outros)+'</b></li>'
-    +'<li style="border-top:1px dashed #e7ddc9;margin-top:8px;padding-top:8px;">Total estimado: <b style="color:var(--gold);font-size:16px;">'+emvFmt(e.total)+'</b> ('+brn(e.total)+')</li>'
-    +'</ul></div>';
-    var v=document.createElement('div'); v.className='view'; v.id='view-negocio'; v.hidden=true; v.innerHTML=html;
-    var cad=document.getElementById('view-cadastros');
-    if(cad&&cad.parentNode){ cad.parentNode.insertBefore(v, cad.nextSibling); }
-    // tab (insert as 2nd)
-    var b=document.createElement('button'); b.className='tab'; b.dataset.view='negocio'; b.innerHTML='&#128202; Neg&oacute;cio';
-    var tabsEl=document.querySelector('.tabs'); if(tabsEl){ tabsEl.insertBefore(b, tabsEl.children[1]||null); }
-  }catch(e){ console.log('negocio err',e); }
+// ---- COMPARATIVO ----
+(function(){var v=view('comparativo');var rows='';DE.forEach(function(d){rows+='<div class="grid g4" style="margin-bottom:10px;align-items:center;"><div style="font-weight:700;">'+d.title.replace('Desafio de Agosto: ','')+'</div>'+stat('gold',br(d.participantes),'criadoras')+stat('cgreen',br(d.aprovados),'aprovados')+stat('cblue',pct(d.aprovados,d.submissoes)+'%','aprovação')+'</div>';});
+ v.innerHTML='<div class="card" style="margin-bottom:16px;"><h3>Comparativo dos desafios</h3><div class="psub">Participação e conteúdo aprovado por desafio</div><div class="chartbox"><canvas id="cmp"></canvas></div></div>'+'<div class="card" style="margin-bottom:16px;"><h3>Resumo</h3><div class="psub">Lado a lado</div>'+rows+'</div>'+insight('💡 Leitura',['Cada desafio traz uma nova onda de criadoras ativas.','Compare taxa de aprovação e participação para calibrar os próximos.']);
 })();
-
-
-/* ===== TOP EMBAIXADORAS (aba Negocio) ===== */
-(function(){try{
- if(typeof TOP==='undefined')return;
- var box=document.createElement('div'); box.className='panel'; box.style.marginTop='22px';
- var h='<h2>&#127942; Top embaixadoras</h2><div class="psub">Criadoras com mais conte&uacute;dos aprovados no per&iacute;odo.</div><ol style="list-style:none;padding:0;margin:0;">';
- TOP.forEach(function(t,i){
-   var ig=(t.ig||'').replace(/^@/,'');
-   var prof= ig?('https://instagram.com/'+encodeURIComponent(ig)):null;
-   var av= t.photo?('<img src="'+t.photo+'" style="width:40px;height:40px;border-radius:50%;object-fit:cover;flex:0 0 40px;" onerror="this.style.visibility=&#39;hidden&#39;">'):'';
-   h+='<li style="display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid #f0e9d9;">'
-    +'<div style="font-weight:800;color:var(--gold);width:24px;text-align:center;">'+(i+1)+'</div>'+av
-    +'<div style="flex:1;min-width:0;"><div style="font-weight:700;color:var(--navy);">'+(t.name||t.nick||'-')+'</div>'
-    +(ig?('<div style="font-size:12.5px;color:var(--gray);">@'+ig+'</div>'):'')+'</div>'
-    +'<div style="text-align:right;"><div style="font-weight:800;color:var(--green);font-size:16px;">'+t.count+'</div><div style="font-size:11px;color:var(--gray);">aprovados</div></div>'
-    +(prof?(' <a href="'+prof+'" target="_blank" rel="noopener" style="margin-left:12px;font-size:12px;color:var(--navy);white-space:nowrap;">ver perfil &#8599;</a>'):'')
-    +'</li>';
- });
- h+='</ol>';
- box.innerHTML=h;
- var neg=document.getElementById('view-negocio'); if(neg)neg.appendChild(box);
-}catch(e){console.log('top err',e);}})();
-
-/* ===== GALERIA (nova aba) ===== */
-(function(){try{
- if(typeof GAL==='undefined')return;
- var v=document.createElement('div'); v.className='view'; v.id='view-galeria'; v.hidden=true;
- var h='<div style="margin-bottom:16px;"><h2 style="font-size:22px;">Galeria de <span style="color:var(--gold);">conte&uacute;dos</span></h2><div class="sub">Amostra dos posts aprovados, por desafio.</div></div>';
- GAL.forEach(function(g){
-   h+='<h3 style="margin:18px 0 10px;color:var(--navy);font-size:16px;">'+g.t+'</h3><div class="galgrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">';
-   (g.posts||[]).forEach(function(p){
-     var ig=(p.ig||'').replace(/^@/,'');
-     var fmt=p.prov==='tiktok'?'TikTok':(p.ct==='story'?'Story':(p.ct==='reels'?'Reels':'Post'));
-     var ic=p.prov==='tiktok'?'&#127925;':(p.ct==='story'?'&#128248;':'&#127916;');
-     h+='<a href="'+(p.link||'#')+'" target="_blank" rel="noopener" style="text-decoration:none;"><div class="card" style="height:100%;"><div style="font-size:22px;">'+ic+'</div>'
-      +'<div style="font-weight:700;color:var(--navy);margin-top:6px;font-size:13px;line-height:1.3;">'+(p.name||'-')+'</div>'
-      +(ig?('<div style="font-size:12px;color:var(--gray);">@'+ig+'</div>'):'')
-      +'<div style="font-size:11.5px;color:var(--gold);margin-top:8px;font-weight:700;">'+fmt+' &middot; ver post &#8599;</div></div></a>';
-   });
-   h+='</div>';
- });
+// ---- EVOLUCAO ----
+(function(){var v=view('evolucao');var chCards='';DE.forEach(function(d,i){var ch=(DL.ch||[]).find(function(x){return x.id===d.id;});if(ch)chCards+='<div class="card"><h3>'+d.title.replace('Desafio de Agosto: ','').slice(0,22)+'</h3><div class="psub">Aprovados/dia</div><div class="chartbox sm"><canvas id="evch'+i+'"></canvas></div></div>';});
+ v.innerHTML='<div class="card" style="margin-bottom:16px;"><h3>Inscrições por dia</h3><div class="psub">Novos cadastros desde '+DL.su.s+' (linha branca = média de 7 dias)</div><div class="chartbox"><canvas id="evsu"></canvas></div></div><div class="grid g2">'+chCards+'</div>';
+})();
+// ---- GALERIA ----
+(function(){var v=view('galeria');var h='<div style="margin-bottom:14px;"><h2 style="font-size:20px;">Galeria de <span class="g" style="background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">conteúdos</span></h2><div class="brandsub">Amostra dos posts aprovados, por desafio</div></div>';
+ GA.forEach(function(g){h+='<h3 style="margin:16px 0 10px;font-family:Sora;">'+g.t.replace('Desafio de Agosto: ','')+'</h3><div class="gal">';(g.posts||[]).forEach(function(p){var ig=(p.ig||'').replace(/^@/,'');var fmt=p.prov==='tiktok'?'TikTok':(p.ct==='story'?'Story':(p.ct==='reels'?'Reels':'Post'));var ic=p.prov==='tiktok'?'🎵':(p.ct==='story'?'📸':'🎬');h+='<a class="gcard" href="'+(p.link||'#')+'" target="_blank" rel="noopener"><div class="ic">'+ic+'</div><div class="cn">'+(p.name||'-')+'</div>'+(ig?'<div class="cu">@'+ig+'</div>':'')+'<div class="cf">'+fmt+' · ver post ↗</div></a>';});h+='</div>';});
  v.innerHTML=h;
- var cad=document.getElementById('view-cadastros'); if(cad&&cad.parentNode)cad.parentNode.appendChild(v);
- var b=document.createElement('button'); b.className='tab'; b.dataset.view='galeria'; b.innerHTML='&#128444;&#65039; Galeria';
- var tabsEl=document.querySelector('.tabs'); if(tabsEl)tabsEl.appendChild(b);
-}catch(e){console.log('gal err',e);}})();
-
-
-/* ===== ALCANCE REAL (amostra Apify) na aba Negocio ===== */
-(function(){try{
- if(typeof REACH==='undefined')return;
- var brn=function(n){return Number(n).toLocaleString('pt-BR');};
- function mi(n){return n>=1e6?('~'+(n/1e6).toLocaleString('pt-BR',{maximumFractionDigits:1})+' mi'):('~'+Math.round(n/1e3)+' mil');}
- var t=REACH.tiers, tot=t.nano+t.micro+t.mid+t.macro;
- function pc(x){return Math.round(x/tot*100);}
- var box=document.createElement('div');box.className='panel';box.style.marginTop='22px';
- box.innerHTML='<h2>&#128225; Alcance real (amostra)</h2>'
-  +'<div class="psub">Medi&ccedil;&atilde;o real de '+REACH.sampleN+' criadoras ativas no Instagram (amostra via Apify). Substitui a estimativa fixa de 4.700.</div>'
-  +'<section class="cards" style="margin-bottom:14px;">'
-  +'<div class="card navy"><div class="n">'+brn(REACH.median)+'</div><div class="l">&#128100; Mediana de seguidores</div></div>'
-  +'<div class="card gray"><div class="n">'+brn(REACH.mean)+'</div><div class="l">&#128202; M&eacute;dia de seguidores</div></div>'
-  +'<div class="card green"><div class="n">'+REACH.engMedianPct+'%</div><div class="l">&#10084;&#65039; Engajamento mediano</div></div>'
-  +'<div class="card amber"><div class="n">'+mi(REACH.reachActivated)+'</div><div class="l">&#128241; Alcance ativado (real)</div></div>'
-  +'</section>'
-  +'<div style="font-size:13.5px;color:#444;line-height:1.7;">'
-  +'<b>Perfil da comunidade:</b> '+pc(t.nano)+'% nano (&lt;10 mil) &middot; '+pc(t.micro)+'% micro (10&ndash;100 mil) &middot; '+(pc(t.mid)+pc(t.macro))+'% m&eacute;dio/grande. Maior perfil da amostra: '+brn(REACH.max)+'.'
-  +'</div>'
-  +'<div class="note" style="margin-top:14px;margin-bottom:0;"><b>Leitura honesta:</b> nano/micro com <b>engajamento alto ('+REACH.engMedianPct+'%)</b> costumam converter melhor que grandes perfis. O <b>alcance ativado</b> ('+mi(REACH.reachActivated)+') soma os seguidores das '+brn(REACH.activeBase)+' criadoras que <b>realmente postam</b> &mdash; é o número real, menor e mais honesto que o alcance potencial da base inteira.</div>';
- var neg=document.getElementById('view-negocio');if(neg)neg.appendChild(box);
-}catch(e){console.log('reach err',e);}})();
-
-/* ===== INSIGHTS AUTOMATICOS (gerados dos numeros; atualizam sozinhos) ===== */
-(function(){
-  function elFrom(html){var d=document.createElement('div');d.innerHTML=html;return d.firstElementChild;}
-  function box(lines){
-    var items=lines.filter(Boolean).map(function(t){return '<li style="margin:5px 0;padding-left:2px;">'+t+'</li>';}).join('');
-    return '<div class="insightbox" style="background:#fff;border:1px solid #e7ddc9;border-left:4px solid var(--gold);border-radius:12px;padding:14px 18px;margin:0 0 22px;">'
-      +'<div style="font-weight:800;color:var(--navy);font-size:14px;margin-bottom:6px;letter-spacing:.2px;">&#128161; Destaques</div>'
-      +'<ul style="list-style:none;margin:0;padding:0;font-size:13.5px;color:#444;line-height:1.5;">'+items+'</ul></div>';
-  }
-  var brn=function(n){return Number(n).toLocaleString('pt-BR');};
-  function pct(a,b){return b>0?Math.round(a/b*1000)/10:0;}
-  function sum(a){return a.reduce(function(x,y){return x+y;},0);}
-  function fdate(startBR,idx){var p=startBR.split('/').map(Number);var d=new Date(2026,p[1]-1,p[0]+idx);return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0');}
-  function trend(arr){if(!arr||arr.length<2)return null;var l=arr.slice(-7),p=arr.slice(-14,-7);var ls=sum(l),ps=sum(p);return {ls:ls,avg:Math.round(ls/l.length),delta:ps>0?Math.round((ls-ps)/ps*100):null};}
-  function dtxt(d){return d==null?'.':(', <b>'+(d>=0?'+':'')+d+'%</b> vs. a semana anterior.');}
-  function top(id,html){var v=document.getElementById(id);if(!v)return;v.insertBefore(elFrom(html),v.firstChild);}
-  try{
-    var completos=DATA.total-DATA.incompletos-DATA.pendentes;
-    var t=trend(DAILY&&DAILY.su&&DAILY.su.c);
-    var metaX=Math.round(DATA.aprovados/DATA.meta*10)/10;
-    top('view-cadastros',box([
-      '<b>'+brn(DATA.aprovados)+'</b> criadoras aprovadas &mdash; alcance potencial estimado de <b>'+milhoes(DATA.reachEstimate)+'</b> no Instagram.',
-      'Entre os cadastros ja analisados, <b>'+pct(DATA.aprovados,completos)+'%</b> foram aprovados ('+brn(DATA.aprovados)+' de '+brn(completos)+').',
-      t?('Na ultima semana: <b>'+brn(t.ls)+'</b> novos cadastros (~'+brn(t.avg)+'/dia)'+dtxt(t.delta)):null,
-      'Aprovadas j\u00e1 passam de <b>'+metaX+'x</b> a meta de '+brn(DATA.meta)+', mas <b>ativas de fato</b> (que postaram) s\u00e3o <b>'+brn(COMM.ativas)+'</b> ('+COMM.metaAtivas+' = meta real) \u2014 veja a aba Neg\u00f3cio.'
-    ]));
-  }catch(e){}
-  try{
-    var c=DAILY.su.c,t2=trend(c),peak=0,pi=0;c.forEach(function(v,i){if(v>peak){peak=v;pi=i;}});
-    top('view-evolucao',box([
-      'Total acumulado no periodo: <b>'+brn(sum(c))+'</b> cadastros desde '+DAILY.su.s+'.',
-      t2?('Ultimos 7 dias: <b>'+brn(t2.ls)+'</b> (~'+brn(t2.avg)+'/dia)'+dtxt(t2.delta)):null,
-      'Melhor dia de captacao: <b>'+fdate(DAILY.su.s,pi)+'</b>, com <b>'+brn(peak)+'</b> cadastros.'
-    ]));
-  }catch(e){}
-  try{
-    DESAFIOS.forEach(function(d,i){
-      var ch=(DAILY.ch||[]).find(function(x){return x.id===d.id;});
-      var mix=[];if(d.reels)mix.push(brn(d.reels)+' reels');if(d.stories)mix.push(brn(d.stories)+' stories');if(d.tiktok)mix.push(brn(d.tiktok)+' TikTok');if(d.outros)mix.push(brn(d.outros)+' outros');
-      var tt=ch?trend(ch.apr):null;
-      top('view-des-'+i,box([
-        '<b>'+brn(d.participantes)+'</b> criadoras participando, com <b>'+brn(d.aprovados)+'</b> conteudos aprovados de '+brn(d.submissoes)+' enviados (<b>'+pct(d.aprovados,d.submissoes)+'%</b> aprovados).',
-        mix.length?('Mix de conteudo: '+mix.join(' &middot; ')+'.'):null,
-        (d.status==='ativo'&&tt)?('Ritmo recente: <b>'+brn(tt.ls)+'</b> aprovados nos ultimos 7 dias (~'+brn(tt.avg)+'/dia)'+dtxt(tt.delta)):null,
-        (d.status==='encerrado'&&ch)?('Desafio encerrado &mdash; media de <b>'+brn(Math.round(d.aprovados/ch.apr.length))+'</b> conteudos aprovados/dia no periodo.'):null
-      ]));
-    });
-  }catch(e){}
-  try{
-    if(DESAFIOS.length>=2){
-      var a=DESAFIOS[0],b=DESAFIOS[1];
-      var clean=function(s){return s.replace(/[^ -~\u00C0-\u017F]/g,'').trim();};
-      top('view-comparativo',box([
-        '<b>'+clean(a.title)+'</b>: '+brn(a.aprovados)+' aprovados ('+brn(a.participantes)+' criadoras). <b>'+clean(b.title)+'</b>: '+brn(b.aprovados)+' aprovados ('+brn(b.participantes)+' criadoras).',
-        'Taxa de aprovacao: <b>'+pct(a.aprovados,a.submissoes)+'%</b> vs. <b>'+pct(b.aprovados,b.submissoes)+'%</b>.'
-      ]));
-    }
-  }catch(e){}
 })();
+// ---- DRAW CHARTS (lazy) ----
+function draw(id){
+ if(id==='cadastros'){donut('c_donut',['Aprovadas','Aguardando','Incompletos','Pendentes'],[D.aprovados,D.aguardando,D.incompletos,D.pendentes],[GREEN,AMBER,VIOLET,'rgba(255,255,255,.18)']);}
+ else if(id.indexOf('des')===0){var i=+id.slice(3);var d=DE[i];var ch=(DL.ch||[]).find(function(x){return x.id===d.id;});donut('dmix'+i,['Reels','TikTok','Stories','Outros'],[d.reels,d.tiktok,d.stories,d.outros],[GREEN,AMBER,BLUE,'rgba(255,255,255,.18)']);ring('dring'+i,d.aprovados,d.submissoes);if(ch)area('dday'+i,labels(ch.s,ch.apr.length),ch.apr,GREEN,'aprovados/dia');}
+ else if(id==='comparativo'){mk('cmp',{type:'bar',data:{labels:DE.map(function(d){return d.title.replace('Desafio de Agosto: ','').slice(0,18);}),datasets:[{label:'Criadoras',data:DE.map(function(d){return d.participantes;}),backgroundColor:GOLD,borderRadius:6},{label:'Aprovados',data:DE.map(function(d){return d.aprovados;}),backgroundColor:BLUE,borderRadius:6}]},options:{plugins:{legend:{labels:{color:'#9aa6c0'}}},scales:{x:{grid:{display:false}},y:{grid:{color:'rgba(255,255,255,.06)'}}}}});}
+ else if(id==='evolucao'){area('evsu',labels(DL.su.s,DL.su.c.length),DL.su.c,BLUE,'cadastros/dia');DE.forEach(function(d,i){var ch=(DL.ch||[]).find(function(x){return x.id===d.id;});if(ch)area('evch'+i,labels(ch.s,ch.apr.length),ch.apr,GREEN,'aprovados/dia');});}
+}
+window.__activate=activate;
+function activate(id){[].forEach.call(nav.querySelectorAll('.tab'),function(b){b.classList.toggle('active',b.dataset.view===id);});[].forEach.call(main.querySelectorAll('.view'),function(v){v.hidden=(v.id!=='v_'+id);});if(!built[id]){built[id]=true;setTimeout(function(){draw(id);},30);}}
+activate('cadastros');
+})();
+
 </script>
 </body>
 </html>
