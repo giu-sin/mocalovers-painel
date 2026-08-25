@@ -193,14 +193,14 @@
 <script>
 /* ===== CADASTROS (atualizados automaticamente pela tarefa diaria) ===== */
 const DATA = {
-  "updated": "25/08/2026 · 09:49",
-  "aprovados": 24670,
-  "aguardando": 112,
-  "incompletos": 6476,
-  "pendentes": 11820,
-  "total": 47591,
+  "updated": "25/08/2026 · 11:20",
+  "aprovados": 24757,
+  "aguardando": 6,
+  "incompletos": 6480,
+  "pendentes": 11819,
+  "total": 47601,
   "meta": 10000,
-  "reachEstimate": 115949000
+  "reachEstimate": 116357900
 };
 
 /* ===== DESAFIOS (um objeto por desafio; a tarefa diaria mantem esta lista) =====
@@ -213,37 +213,44 @@ const DESAFIOS = [
     "title": "Meu jeito único com Moça",
     "status": "encerrado",
     "periodo": "22/06 a 31/07",
-    "updated": "25/08/2026 · 09:49",
+    "updated": "25/08/2026 · 11:20",
     "participantes": 4455,
-    "aprovados": 11850,
-    "submissoes": 12400,
+    "aprovados": 11849,
+    "submissoes": 12399,
     "reprovados": 550,
-    "stories": 3635,
+    "stories": 3634,
     "reels": 4256,
     "tiktok": 3957,
     "outros": 2,
-    "instagram": 7893
+    "instagram": 7892
   },
   {
     "id": 6,
     "title": "Desafio de Agosto: Mesa Posta com Moça ✨",
     "status": "ativo",
     "periodo": "07/08 a 31/08",
-    "updated": "25/08/2026 · 09:49",
-    "participantes": 1370,
-    "aprovados": 3354,
-    "submissoes": 3355,
+    "updated": "25/08/2026 · 11:20",
+    "participantes": 1423,
+    "aprovados": 3471,
+    "submissoes": 3472,
     "reprovados": 1,
     "stories": 0,
-    "reels": 1252,
-    "tiktok": 1100,
-    "outros": 1002,
-    "instagram": 2254
+    "reels": 1299,
+    "tiktok": 1140,
+    "outros": 1032,
+    "instagram": 2331
   }
 ];
 
 /* ===== EVOLUCAO DIARIA (series diarias; a tarefa diaria regenera este bloco) ===== */
-const DAILY = {"g":"21/08/2026 · 11:25","su":{"s":"15/06","c":[9,2,19,4,6,1,2,1695,926,599,214,176,168,944,2010,1781,2252,1570,1855,886,425,783,639,563,557,444,175,186,474,1044,1123,1432,1217,1040,855,1928,1971,2239,1843,1551,1170,768,955,922,953,715,693,274,198,488,468,383,262,389,246,139,248,284,269,239,229,133,120,194,201,158,254,50]},"ch":[{"id":4,"t":"Meu jeito único com Moça","s":"22/06","sub":[3,4,0,0,1,0,0,64,48,98,122,120,0,419,0,350,224,83,0,401,79,218,97,238,465,228,15,219,319,350,760,733,682,288,971,218,681,1721,1509,671],"apr":[3,4,0,0,0,0,0,64,48,88,105,95,0,410,0,343,197,83,0,397,77,205,85,203,446,212,15,218,310,270,644,648,662,288,961,205,669,1716,1507,671],"nov":[2,1,0,0,0,0,0,31,23,35,47,45,0,158,0,131,85,27,0,152,26,81,33,90,160,87,6,84,130,127,280,254,202,113,358,83,198,627,543,236]},{"id":6,"t":"Desafio de Agosto: Mesa Posta com Moça ✨","s":"07/08","sub":[145,182,280,237,118,318,163,192,172,271,260,173,221,131,13],"apr":[144,182,280,237,118,318,163,192,172,271,260,173,221,131,13],"nov":[65,74,117,94,48,125,68,82,68,109,107,70,86,54,5]}]};
+const DAILY = {
+  "g": "25/08/2026 · 11:20",
+  "su": { "s": "15/06", "c": [11,2,19,4,6,1,2,1695,926,599,214,176,167,944,2009,1781,2251,1570,1855,886,425,783,639,563,557,444,175,186,474,1044,1123,1431,1217,1040,855,1928,1971,2239,1843,1549,1169,768,955,922,953,715,693,274,198,488,468,383,262,389,246,139,248,284,269,239,229,133,120,194,201,158,254,160,113,107,224,41] },
+  "ch": [
+    { "id": 4, "t": "Meu jeito único com Moça", "s": "22/06", "sub": [3,4,0,0,1,0,0,64,48,98,122,120,0,419,0,350,224,83,0,401,79,218,97,238,465,228,15,219,319,350,760,733,682,288,971,218,681,1721,1509,671], "apr": [3,4,0,0,0,0,0,64,48,88,105,95,0,410,0,343,197,83,0,397,77,205,85,203,446,212,15,218,310,270,644,648,662,288,961,205,669,1716,1507,671], "nov": [2,1,0,0,0,0,0,31,23,35,47,45,0,158,0,131,85,27,0,152,26,81,33,90,160,87,6,84,130,127,280,254,202,113,358,83,198,626,543,236] },
+    { "id": 6, "t": "Desafio de Agosto: Mesa Posta com Moça ✨", "s": "07/08", "sub": [145,182,280,237,118,318,163,192,172,271,260,173,221,131,151,124,197,4,133], "apr": [144,182,280,237,118,318,163,192,172,271,260,173,221,131,151,124,197,4,133], "nov": [65,74,117,94,48,125,68,82,68,109,107,70,86,54,62,48,87,1,58] }
+  ]
+};
 
 /* ===== helpers ===== */
 const br = n => (n==null ? '—' : n.toLocaleString('pt-BR'));
@@ -507,6 +514,66 @@ tabsEl.addEventListener('click', function(e){
   const b=e.target.closest('.tab');
   if(b) activate(b.dataset.view);
 });
+
+/* ===== INSIGHTS AUTOMATICOS (gerados dos numeros; atualizam sozinhos) ===== */
+(function(){
+  function elFrom(html){var d=document.createElement('div');d.innerHTML=html;return d.firstElementChild;}
+  function box(lines){
+    var items=lines.filter(Boolean).map(function(t){return '<li style="margin:5px 0;padding-left:2px;">'+t+'</li>';}).join('');
+    return '<div class="insightbox" style="background:#fff;border:1px solid #e7ddc9;border-left:4px solid var(--gold);border-radius:12px;padding:14px 18px;margin:0 0 22px;">'
+      +'<div style="font-weight:800;color:var(--navy);font-size:14px;margin-bottom:6px;letter-spacing:.2px;">&#128161; Destaques</div>'
+      +'<ul style="list-style:none;margin:0;padding:0;font-size:13.5px;color:#444;line-height:1.5;">'+items+'</ul></div>';
+  }
+  var brn=function(n){return Number(n).toLocaleString('pt-BR');};
+  function pct(a,b){return b>0?Math.round(a/b*1000)/10:0;}
+  function sum(a){return a.reduce(function(x,y){return x+y;},0);}
+  function fdate(startBR,idx){var p=startBR.split('/').map(Number);var d=new Date(2026,p[1]-1,p[0]+idx);return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0');}
+  function trend(arr){if(!arr||arr.length<2)return null;var l=arr.slice(-7),p=arr.slice(-14,-7);var ls=sum(l),ps=sum(p);return {ls:ls,avg:Math.round(ls/l.length),delta:ps>0?Math.round((ls-ps)/ps*100):null};}
+  function dtxt(d){return d==null?'.':(', <b>'+(d>=0?'+':'')+d+'%</b> vs. a semana anterior.');}
+  function top(id,html){var v=document.getElementById(id);if(!v)return;v.insertBefore(elFrom(html),v.firstChild);}
+  try{
+    var completos=DATA.total-DATA.incompletos-DATA.pendentes;
+    var t=trend(DAILY&&DAILY.su&&DAILY.su.c);
+    var metaX=Math.round(DATA.aprovados/DATA.meta*10)/10;
+    top('view-cadastros',box([
+      '<b>'+brn(DATA.aprovados)+'</b> criadoras aprovadas &mdash; alcance potencial estimado de <b>'+milhoes(DATA.reachEstimate)+'</b> no Instagram.',
+      'Entre os cadastros ja analisados, <b>'+pct(DATA.aprovados,completos)+'%</b> foram aprovados ('+brn(DATA.aprovados)+' de '+brn(completos)+').',
+      t?('Na ultima semana: <b>'+brn(t.ls)+'</b> novos cadastros (~'+brn(t.avg)+'/dia)'+dtxt(t.delta)):null,
+      'Meta de '+brn(DATA.meta)+' ativas <b>ja superada</b> &mdash; hoje sao <b>'+metaX+'x</b> a meta.'
+    ]));
+  }catch(e){}
+  try{
+    var c=DAILY.su.c,t2=trend(c),peak=0,pi=0;c.forEach(function(v,i){if(v>peak){peak=v;pi=i;}});
+    top('view-evolucao',box([
+      'Total acumulado no periodo: <b>'+brn(sum(c))+'</b> cadastros desde '+DAILY.su.s+'.',
+      t2?('Ultimos 7 dias: <b>'+brn(t2.ls)+'</b> (~'+brn(t2.avg)+'/dia)'+dtxt(t2.delta)):null,
+      'Melhor dia de captacao: <b>'+fdate(DAILY.su.s,pi)+'</b>, com <b>'+brn(peak)+'</b> cadastros.'
+    ]));
+  }catch(e){}
+  try{
+    DESAFIOS.forEach(function(d,i){
+      var ch=(DAILY.ch||[]).find(function(x){return x.id===d.id;});
+      var mix=[];if(d.reels)mix.push(brn(d.reels)+' reels');if(d.stories)mix.push(brn(d.stories)+' stories');if(d.tiktok)mix.push(brn(d.tiktok)+' TikTok');if(d.outros)mix.push(brn(d.outros)+' outros');
+      var tt=ch?trend(ch.apr):null;
+      top('view-des-'+i,box([
+        '<b>'+brn(d.participantes)+'</b> criadoras participando, com <b>'+brn(d.aprovados)+'</b> conteudos aprovados de '+brn(d.submissoes)+' enviados (<b>'+pct(d.aprovados,d.submissoes)+'%</b> aprovados).',
+        mix.length?('Mix de conteudo: '+mix.join(' &middot; ')+'.'):null,
+        (d.status==='ativo'&&tt)?('Ritmo recente: <b>'+brn(tt.ls)+'</b> aprovados nos ultimos 7 dias (~'+brn(tt.avg)+'/dia)'+dtxt(tt.delta)):null,
+        (d.status==='encerrado'&&ch)?('Desafio encerrado &mdash; media de <b>'+brn(Math.round(d.aprovados/ch.apr.length))+'</b> conteudos aprovados/dia no periodo.'):null
+      ]));
+    });
+  }catch(e){}
+  try{
+    if(DESAFIOS.length>=2){
+      var a=DESAFIOS[0],b=DESAFIOS[1];
+      var clean=function(s){return s.replace(/[^ -~\u00C0-\u017F]/g,'').trim();};
+      top('view-comparativo',box([
+        '<b>'+clean(a.title)+'</b>: '+brn(a.aprovados)+' aprovados ('+brn(a.participantes)+' criadoras). <b>'+clean(b.title)+'</b>: '+brn(b.aprovados)+' aprovados ('+brn(b.participantes)+' criadoras).',
+        'Taxa de aprovacao: <b>'+pct(a.aprovados,a.submissoes)+'%</b> vs. <b>'+pct(b.aprovados,b.submissoes)+'%</b>.'
+      ]));
+    }
+  }catch(e){}
+})();
 </script>
 </body>
 </html>
