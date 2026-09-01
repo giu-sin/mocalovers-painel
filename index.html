@@ -282,7 +282,7 @@ function ringc(id,ap,rej){mk(id,{type:'doughnut',data:{labels:['Aprovado','Repro
         '<div class="gbar"><div class="gfill" style="width:'+goalPct+'%"></div></div>'+
         '<div class="mut" style="font-size:12px;margin-top:8px">Faltam <b style="color:var(--ink)">'+br(Math.max(0,CO.metaAtivas-CO.ativas))+'</b> criadoras ativas para bater a meta.</div></div>'+
         '<div class="spacer"></div>'+
-        '<div class="grid g2">'+stat('gold',CO.recorrenciaPct+'%','Recorrência','criadoras ativas em 2+ desafios')+stat('cblue',br(DE.length),'Desafios rodados','no período')+'</div>'+
+        '<div class="grid g2">'+stat('gold',br(CO.recorrentes),'Fizeram 2+ desafios',CO.recorrenciaPct+'% de retenção (ativas que voltaram)')+stat('cblue',br(DE.length),'Desafios rodados','no período')+'</div>'+
       '</div>'+
     '</div>'+
     '<div class="spacer"></div>'+
