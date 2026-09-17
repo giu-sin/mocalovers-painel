@@ -349,7 +349,18 @@ function reachOf(d){return RE?RE.mean*d.participantes:0;}
 function cpcOf(d){return d.aprovados>0?Math.round(emvOf(d)/d.aprovados):0;}
 (function(){
   var v=view('desafios');
-  var html='';
+  var r=CO.emv.rates;
+  var html='<div class="card" style="margin-bottom:18px"><div class="sechead"><div class="ey">Como ler estes números</div>'+
+    '<h3 style="margin-top:6px">De onde vêm a mídia equivalente e o alcance de cada desafio</h3>'+
+    '<div class="psub">Os dois números são calculados por desafio, e cada um se comporta de um jeito diferente quando somado.</div></div>'+
+    insight('Mídia equivalente',[
+      'É a soma dos conteúdos aprovados multiplicados pelo valor de cada formato: story '+money(r.story)+', reels '+money(r.reels)+', TikTok '+money(r.tiktok)+', foto e carrossel '+money(r.outros)+'.',
+      'Somando os desafios, o valor fecha exatamente com os '+money(CO.emv.total)+' do programa. Nenhum conteúdo é contado duas vezes.',
+      '<b>O valor por conteúdo muda de um desafio para o outro porque depende do mix de formato, não do volume.</b> Um desafio puxado por reels vale mais por peça do que um puxado por story ou foto, mesmo com a mesma quantidade de posts. É por isso que o desafio maior não é necessariamente o mais valioso por conteúdo.'])+
+    insight('Alcance estimado',[
+      'Aplica a média de '+br(RE?RE.mean:0)+' pessoas por perfil ativo, medida na amostra de '+(RE?RE.sampleN:0)+' perfis em '+(RE?String(RE.updated).split(' ')[0]:'')+', ao número de criadoras de cada desafio.',
+      '<b>O alcance dos desafios não soma.</b> A mesma criadora participa de mais de um, então somar os três dá mais que o alcance total do programa, que conta pessoas únicas. Use o número de cada desafio para dimensionar aquela ação, e o total do programa para falar de audiência acumulada.'])+
+    '</div>';
   DE.forEach(function(d){
     var taxa=pct(d.aprovados,d.submissoes);
     var pc=d.status==='ativo'?'ok':(d.status==='encerrado'?'off':'soon');
@@ -368,7 +379,6 @@ function cpcOf(d){return d.aprovados>0?Math.round(emvOf(d)/d.aprovados):0;}
         stat('cblue','~'+big(reachOf(d)),'Alcance estimado',br(d.participantes)+' criadoras × '+br(RE?RE.mean:0)+' por perfil')+
         stat('',money(cpcOf(d)),'Valor por conteúdo','mídia equivalente ÷ aprovados')+
       '</div>'+
-      '<div class="mut" style="font-size:12px;margin:-6px 0 14px">Alcance usa a média de '+br(RE?RE.mean:0)+' pessoas por perfil ativo, medida na amostra de '+(RE?RE.sampleN:0)+' perfis. Somar os desafios dá mais que o alcance total do programa porque a mesma criadora participa de mais de um.</div>'+
       '<div class="grid g2">'+
         '<div class="stat" style="padding:16px"><h3 style="font-size:14px">Mix de conteúdo</h3><div class="psub">Formato dos aprovados</div><div class="chartbox sm"><canvas id="mix'+d.id+'"></canvas></div></div>'+
         '<div class="stat" style="padding:16px"><h3 style="font-size:14px">Curadoria</h3><div class="psub">Aproveitamento dos envios</div>'+
