@@ -350,7 +350,7 @@ function cpcOf(d){return d.aprovados>0?Math.round(emvOf(d)/d.aprovados):0;}
 (function(){
   var v=view('desafios');
   var r=CO.emv.rates;
-  var html='<div class="card" style="margin-bottom:18px"><div class="sechead"><div class="ey">Como ler estes números</div>'+
+  var comoLer='<div class="card" style="margin-top:18px"><div class="sechead"><div class="ey">Como ler estes números</div>'+
     '<h3 style="margin-top:6px">De onde vêm a mídia equivalente e o alcance de cada desafio</h3>'+
     '<div class="psub">Os dois números são calculados por desafio, e cada um se comporta de um jeito diferente quando somado.</div></div>'+
     insight('Mídia equivalente',[
@@ -361,6 +361,7 @@ function cpcOf(d){return d.aprovados>0?Math.round(emvOf(d)/d.aprovados):0;}
       'Aplica a média de '+br(RE?RE.mean:0)+' pessoas por perfil ativo, medida na amostra de '+(RE?RE.sampleN:0)+' perfis em '+(RE?String(RE.updated).split(' ')[0]:'')+', ao número de criadoras de cada desafio.',
       '<b>O alcance dos desafios não soma.</b> A mesma criadora participa de mais de um, então somar os três dá mais que o alcance total do programa, que conta pessoas únicas. Use o número de cada desafio para dimensionar aquela ação, e o total do programa para falar de audiência acumulada.'])+
     '</div>';
+  var html='';
   DE.forEach(function(d){
     var taxa=pct(d.aprovados,d.submissoes);
     var pc=d.status==='ativo'?'ok':(d.status==='encerrado'?'off':'soon');
@@ -393,7 +394,7 @@ function cpcOf(d){return d.aprovados>0?Math.round(emvOf(d)/d.aprovados):0;}
       '</div>'+
     '</div>';
   });
-  v.innerHTML=html;
+  v.innerHTML=html+comoLer;
 })();
 
 /* ---------- COMPARATIVO ---------- */
