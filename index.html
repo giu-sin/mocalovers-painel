@@ -278,7 +278,7 @@ root.appendChild(E(
    '<div class="sc">'+br(D.total)+' lovers cadastradas · '+f1(mult)+'x a meta</div>'+
    '<h1>O maior programa de comunidade da história de Moça</h1>'+
    '<p>A meta era 10 mil cadastros. Em <b>'+DAYS+' dias</b>, <b>'+br(D.total)+' pessoas</b> se cadastraram na comunidade, e <b>'+br(D.aprovados)+'</b> já passaram pela curadoria. '+
-   'As que já publicaram produziram <b>'+br(tApr)+' conteúdos aprovados</b>, o equivalente a <b>'+money(EMV)+'</b> em mídia que a marca não precisou comprar, para um público potencial de <b>~'+big(reach)+' pessoas</b>.</p>'+
+   'As que já publicaram produziram <b>'+br(tApr)+' conteúdos aprovados</b>, o equivalente a <b>'+money(EMV)+'</b> em mídia que a marca não precisou comprar, para um público potencial de <b>~'+big(reach)+' seguidores no Instagram</b>.</p>'+
  '</div>'+
  '<div class="art"><img src="cover-7.jpg" alt=""><div class="cap">3 desafios · 110 dias</div></div>'+
  '</div>'+
@@ -294,7 +294,7 @@ W.appendChild(E('<div class="kpis">'+
   kpi('var(--gold2)','Lovers ativas',br(CO.ativas),'já publicaram ao menos 1 vez',br(CO.recorrentes)+' voltaram em 2+ desafios')+
   kpi('var(--sky)','Conteúdos aprovados',br(tApr),taxaG+'% de aprovação na curadoria','1 a cada '+minPerContent+' min')+
   kpi('var(--gold)','Mídia conquistada',money(EMV),'valor equivalente do conteúdo','sem custo de mídia',true)+
-  kpi('var(--navy)','Alcance potencial','~'+big(reach),'público das lovers ativas','via '+(RE?RE.sampleN:0)+' perfis medidos')+
+  kpi('var(--navy)','Alcance potencial (Instagram)','~'+big(reach),'seguidores das lovers ativas no Instagram','TikTok ainda não incluído')+
 '</div>'));
 
 /* ---------- NAV ---------- */
@@ -341,7 +341,7 @@ var CAT=['#2E4A9E','#A87B2A','#3E9ACC','#B0522E'];
       '<div style="margin-top:12px"><a class="btn" href="#kit" style="text-decoration:none;display:inline-block">Ver o kit</a></div></div>'):'')+
     '<div class="card"><div class="sechead"><h3>Três leituras para a diretoria</h3><div class="psub">O que os números dizem sobre o programa</div></div>'+
       insight('O que ficou provado',[
-        '<b>A base é um ativo.</b> '+br(D.total)+' lovers cadastradas, quase 6x a meta, e '+br(D.aprovados)+' já aprovadas: uma audiência proprietária da marca, com alcance potencial de ~'+big(reach)+' pessoas. As '+br(pipeline)+' que ainda não publicaram não são perda: são pipeline para os próximos desafios.',
+        '<b>A base é um ativo.</b> '+br(D.total)+' lovers cadastradas, quase 6x a meta, e '+br(D.aprovados)+' já aprovadas: uma audiência proprietária da marca, com alcance potencial de ~'+big(reach)+' seguidores só no Instagram. As '+br(pipeline)+' que ainda não publicaram não são perda: são pipeline para os próximos desafios.',
         '<b>A qualidade subiu com o tempo.</b> O Brigadeiro fechou com '+pct(DE[2].aprovados,DE[2].submissoes)+'% de aprovação e '+f1(DE[2].aprovados/DE[2].participantes)+' conteúdos por lover, o mais eficiente dos três.',
         '<b>Existe uma camada de embaixadoras.</b> '+br(CO.recorrentes)+' lovers voltaram em dois ou mais desafios e '+br(tres)+' fizeram os três. É recorrência orgânica, sem contrato.'
       ])+
@@ -368,9 +368,9 @@ var CAT=['#2E4A9E','#A87B2A','#3E9ACC','#B0522E'];
    '</div>'+
    '<div class="spacer"></div>'+
    '<div class="grid g2">'+
-    '<div class="card"><div class="sechead"><div class="ey">Alcance potencial</div><h3 class="big" style="margin-top:6px">~'+big(reach)+' de pessoas</h3><div class="psub">'+br(RE?RE.activeBase:CO.ativas)+' lovers ativas × média de '+br(RE?RE.mean:0)+' seguidores, medida em '+(RE?RE.sampleN:0)+' perfis</div></div>'+
-      '<div class="grid g3" style="margin-top:14px">'+stat('gold',RE?big(RE.mean):'—','média de seguidores','por lover ativa')+stat('',RE?big(RE.median):'—','mediana','metade tem menos')+stat('',RE?(RE.engMedianPct+'%'):'—','engajamento mediano','curtidas e comentários ÷ seguidores')+'</div>'+tierBox+
-      '<div class="mean">É o público que as lovers alcançam quando publicam, não visualizações garantidas. A base é majoritariamente nano, onde confiança e conversão são maiores.</div>'+
+    '<div class="card"><div class="sechead"><div class="ey">Alcance potencial · Instagram</div><h3 class="big" style="margin-top:6px">~'+big(reach)+' seguidores</h3><div class="psub">'+br(RE?RE.activeBase:CO.ativas)+' lovers ativas × média de '+br(RE?RE.mean:0)+' seguidores no Instagram, medida em amostra de '+(RE?RE.sampleN:0)+' perfis</div></div>'+
+      '<div class="grid g3" style="margin-top:14px">'+stat('gold',RE?big(RE.mean):'—','média de seguidores','Instagram, por lover ativa')+stat('',RE?big(RE.median):'—','mediana','metade tem menos')+stat('',RE?(RE.engMedianPct+'%'):'—','engajamento mediano','curtidas e comentários ÷ seguidores')+'</div>'+tierBox+
+      '<div class="mean">É o público que as lovers alcançam quando publicam, não visualizações garantidas. Conta só o Instagram: o TikTok, que responde por '+Math.round(CO.emv.tiktok/tApr*100)+'% dos conteúdos aprovados, ainda não entra, então o número real é maior. A base é majoritariamente nano, onde confiança e conversão são maiores.</div>'+
     '</div>'+
     '<div class="card"><div class="sechead"><div class="ey">Fidelização</div><h3 style="margin-top:6px">A comunidade retém</h3><div class="psub">Lovers que voltaram a participar de mais de um desafio</div></div>'+
       '<div class="grid g3" style="margin-top:14px">'+stat('',br(CO.ativas),'ativas','publicaram ao menos 1 vez')+stat('gold',br(CO.recorrentes),'recorrentes','ativas em 2+ desafios')+stat('',CO.recorrenciaPct+'%','taxa de recorrência','recorrentes ÷ ativas')+'</div>'+
@@ -417,7 +417,7 @@ var CAT=['#2E4A9E','#A87B2A','#3E9ACC','#B0522E'];
     return '<div class="ddetail" id="dd'+d.id+'"><div class="card"><div class="sechead"><div class="ey">'+d.periodo+' · '+dur+' dias</div><h3 class="big" style="margin-top:6px">'+nm(d.title)+'</h3></div>'+
       '<div class="grid g4" style="margin-top:14px">'+stat('gold',br(d.participantes),'lovers','pessoas diferentes')+stat('',br(d.aprovados),'conteúdos aprovados',br(d.submissoes)+' enviados')+stat('',pct(d.aprovados,d.submissoes)+'%','taxa de aprovação',br(d.reprovados)+' reprovados')+stat('gold',money(emvOf(d)),'mídia conquistada',money(Math.round(emvOf(d)/d.aprovados))+' por conteúdo')+'</div>'+
       '<div class="grid g2" style="margin-top:14px"><div><div class="ey" style="font-size:11px">Formatos aprovados</div><div class="chartbox"><canvas id="mix'+d.id+'"></canvas></div></div>'+
-      '<div><div class="ey" style="font-size:11px">Ritmo e densidade</div><div class="grid g2" style="margin-top:10px">'+stat('',f1(d.participantes/dur),'lovers por dia','normalizado pela duração')+stat('',f1(d.aprovados/d.participantes),'conteúdos por lover','densidade de entrega')+stat('',f1(d.aprovados/dur),'conteúdos por dia','ritmo do desafio')+stat('',RE?big(RE.mean*d.participantes):'—','alcance potencial','lovers × média de seguidores')+'</div></div></div>'+
+      '<div><div class="ey" style="font-size:11px">Ritmo e densidade</div><div class="grid g2" style="margin-top:10px">'+stat('',f1(d.participantes/dur),'lovers por dia','normalizado pela duração')+stat('',f1(d.aprovados/d.participantes),'conteúdos por lover','densidade de entrega')+stat('',f1(d.aprovados/dur),'conteúdos por dia','ritmo do desafio')+stat('',RE?big(RE.mean*d.participantes):'—','alcance potencial (IG)','lovers × seguidores no Instagram')+'</div></div></div>'+
       '<div class="chartbox" style="margin-top:14px"><canvas id="ser'+d.id+'"></canvas></div><div class="psub" style="margin-top:6px">Conteúdos aprovados por dia do desafio</div>'+
     '</div></div>';}).join('');
   function row(lbl,mm,cls,fn,hi){return '<tr'+(hi?' class="hi"':'')+'><th>'+lbl+'<span class="mm">'+mm+'</span></th>'+DE.map(function(d){var x=fn(d);return '<td><div class="val '+cls+'">'+x[0]+'</div>'+(x[1]?'<div class="sub">'+x[1]+'</div>':'')+'</td>';}).join('')+'</tr>';}
@@ -439,7 +439,7 @@ var CAT=['#2E4A9E','#A87B2A','#3E9ACC','#B0522E'];
    '</div>'+
    '<div class="card" style="margin-top:16px"><div class="sechead"><div class="ey">Como ler estes números</div><h3 style="margin-top:6px">De onde vêm a mídia conquistada e o alcance de cada desafio</h3></div>'+
      insight('Mídia conquistada',['Soma dos conteúdos aprovados multiplicados pelo valor de cada formato: story '+money(r.story)+', reels '+money(r.reels)+', TikTok '+money(r.tiktok)+', foto e carrossel '+money(r.outros)+'. Somando os desafios, fecha exatamente com os '+money(CO.emv.total)+' do programa.'])+
-     insight('Alcance',['Aplica a média de '+br(RE?RE.mean:0)+' seguidores por perfil ativo ao número de lovers. O alcance dos desafios não soma, porque a mesma lover participa de mais de um; use o total do programa para falar de audiência acumulada.'])+
+     insight('Alcance',['Aplica a média de '+br(RE?RE.mean:0)+' seguidores no Instagram por perfil ativo ao número de lovers. O TikTok ainda não entra na conta. O alcance dos desafios não soma, porque a mesma lover participa de mais de um; use o total do programa para falar de audiência acumulada.'])+
    '</div>';
   v.addEventListener('click',function(ev){var b=ev.target.closest('.dcard');if(!b)return;var id=b.dataset.id;var was=b.classList.contains('on');v.querySelectorAll('.dcard').forEach(function(x){x.classList.remove('on');});v.querySelectorAll('.ddetail').forEach(function(x){x.classList.remove('on');});if(!was){b.classList.add('on');var dd=document.getElementById('dd'+id);dd.classList.add('on');drawDetail(parseInt(id,10));setTimeout(function(){dd.scrollIntoView({behavior:'smooth',block:'nearest'});},50);}});
 })();
