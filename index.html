@@ -1,555 +1,528 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Moça Lovers — Painel da Comunidade</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Moça Lovers · Painel da comunidade</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&family=Grand+Hotel&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
 :root{
-  --bg:#070a12; --bg2:#0a0f1c; --panel:rgba(255,255,255,.045); --panel2:rgba(255,255,255,.028);
-  --br:rgba(255,255,255,.09); --br2:rgba(255,255,255,.06);
-  --ink:#eef2fb; --sub:#96a2bd; --dim:#69748f;
-  --gold:#e7c66b; --gold2:#caa64d; --blue:#6aa8ff; --violet:#a98bff; --green:#3ddc9a; --red:#ff6d6d; --amber:#ffbd5a;
-  --grad-gold:linear-gradient(135deg,#f4d987,#c79b3f);
-  --grad-blue:linear-gradient(135deg,#8ec0ff,#5a86ff);
-  --grad-green:linear-gradient(135deg,#6ef0bf,#2bbf85);
+  --navy:#243C82;--navy2:#1B2F6A;--navy3:#2E4A9E;--sky:#3E9ACC;--terra:#B0522E;
+  --cream:#F6ECE2;--cream2:#FBF6F0;--sand:#EFE0CF;--sand2:#E4D3BE;
+  --gold:#C99A3E;--gold2:#A87B2A;--gold3:#E8C86A;
+  --ink:#243C82;--ink2:#4B5B86;--mut:#7C8AAE;--white:#fff;
+  --r:20px;--r2:12px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{-webkit-text-size-adjust:100%}
-body{
-  font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:var(--ink);
-  line-height:1.5;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;
-  background:
-    radial-gradient(900px 600px at 12% -8%,rgba(231,198,107,.10),transparent 60%),
-    radial-gradient(1000px 700px at 100% 0%,rgba(106,168,255,.10),transparent 55%),
-    var(--bg);
-}
-.wrap{max-width:1240px;margin:0 auto;padding:26px 22px 80px}
-.ey{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700}
-h3{font-family:'Sora',sans-serif;font-size:16px;font-weight:700;letter-spacing:-.2px}
-.psub{font-size:12.5px;color:var(--sub);margin-top:2px}
-.mut{color:var(--sub)}
-.card{border:1px solid var(--br);border-radius:18px;padding:20px;background:var(--panel);backdrop-filter:blur(6px)}
-.grid{display:grid;gap:16px}
-.g2{grid-template-columns:1fr 1fr}
-.g3{grid-template-columns:repeat(3,1fr)}
-.g4{grid-template-columns:repeat(4,1fr)}
-@media(max-width:900px){.g2,.g3,.g4{grid-template-columns:1fr}}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:'Nunito',system-ui,sans-serif;background:var(--cream);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--navy)}
+b,strong{font-weight:800}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.script{font-family:'Grand Hotel',cursive;font-weight:400}
+.ey{font-size:12px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--gold2)}
+.ey.light{color:var(--gold3)}
+.mut{color:var(--mut)}
 
-/* header */
-.top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:22px}
-.brand{font-family:'Sora',sans-serif;font-weight:800;font-size:30px;letter-spacing:-.5px}
-.brand b{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;color:transparent}
-.tag{font-size:13px;color:var(--sub);margin-top:4px}
-.stamp{text-align:right;font-size:12px;color:var(--sub);line-height:1.6}
-.stamp b{color:var(--ink)}
-.live{display:inline-flex;align-items:center;gap:6px}
-.live i{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(61,220,154,.6);animation:pl 2s infinite}
-@keyframes pl{0%{box-shadow:0 0 0 0 rgba(61,220,154,.5)}70%{box-shadow:0 0 0 7px rgba(61,220,154,0)}100%{box-shadow:0 0 0 0 rgba(61,220,154,0)}}
+/* ---- top band ---- */
+.band{background:var(--navy);color:var(--cream);position:relative;overflow:hidden}
+.band .wrap{position:relative;z-index:1}
+.top{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:22px 0 10px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:14px}
+.brand img{height:56px;width:auto}
+.brand .t1{font-size:26px;font-weight:900;letter-spacing:-.02em;line-height:1}
+.brand .t1 i{font-family:'Grand Hotel',cursive;font-style:normal;font-weight:400;font-size:34px;color:var(--gold3);margin-left:6px}
+.brand .t2{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;opacity:.75;margin-top:6px;font-weight:700}
+.stamp{text-align:right;font-size:13px}
+.stamp .pill{display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(246,236,226,.35);border-radius:999px;padding:7px 14px;font-weight:800}
+.stamp .pill i{width:8px;height:8px;border-radius:50%;background:var(--gold3);display:inline-block}
+.stamp .src{opacity:.7;margin-top:6px}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:34px;align-items:center;padding:30px 0 130px}
+.hero .sc{font-family:'Grand Hotel',cursive;font-size:38px;color:var(--gold3);line-height:1}
+.hero h1{font-size:clamp(36px,4.8vw,62px);font-weight:900;line-height:1.0;letter-spacing:-.03em;text-wrap:balance;margin:6px 0 18px}
+.hero p{font-size:17.5px;line-height:1.55;max-width:60ch;opacity:.95}
+.hero p b{color:var(--gold3)}
+.hero .art{position:relative;height:340px;border-radius:var(--r);overflow:hidden;background:var(--navy2);box-shadow:0 40px 70px -40px rgba(0,0,0,.6)}
+.hero .art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% center}
+.hero .art .cap{position:absolute;left:16px;bottom:14px;background:rgba(27,47,106,.88);color:var(--cream);border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.band:after{content:"";position:absolute;right:-140px;top:-140px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(232,200,106,.16),transparent 70%)}
 
-/* hero exec */
-.hero{border:1px solid var(--br);border-radius:20px;padding:22px 24px;margin-bottom:18px;
-  background:linear-gradient(180deg,rgba(231,198,107,.06),rgba(255,255,255,.02));}
-.hero .ey{color:var(--gold)}
-.hero p{font-size:16.5px;line-height:1.72;margin-top:10px;color:#dfe6f4;max-width:1000px}
-.hero p b{color:#fff;font-weight:800}
-.hl{border-bottom:1px dashed rgba(255,255,255,.22)}
+/* ---- kpis ---- */
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:-92px;position:relative;z-index:2}
+.kpi{background:var(--cream2);border-radius:var(--r);padding:20px 18px 16px;box-shadow:0 22px 44px -26px rgba(36,60,130,.5);border:1px solid var(--sand);position:relative;overflow:hidden}
+.kpi:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--ac,var(--gold))}
+.kpi .kl{font-size:11.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2)}
+.kpi .kv{font-size:34px;font-weight:900;letter-spacing:-.03em;line-height:1.05;margin:8px 0 4px;color:var(--navy)}
+.kpi .ks{font-size:13px;color:var(--ink2)}
+.kpi .kb{display:inline-block;margin-top:10px;font-size:11.5px;font-weight:800;border-radius:999px;padding:4px 10px;background:var(--sand);color:var(--navy)}
+.kpi .kb.gold{background:var(--gold3);color:var(--navy2)}
 
-/* kpi */
-.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:22px}
-@media(max-width:1050px){.kpis{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.kpis{grid-template-columns:1fr}}
-.kpi{position:relative;border:1px solid var(--br);border-radius:18px;padding:18px 18px 16px;background:var(--panel);overflow:hidden}
-.kpi::before{content:"";position:absolute;left:0;top:0;height:100%;width:4px;background:var(--ac,var(--gold))}
-.kpi .kl{font-size:12px;color:var(--sub);font-weight:600;display:flex;align-items:center;gap:6px}
-.kpi .kv{font-family:'Sora',sans-serif;font-size:33px;font-weight:800;letter-spacing:-1px;margin-top:8px;line-height:1}
-.kpi .ks{font-size:12px;color:var(--dim);margin-top:8px}
-.kpi .kb{display:inline-block;font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;margin-top:9px}
-.kb.up{color:var(--green);background:rgba(61,220,154,.12)}
-.kb.dn{color:var(--red);background:rgba(255,109,109,.12)}
-.kb.nt{color:var(--sub);background:rgba(255,255,255,.06)}
-
-/* nav */
-.nav{display:flex;gap:8px;overflow-x:auto;padding:5px;margin-bottom:20px;border:1px solid var(--br);border-radius:14px;background:var(--panel2);scrollbar-width:none}
+/* ---- sticky nav ---- */
+.navwrap{position:sticky;top:0;z-index:20;background:rgba(246,236,226,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--sand2);margin-top:22px}
+.nav{display:flex;gap:6px;overflow-x:auto;padding:10px 0;scrollbar-width:none}
 .nav::-webkit-scrollbar{display:none}
-.tab{white-space:nowrap;border:0;cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:700;color:var(--sub);
-  padding:9px 15px;border-radius:10px;background:transparent;transition:.15s}
-.tab:hover{color:var(--ink)}
-.tab.on{color:#1a1205;background:var(--grad-gold);box-shadow:0 4px 16px rgba(231,198,107,.25)}
-.view{animation:fx .25s ease}
-@keyframes fx{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.tab{flex:0 0 auto;border:1.5px solid transparent;background:transparent;color:var(--navy);font:800 14px 'Nunito',sans-serif;padding:9px 16px;border-radius:999px;cursor:pointer;text-decoration:none;transition:.15s}
+.tab:hover{border-color:var(--sand2);background:var(--cream2)}
+.tab.on{background:var(--navy);color:var(--cream)}
 
-/* stat */
-.stat{border:1px solid var(--br2);border-radius:14px;padding:14px 15px;background:var(--panel2)}
-.stat .n{font-family:'Sora',sans-serif;font-size:23px;font-weight:800;letter-spacing:-.5px;line-height:1}
-.stat .l{font-size:11.5px;color:var(--sub);margin-top:6px;font-weight:600}
-.stat .h{font-size:11px;color:var(--dim);margin-top:3px}
-.gold{color:var(--gold)} .cblue{color:var(--blue)} .cgreen{color:var(--green)} .cred{color:var(--red)} .camber{color:var(--amber)} .cviolet{color:var(--violet)}
+/* ---- sections ---- */
+section.sec{padding:54px 0 10px;scroll-margin-top:70px}
+.sechd{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:end;margin-bottom:18px}
+.sechd .sc{font-family:'Grand Hotel',cursive;font-size:34px;color:var(--gold2);line-height:1}
+.sechd h2{font-size:clamp(28px,3.4vw,40px);font-weight:900;letter-spacing:-.03em;line-height:1.05;text-wrap:balance}
+.sechd .lead{font-size:16px;color:var(--ink2);max-width:62ch;margin-top:8px}
+.sechd .num{font-size:12px;font-weight:800;letter-spacing:.2em;color:var(--mut);text-transform:uppercase}
+
+/* ---- cards ---- */
+.card{background:var(--cream2);border:1px solid var(--sand);border-radius:var(--r);padding:22px;box-shadow:0 12px 34px -26px rgba(36,60,130,.4)}
+.card.navy{background:var(--navy);color:var(--cream);border-color:var(--navy)}
+.card.navy .ey{color:var(--gold3)}
+.card.navy .mut{color:rgba(246,236,226,.7)}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+.sechead h3{font-size:21px;font-weight:900;letter-spacing:-.02em;line-height:1.15}
+.sechead h3.big{font-size:27px}
+.psub{font-size:14px;color:var(--ink2);margin-top:5px}
+.card.navy .psub{color:rgba(246,236,226,.82)}
+.spacer{height:16px}
+.stat{background:var(--white);border:1px solid var(--sand);border-radius:var(--r2);padding:14px 14px 12px}
+.card.navy .stat{background:rgba(255,255,255,.07);border-color:rgba(246,236,226,.18)}
+.stat .n{font-size:26px;font-weight:900;letter-spacing:-.02em;line-height:1.05;color:var(--navy)}
+.card.navy .stat .n{color:var(--cream)}
+.stat .n.gold{color:var(--gold2)}.card.navy .stat .n.gold{color:var(--gold3)}
+.stat .l{font-size:12.5px;font-weight:800;margin-top:4px;color:var(--ink)}
+.card.navy .stat .l{color:var(--cream)}
+.stat .h{font-size:12px;color:var(--mut);margin-top:2px}
+.card.navy .stat .h{color:rgba(246,236,226,.65)}
+.mean{margin-top:14px;padding:12px 14px;border-left:3px solid var(--gold);background:rgba(201,154,62,.08);border-radius:0 var(--r2) var(--r2) 0;font-size:13.5px;color:var(--ink2);line-height:1.5}
+.card.navy .mean{background:rgba(232,200,106,.1);color:rgba(246,236,226,.9);border-color:var(--gold3)}
+.mean b{color:var(--navy)}.card.navy .mean b{color:var(--cream)}
+.insight{margin-top:16px;background:var(--white);border:1px solid var(--sand);border-radius:var(--r2);padding:14px 16px}
+.insight .h{font-size:11.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--gold2);margin-bottom:8px}
+.insight ul{padding-left:18px;font-size:14px;color:var(--ink2);line-height:1.55}
+.insight li{margin:5px 0}
+.insight li b{color:var(--navy)}
+.chartbox{position:relative;height:240px;margin-top:12px}
+.chartbox.sm{height:190px}.chartbox.lg{height:300px}
+.illus{position:relative;border-radius:var(--r2);overflow:hidden;min-height:220px;background:var(--sand)}
+.illus img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 45%}
+
+/* meta */
+.meta{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:center}
+.meta .bigno{font-size:68px;font-weight:900;letter-spacing:-.04em;line-height:.95;color:var(--gold3)}
+.meta .bigno small{font-size:22px;font-weight:800;letter-spacing:0;color:var(--cream);margin-left:6px}
+.gbar{height:14px;border-radius:999px;background:rgba(246,236,226,.18);overflow:visible;margin-top:14px;position:relative}
+.gbar .gfill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--gold2),var(--gold3))}
+.gbar .gmark{position:absolute;top:-5px;bottom:-5px;width:2px;background:var(--cream)}
+.gbar .gmark span{position:absolute;top:18px;left:-30px;font-size:11px;font-weight:800;white-space:nowrap;color:var(--cream)}
+.gleg{display:flex;justify-content:space-between;font-size:12px;margin-top:8px;opacity:.85}
 
 /* funnel */
-.fnl{display:flex;flex-direction:column;gap:10px;margin-top:6px}
-.frow{display:flex;align-items:center;gap:14px}
-.fbar{height:46px;border-radius:11px;display:flex;align-items:center;padding:0 16px;min-width:120px;
-  font-family:'Sora',sans-serif;font-weight:800;font-size:18px;color:#0c1220;position:relative}
-.fmeta{font-size:12.5px;color:var(--sub);flex:1}
-.fmeta b{color:var(--ink);font-weight:700}
-.fconv{font-size:12px;color:var(--dim)}
+.fnl{margin-top:14px}
+.frow{display:grid;grid-template-columns:1fr 220px;gap:12px;align-items:center;margin:8px 0}
+.fbar{height:42px;border-radius:10px;display:flex;align-items:center;padding:0 12px;color:var(--cream);font-weight:900;font-size:15px;min-width:90px;white-space:nowrap}
+.fmeta b{font-size:13.5px;display:block}
+.fconv{font-size:12px;color:var(--mut)}
 
-/* goal */
-.goal{margin-top:4px}
-.gbar{height:20px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;position:relative;border:1px solid var(--br2)}
-.gfill{height:100%;background:var(--grad-green);border-radius:999px}
-.gtop{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:8px}
-.gbig{font-family:'Sora',sans-serif;font-size:26px;font-weight:800}
+/* desafios: visual cards + detail */
+.dgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.dcard{background:var(--white);border:1.5px solid var(--sand);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:.2s;position:relative;text-align:left;font-family:inherit;color:var(--navy);padding:0;display:flex;flex-direction:column}
+.dcard:hover{transform:translateY(-3px);box-shadow:0 26px 50px -30px rgba(36,60,130,.55);border-color:var(--navy)}
+.dcard.on{border-color:var(--navy);box-shadow:0 0 0 3px rgba(36,60,130,.12)}
+.dcard.soon{cursor:default}
+.dcard.soon:hover{transform:none;box-shadow:none;border-color:var(--sand)}
+.dcard .dimg{aspect-ratio:16/9;position:relative;overflow:hidden;background:var(--sand)}
+.dcard .dimg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:.4s}
+.dcard:hover .dimg img{transform:scale(1.03)}
+.dcard .dimg .st{position:absolute;left:12px;top:12px;font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:7px;color:#fff;background:var(--terra);box-shadow:0 4px 12px -4px rgba(0,0,0,.4)}
+.dcard .dimg .st.new{background:var(--gold);color:var(--navy2)}
+.dcard .dimg .st.live{background:var(--navy)}
+.dcard .dimg .num{position:absolute;right:12px;top:10px;font-family:'Grand Hotel',cursive;font-size:26px;color:var(--cream);text-shadow:0 2px 8px rgba(0,0,0,.45);line-height:1}
+.dcard .db{padding:18px 20px 20px;display:flex;flex-direction:column;flex:1}
+.dcard .dt{font-size:18px;font-weight:900;letter-spacing:-.02em;line-height:1.15}
+.dcard .dd{font-size:13px;color:var(--ink2);margin-top:8px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.dcard .dm{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px;font-size:12.5px;font-weight:800;color:var(--ink2);flex-wrap:wrap}
+.dcard .dm span{display:inline-flex;align-items:center;gap:6px}
+.dcard .dm svg{width:15px;height:15px;flex:none}
+.dcard .dm .pts{color:var(--gold2)}
+.dcard .dn{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:16px;padding-top:14px;border-top:1.5px solid var(--sand)}
+.dcard .dn div b{display:block;font-size:17px;white-space:nowrap;font-weight:900;letter-spacing:-.02em}
+.dcard .dn div span{font-size:11px;color:var(--mut);font-weight:700}
+.dcard .go{margin-top:auto;padding-top:14px;font-size:12.5px;font-weight:800;color:var(--gold2)}
+.dcard.on .go:after{content:" · aberto"}
+.dcard .soonbox{margin-top:16px;padding:12px 14px;background:var(--cream2);border:1.5px dashed var(--sand2);border-radius:var(--r2);font-size:12.5px;color:var(--ink2);font-weight:700}
+.ddetail{display:none;margin-top:16px;scroll-margin-top:84px}
+.ddetail.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.cmpwrap{overflow-x:auto;margin-top:10px}
+table.cmpt{width:100%;border-collapse:collapse;font-size:14px}
+.cmpt th,.cmpt td{padding:10px 10px;border-bottom:1px solid var(--sand);text-align:left;vertical-align:top}
+.cmpt thead th{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)}
+.cmpt tbody th{font-weight:800;width:34%}
+.cmpt .mm{display:block;font-size:11.5px;color:var(--mut);font-weight:600}
+.cmpt .val{font-weight:900;font-size:16px;color:var(--navy)}
+.cmpt .val.gold{color:var(--gold2)}
+.cmpt .sub{font-size:11.5px;color:var(--mut)}
+.cmpt tr.hi td,.cmpt tr.hi th{background:rgba(232,200,106,.14)}
 
-/* chart boxes */
-.chartbox{height:230px;margin-top:12px;position:relative}
-.chartbox.sm{height:180px}
-.chartbox.lg{height:300px}
-.ring{width:150px;height:150px;position:relative;flex:0 0 auto}
-.ring .rc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.ring .rp{font-family:'Sora',sans-serif;font-size:26px;font-weight:800}
-.ring .rs{font-size:10.5px;color:var(--sub)}
+/* ranking / galeria */
+ul.rank{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:8px 18px;margin-top:10px}
+.ritem{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--sand)}
+.pos{width:26px;font-weight:900;color:var(--gold2)}
+.av{width:38px;height:38px;border-radius:50%;object-fit:cover;background:var(--sand);flex:0 0 38px}
+.nm{flex:1;min-width:0}.n1{font-weight:800;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.n2{font-size:12px;color:var(--mut)}
+.ct{font-weight:900;font-size:15px;color:var(--navy)}.ct span{font-size:11px;color:var(--mut);font-weight:700}
+.rlink{font-size:12px;font-weight:800;text-decoration:none;border:1.5px solid var(--sand2);border-radius:999px;padding:4px 10px;color:var(--navy)}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:12px}
+.gcard{display:block;text-decoration:none;color:var(--navy);background:var(--white);border:1px solid var(--sand);border-radius:var(--r2);padding:12px}
+.gcard:hover{border-color:var(--navy)}
+.gname{font-weight:800;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.gfmt{font-size:12px;color:var(--mut)}
+.gopen{font-size:12px;font-weight:800;color:var(--gold2);margin-top:8px}
 
-/* legend / meaning */
-.mean{margin-top:14px;border-top:1px solid var(--br2);padding-top:12px;display:grid;gap:5px;font-size:12.5px;color:var(--sub);line-height:1.6}
-.mean b{color:var(--ink)}
-.dot{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px;vertical-align:middle}
+/* bars/quotes */
+.bar{margin-bottom:10px}
+.bar .t{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px}
+.bar .tr{height:8px;border-radius:99px;background:var(--sand)}
+.bar .fl{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold2),var(--gold3))}
+.quote{border-left:2px solid var(--gold);padding:2px 0 2px 12px;margin-bottom:10px;font-size:14px;color:var(--ink2);line-height:1.5;font-style:italic}
 
-/* challenge card */
-.chal{border:1px solid var(--br);border-radius:18px;padding:20px;background:var(--panel);margin-bottom:16px}
-.chead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
-.cttl{font-family:'Sora',sans-serif;font-weight:800;font-size:19px}
-.cmeta{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.cper{font-size:12.5px;color:var(--sub)}
-.pill{font-size:11px;font-weight:800;padding:4px 11px;border-radius:999px;border:1px solid var(--br)}
-.pill.ok{color:var(--green);background:rgba(61,220,154,.12);border-color:rgba(61,220,154,.3)}
-.pill.off{color:var(--sub)}
-.pill.soon{color:var(--amber);background:rgba(255,189,90,.12);border-color:rgba(255,189,90,.3)}
+.foot{border-top:1px solid var(--sand2);margin-top:50px;padding:18px 0 40px;font-size:12.5px;color:var(--mut);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.btn{border:1.5px solid var(--navy);background:transparent;color:var(--navy);font:800 13px 'Nunito';border-radius:999px;padding:8px 14px;cursor:pointer}
+.btn:hover{background:var(--navy);color:var(--cream)}
 
-/* comparativo */
-.cmpwrap{overflow-x:auto}
-.cmpt{width:100%;border-collapse:separate;border-spacing:0;min-width:560px}
-.cmpt th,.cmpt td{padding:14px 14px;text-align:left;border-bottom:1px solid var(--br2)}
-.cmpt thead th{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--sub);font-weight:700}
-.cmpt tbody th{font-weight:700;font-size:13.5px}
-.cmpt tbody th .mm{display:block;font-weight:500;font-size:11.5px;color:var(--dim);margin-top:2px}
-.cmpt .val{font-family:'Sora',sans-serif;font-weight:800;font-size:20px;letter-spacing:-.5px}
-.cmpt .sub{font-size:11px;color:var(--dim);margin-top:2px}
-.cmpt tbody tr:last-child td,.cmpt tbody tr:last-child th{border-bottom:0}
-
-/* ranking */
-.rank{list-style:none;display:grid;gap:8px}
-.ritem{display:flex;align-items:center;gap:14px;border:1px solid var(--br2);border-radius:14px;padding:11px 14px;background:var(--panel2)}
-.pos{font-family:'Sora',sans-serif;font-weight:800;font-size:15px;width:30px;text-align:center;color:var(--gold);flex:0 0 auto}
-.av{width:42px;height:42px;border-radius:50%;object-fit:cover;background:rgba(255,255,255,.08);flex:0 0 auto;border:1px solid var(--br)}
-.nm{flex:1;min-width:0}
-.n1{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.n2{font-size:12px;color:var(--sub)}
-.ct{font-family:'Sora',sans-serif;font-weight:800;font-size:18px}
-.ct span{font-size:11px;color:var(--sub);font-weight:600}
-.rlink{color:var(--blue);text-decoration:none;font-size:12px;font-weight:700;flex:0 0 auto}
-
-/* gallery */
-.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-@media(max-width:700px){.gal{grid-template-columns:1fr 1fr}}
-.gcard{border:1px solid var(--br2);border-radius:14px;padding:13px;background:var(--panel2);display:block;text-decoration:none;color:inherit;transition:.15s}
-.gcard:hover{border-color:var(--gold);transform:translateY(-2px)}
-.gtop2{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.gav{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.08);flex:0 0 auto}
-.gname{font-size:12.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.gfmt{font-size:11px;color:var(--sub)}
-.gopen{font-size:12px;color:var(--blue);font-weight:700}
-
-/* insight */
-.insight{border:1px solid var(--br);border-radius:16px;padding:16px 18px;background:linear-gradient(180deg,rgba(106,168,255,.06),rgba(255,255,255,.02));margin-top:16px}
-.insight .h{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--blue);font-weight:700;margin-bottom:8px}
-.insight ul{margin:0;padding-left:18px;display:grid;gap:5px}
-.insight li{font-size:13.5px;color:#d5deee;line-height:1.6}
-
-.sechead{margin-bottom:14px}
-.spacer{height:16px}
-.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
-@media(max-width:640px){.tiers{grid-template-columns:1fr 1fr}}
+@media(max-width:1100px){.dgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.dgrid{grid-template-columns:1fr}}
+@media(max-width:980px){.kpis{grid-template-columns:repeat(2,1fr);margin-top:-64px}.hero{grid-template-columns:1fr;padding-bottom:96px}.hero .art{height:230px}.g3,.g4{grid-template-columns:1fr 1fr}.dgrid{grid-template-columns:1fr}}
+@media(max-width:640px){.kpis{grid-template-columns:1fr}.g2,.g3,.g4{grid-template-columns:1fr}.meta{grid-template-columns:1fr}ul.rank{grid-template-columns:1fr}.frow{grid-template-columns:1fr}.top{flex-direction:column;align-items:flex-start}.stamp{text-align:left}.sechd{grid-template-columns:1fr}}
+@media print{.navwrap,.btn,.foot{display:none}body{background:#fff}.band,.kpi,.card{-webkit-print-color-adjust:exact;print-color-adjust:exact}section.sec{break-inside:avoid}}
 </style>
 </head>
 <body>
-<div class="wrap" id="root"></div>
 <script>
-const DATA = {"updated":"30/09/2026 · 14:26","aprovados":29398,"aguardando":369,"incompletos":7995,"pendentes":14724,"total":57893,"meta":10000,"reachEstimate":123046000};
-const DESAFIOS = [{"id":4,"title":"Meu jeito único com Moça","status":"encerrado","periodo":"14/06 a 31/07","updated":"30/09/2026 · 14:26","participantes":4738,"aprovados":12626,"submissoes":13177,"reprovados":551,"stories":3876,"reels":4521,"tiktok":4222,"outros":7,"instagram":8404},{"id":6,"title":"Desafio de Agosto: Mesa Posta com Moça ✨","status":"encerrado","periodo":"07/08 a 31/08","updated":"30/09/2026 · 14:26","participantes":2292,"aprovados":4729,"submissoes":6062,"reprovados":1333,"stories":0,"reels":2052,"tiktok":1311,"outros":1366,"instagram":3418},{"id":7,"title":"Desafio de Setembro: Mês do Brigadeiro ✨","status":"encerrado","periodo":"01/09 a 30/09","updated":"30/09/2026 · 14:26","participantes":1660,"aprovados":4213,"submissoes":4590,"reprovados":377,"stories":0,"reels":1463,"tiktok":1092,"outros":1658,"instagram":3121}];
-const DAILY = {"g":"30/09/2026 · 14:26","su":{"s":"15/06","c":[11,1,20,4,6,1,2,1326,1209,631,250,134,204,614,2215,1592,2280,1453,2074,1033,436,729,651,601,519,491,183,190,410,874,1219,1380,1263,1080,811,1796,1944,2195,1862,1650,1259,791,961,889,1000,688,740,330,195,458,486,366,290,373,274,149,228,288,274,239,231,149,113,181,202,171,224,191,119,92,227,169,286,208,168,121,112,190,366,425,263,209,166,145,140,196,254,223,151,101,81,204,411,438,359,359,204,168,288,539,664,589,483,363,187,455,416,261]},"ch":[{"id":4,"t":"Meu jeito único com Moça","s":"14/06","sub":[0,0,0,0,2,4,0,2,5,0,0,0,1,2,4,67,117,113,118,179,161,203,172,170,163,153,143,184,136,169,242,248,310,173,204,238,393,565,532,623,662,517,565,670,484,1284,1403,1796],"apr":[0,0,0,0,2,4,0,2,5,0,0,0,0,2,4,67,108,97,99,170,160,193,168,154,152,153,140,182,135,152,206,223,303,163,203,229,333,464,448,573,656,517,555,645,481,1282,1401,1795],"nov":[0,0,0,0,1,1,0,1,2,0,0,0,0,1,2,32,44,47,43,70,60,75,67,60,63,55,54,67,46,63,89,94,103,67,80,96,146,210,189,196,222,197,205,229,139,465,515,642]},{"id":6,"t":"Desafio de Agosto: Mesa Posta com Moça ✨","s":"07/08","sub":[111,150,243,220,189,208,151,182,146,216,259,199,194,136,151,130,185,215,171,190,192,259,333,501,904,227],"apr":[57,89,194,179,122,130,92,111,88,134,184,140,147,89,105,96,133,154,130,138,156,227,308,470,842,214],"nov":[34,52,107,86,70,70,57,67,51,82,96,72,70,49,53,47,74,86,67,79,76,85,131,200,345,86]},{"id":7,"t":"Desafio de Setembro: Mês do Brigadeiro ✨","s":"01/09","sub":[39,71,61,54,77,80,84,80,86,148,116,82,100,99,98,141,120,120,83,112,160,249,204,281,229,207,245,332,587,245],"apr":[32,63,51,46,65,63,71,65,74,130,105,56,83,78,85,105,94,102,68,96,133,218,204,281,229,207,245,332,587,245],"nov":[20,26,27,19,32,31,33,30,35,52,45,23,36,36,37,45,41,43,29,37,56,80,82,96,87,73,96,126,199,88]}]};
-const COMM = {"updated":"30/09/2026 · 14:26","ativas":6057,"ativacaoPct":21,"recorrentes":2060,"recorrenciaPct":34.0,"metaAtivas":10000,"funil":{"convites":57893,"completos":35174,"aprovadas":29398,"ativas":6057},"emv":{"story":3876,"reels":8036,"tiktok":6625,"outros":3031,"rates":{"story":120,"reels":350,"tiktok":250,"outros":200},"total":5540170}};
-const TOP = [{"name":"Samira Rocha madeira","nick":"Sammy","ig":"cantinhoda.sammy","tk":"cantinhoda.sammy","photo":"https://api.jornadadoce.com.br/api/media/files/10487/307f7ee3-fd32-47c0-baa2-6e0d3b458da6_82616.png","count":13},{"name":"Juliana Lemos","nick":"Juliana Lemos","ig":"julianalemos.ro","tk":null,"photo":"https://api.jornadadoce.com.br/api/media/files/13635/00731b4e-a8e8-4a53-9b18-dd51d7d856e5_img-5306.jpeg","count":13},{"name":"Juliana Gonçalves dos Santos","nick":"Ju","ig":"julianagoncalves726","tk":"julianagoncalves377","photo":"https://api.jornadadoce.com.br/api/media/files/10014/80b48ed0-6ddc-4105-9381-15111d14d309_18538.png","count":12},{"name":"Izabel bernando","nick":"Izabel","ig":"Izabelbernardo123","tk":"Izabelbernardo123","photo":"https://api.jornadadoce.com.br/api/media/files/13086/3e82f8ba-e73c-4a05-9ba5-45566cd97059_4b4cd987adf81bbff1437e77d296427c-0.jpeg","count":12},{"name":"Josimara Ferreira Barbosa Evangelista","nick":"Josi","ig":"Mimosedeliciasdomeular","tk":"Josimara","photo":"https://api.jornadadoce.com.br/api/media/files/13389/2df58761-4013-4db7-acaf-22e2161e35d3_ff9d6ea4-5ba9-44d4-b494-217f9c23663f.jpeg","count":12},{"name":"Ana Paula pantoja de souza","nick":"Paulinha","ig":"acasada_paula","tk":"pauliinha31","photo":"https://api.jornadadoce.com.br/api/media/files/18755/1f7c17c3-9fd6-4f91-b620-0d137ce76c3f_img-7293.jpeg","count":12},{"name":"Gabriela Da conceicao da silva","nick":"Gabi","ig":"By.gabrielavasconcelos","tk":"Gabrielavasc24","photo":"https://api.jornadadoce.com.br/api/media/files/10125/c7ef2b7b-8e63-46d0-ae6f-549ae4c7045b_2a30a6eb-adbd-4985-b41b-f081d0923512.png","count":11},{"name":"Julcemara Corvalan testa","nick":"Julcemara","ig":"julcemaracorvalan","tk":"Julcemaracorvalan","photo":null,"count":11},{"name":"Renata Marques","nick":"Renata Bolos","ig":"renataboloss","tk":"renataboloss","photo":"https://api.jornadadoce.com.br/api/media/files/143/7954e6bf-4cc2-40a4-940f-2c6b895570d3_00687335-11a0-4e75-9a5f-c626fdbd0aed.jpeg","count":10},{"name":"Kamila Almeida","nick":"Mila","ig":"nutrikamilaalmeida","tk":"miilaalmeidaa","photo":"https://api.jornadadoce.com.br/api/media/files/13391/6eba2bae-d84d-4cd1-aae8-c18055f8db6e_c16aaa63-5ea9-4aa8-a9a7-d64652293439.jpeg","count":10},{"name":"Priscila Cáceres Davalo","nick":"Pri","ig":"pri.inspira","tk":"priinspira","photo":"https://api.jornadadoce.com.br/api/media/files/379/11bffbb1-8fac-435d-b3bd-091a47746d16_inbound7556891281288930002.jpg","count":10},{"name":"Thaís Gomes Cruz Betti","nick":"Thais Gomes","ig":"thaisgcs","tk":"thais.gcbetti","photo":"https://api.jornadadoce.com.br/api/media/files/621/b82d0a0a-0157-45b7-a801-0976eb222ec8_img-8918.jpeg","count":10},{"name":"Mazilene Lopes Rodrigues","nick":"Mazy rodrigues","ig":"mazyrodrigues","tk":"mazyrodriguesof","photo":"https://api.jornadadoce.com.br/api/media/files/808/3997aa03-a0a9-4a49-aec5-a1f4072edac6_3cc3374a-8dc0-4e85-8648-c0d951fef743.jpeg","count":10},{"name":"Priscilla Direnna","nick":"prisdirenna","ig":"achadinhosdapri15","tk":"achadinhosdapri15","photo":"https://api.jornadadoce.com.br/api/media/files/837/e12e19ef-073c-406e-a0f6-458fbdabd24d_2672092b-ce4b-40d1-8b35-5a2c6300bf89.png","count":10},{"name":"Barbara oliveira Santos","nick":"Binha","ig":"meuh_lar","tk":"Binhastos8","photo":"https://api.jornadadoce.com.br/api/media/files/1193/17fa81e9-b358-46ab-a533-834aac62e16a_img-5255.jpeg","count":10},{"name":"Sebastião Miranda Pena","nick":"Ze Indica","ig":"ze_indica","tk":"ze_indica","photo":"https://api.jornadadoce.com.br/api/media/files/14484/2797fecc-ab36-4e08-b7e0-43ed0e9fca6f_1000777144.png","count":10},{"name":"Sarah da Cruz Silva","nick":"Sarinha","ig":"Canti.nhodasarah","tk":"sarah","photo":"https://api.jornadadoce.com.br/api/media/files/1225/98d41c6b-7656-4ad0-bccb-5f59abb0bfd6_inbound9205412509375468748.jpg","count":10},{"name":"Gabriela Nunes da Costa Silva","nick":"Gabi","ig":"Manacpvgabi","tk":"gabrielanunes351990","photo":"https://api.jornadadoce.com.br/api/media/files/1299/98f10cdf-48fd-49c5-856d-98c567a0e7ee_img-8425.jpeg","count":10},{"name":"Lucimara Plácido","nick":"Lu","ig":"Pudimdadin","tk":"Pudimdadin","photo":"https://api.jornadadoce.com.br/api/media/files/1917/e53930c6-f6fc-4bef-a444-baa6aba87916_1001266807.jpg","count":10},{"name":"Luana Bockel","nick":"Luana","ig":"kasadaluana","tk":"Kasadaluana","photo":"https://api.jornadadoce.com.br/api/media/files/1711/32fdc8ff-9016-4867-b069-a652295d4e1a_inbound1770819475694208251.jpg","count":10}];
+const DATA = {"updated":"01/10/2026 · 09:30","aprovados":29632,"aguardando":258,"incompletos":8035,"pendentes":14895,"total":58303,"meta":10000,"reachEstimate":123046000};
+const DESAFIOS = [{"id":4,"title":"Meu jeito único com Moça","status":"encerrado","periodo":"14/06 a 31/07","updated":"01/10/2026 · 09:30","participantes":4739,"aprovados":12626,"submissoes":13177,"reprovados":551,"stories":3876,"reels":4521,"tiktok":4222,"outros":7,"instagram":8404},{"id":6,"title":"Desafio de Agosto: Mesa Posta com Moça ✨","status":"encerrado","periodo":"07/08 a 31/08","updated":"01/10/2026 · 09:30","participantes":2294,"aprovados":4729,"submissoes":6062,"reprovados":1333,"stories":0,"reels":2052,"tiktok":1311,"outros":1366,"instagram":3418},{"id":7,"title":"Desafio de Setembro: Mês do Brigadeiro ✨","status":"encerrado","periodo":"01/09 a 30/09","updated":"01/10/2026 · 09:30","participantes":2114,"aprovados":5476,"submissoes":5836,"reprovados":360,"stories":0,"reels":1888,"tiktok":1436,"outros":2152,"instagram":4040}];
+const DAILY = {"g":"01/10/2026 · 09:30","su":{"s":"15/06","c":[11,1,17,4,6,0,4,580,475,349,164,397,157,682,1112,1693,1458,1621,1780,638,234,1091,778,446,716,241,123,58,1180,883,674,987,1967,450,1581,3295,2083,1703,2652,1400,1304,427,1185,496,573,383,383,185,120,2870,467,234,167,858,165,91,525,243,319,294,272,72,78,302,198,259,162,236,66,50,346,177,330,235,141,61,69,350,328,418,356,199,163,152,87,237,163,126,79,59,48,565,416,404,385,439,102,97,481,467,741,553,507,207,96,757,232,893,162]},"ch":[{"id":4,"t":"Meu jeito único com Moça","s":"14/06","sub":[0,0,0,0,2,4,0,2,5,0,0,0,1,2,4,67,117,113,118,179,161,203,172,170,163,153,143,184,136,169,242,248,310,173,204,238,393,565,532,623,662,517,565,670,484,1284,1403,1796],"apr":[0,0,0,0,2,4,0,2,5,0,0,0,0,2,4,67,108,97,99,170,160,193,168,154,152,153,140,182,135,152,206,223,303,163,203,229,333,464,448,573,656,517,555,645,481,1282,1401,1795],"nov":[0,0,0,0,1,1,0,1,2,0,0,0,0,1,1,25,41,40,44,57,60,74,67,58,53,61,50,65,53,61,82,89,100,61,76,85,132,191,163,185,240,191,195,232,179,462,538,722]},{"id":6,"t":"Desafio de Agosto: Mesa Posta com Moça ✨","s":"07/08","sub":[111,150,243,220,189,208,151,182,146,216,259,199,194,136,151,130,185,215,171,190,192,259,333,501,904,227],"apr":[57,89,194,179,122,130,92,111,88,134,184,140,147,89,105,96,133,154,130,138,156,227,308,470,842,214],"nov":[27,39,74,70,57,59,47,51,41,62,79,68,73,40,55,50,67,83,72,78,77,125,160,203,422,115]},{"id":7,"t":"Desafio de Setembro: Mês do Brigadeiro ✨","s":"01/09","sub":[39,70,61,53,77,80,84,78,86,148,115,82,98,97,98,139,120,118,82,111,158,248,204,281,228,207,245,332,587,1033,477],"apr":[32,63,51,46,65,63,71,65,74,130,105,56,83,78,85,104,94,102,68,96,133,218,204,281,228,207,245,332,587,1033,477],"nov":[11,15,16,14,19,18,23,21,21,40,41,23,24,28,30,38,35,32,31,35,40,78,77,104,83,84,87,130,257,444,215]}]};
+const COMM = {"updated":"01/10/2026 · 09:30","ativas":6169,"ativacaoPct":21,"recorrentes":2249,"tres":726,"recorrenciaPct":36.5,"metaAtivas":10000,"funil":{"convites":58303,"completos":35373,"aprovadas":29632,"ativas":6169},"emv":{"story":3876,"reels":8461,"tiktok":6969,"outros":3525,"rates":{"story":120,"reels":350,"tiktok":250,"outros":200},"total":5873720}};
+const TOP = [{"name":"Izabel bernando","nick":"Izabel","ig":"Izabelbernardo123","tk":"Izabelbernardo123","photo":"https://api.jornadadoce.com.br/api/media/files/13086/3e82f8ba-e73c-4a05-9ba5-45566cd97059_4b4cd987adf81bbff1437e77d296427c-0.jpeg","count":12},{"name":"Josimara Ferreira Barbosa Evangelista","nick":"Josi","ig":"Mimosedeliciasdomeular","tk":"Josimara","photo":"https://api.jornadadoce.com.br/api/media/files/13389/2df58761-4013-4db7-acaf-22e2161e35d3_ff9d6ea4-5ba9-44d4-b494-217f9c23663f.jpeg","count":12},{"name":"Juliana Lemos","nick":"Juliana Lemos","ig":"julianalemos.ro","tk":null,"photo":"https://api.jornadadoce.com.br/api/media/files/13635/00731b4e-a8e8-4a53-9b18-dd51d7d856e5_img-5306.jpeg","count":12},{"name":"Ana Kelly da Silva e Silva","nick":"Ana","ig":"a_kelly_nails_designer","tk":"kelly_nailss","photo":"https://api.jornadadoce.com.br/api/media/files/25457/eb5c8c0d-279b-47ce-a39a-25f41a5a79f4_1000231387.png","count":12},{"name":"Priscila Cáceres Davalo","nick":"Pri","ig":"pri.inspira","tk":"priinspira","photo":"https://api.jornadadoce.com.br/api/media/files/379/11bffbb1-8fac-435d-b3bd-091a47746d16_inbound7556891281288930002.jpg","count":10},{"name":"Flaviana Simoes","nick":"Flavia","ig":"simoespudim","tk":"simoespudim","photo":"https://api.jornadadoce.com.br/api/media/files/468/8740e0b4-164a-4e3e-8d38-7dee35276789_inbound2518287861443422726.jpg","count":10},{"name":"Barbara oliveira Santos","nick":"Binha","ig":"meuh_lar","tk":"Binhastos8","photo":"https://api.jornadadoce.com.br/api/media/files/1193/17fa81e9-b358-46ab-a533-834aac62e16a_img-5255.jpeg","count":10},{"name":"Sebastião Miranda Pena","nick":"Ze Indica","ig":"ze_indica","tk":"ze_indica","photo":"https://api.jornadadoce.com.br/api/media/files/14484/2797fecc-ab36-4e08-b7e0-43ed0e9fca6f_1000777144.png","count":10},{"name":"Gabriela Nunes da Costa Silva","nick":"Gabi","ig":"Manacpvgabi","tk":"gabrielanunes351990","photo":"https://api.jornadadoce.com.br/api/media/files/1299/98f10cdf-48fd-49c5-856d-98c567a0e7ee_img-8425.jpeg","count":10},{"name":"Lucimara Plácido","nick":"Lu","ig":"Pudimdadin","tk":"Pudimdadin","photo":"https://api.jornadadoce.com.br/api/media/files/1917/e53930c6-f6fc-4bef-a444-baa6aba87916_1001266807.jpg","count":10},{"name":"CAROLINA APARECIDA de Souza Barbosa","nick":"Carol Souza","ig":"casa_dacaroll","tk":"casa_dacaroll","photo":"https://api.jornadadoce.com.br/api/media/files/15776/c2251a3a-6171-4d03-89f5-10c968a03c0e_1000530582.jpg","count":10},{"name":"Percia Alves de Azevedo Romanini","nick":"Percia","ig":"perciaromanini","tk":"perciaromanini","photo":"https://api.jornadadoce.com.br/api/media/files/2323/e70a4003-3deb-489d-96a9-565561424112_1000326886.jpg","count":10},{"name":"Alessandra Fabiane Pio Mohallem","nick":"Alê","ig":"alemohallem","tk":"ale.mohallem","photo":"https://api.jornadadoce.com.br/api/media/files/2352/dab3d967-4278-42d4-ab35-f34425b08dc6_inbound447111541472395639.jpg","count":10},{"name":"flavia viana","nick":"Flavinha","ig":"byflaviaviana","tk":"byflaviaviana","photo":"https://api.jornadadoce.com.br/api/media/files/2550/a8f1bb9b-315b-4735-b597-e0ebd92cdaee_a5870e8b-5fb3-46a7-923f-569c83f879b9.jpeg","count":10},{"name":"Andreza Vedovello de Aguiar","nick":"Andreza","ig":"andreza.vedovello","tk":"AndrezaVedovello","photo":"https://api.jornadadoce.com.br/api/media/files/10323/6ac55c9e-ff7a-4fa9-b859-f561d7d694f4_41849.jpg","count":10},{"name":"Fabiana Maria Santos da Silva","nick":"Faby","ig":"Cantinho_da_faby","tk":"Cantinho_da_faby09","photo":"https://api.jornadadoce.com.br/api/media/files/2922/09ee675b-0af4-42e9-9547-8bac1cc48451_d012dbe9-b727-4c09-8a45-c05fd56d62c7.jpeg","count":10},{"name":"Tayane França Pita","nick":"Sta_Docinho","ig":"sta_docinho_______","tk":"tfpdocinho","photo":"https://api.jornadadoce.com.br/api/media/files/2945/7d9c70a1-8726-4ab4-a83b-7f9e045c8215_70c1034d-4f74-414f-bc78-9235e6da30e5-1-all-45659.jpg","count":10},{"name":"Claudinete De Lima","nick":"Netypink","ig":"netypink","tk":"netypink1","photo":"https://api.jornadadoce.com.br/api/media/files/3037/85e069e8-9661-4dd7-80fd-b8d137819e36_img-2646.jpeg","count":10},{"name":"Lorrainy Sousa","nick":"Lorrainy","ig":"Lorrainycsousa","tk":"Lorrainydaily","photo":"https://api.jornadadoce.com.br/api/media/files/3218/43ab77d1-81e4-4be3-9fd2-879b58c13585_img-3370.jpeg","count":10},{"name":"Ada ariana cruz de oliveira","nick":"Ada","ig":"byadaoliveira","tk":"adaariana1","photo":"https://api.jornadadoce.com.br/api/media/files/3274/880e2a59-5373-4915-8d30-e2e27c9694af_4dd6b89d-0515-4ba5-a444-8c984ace5dbc.jpeg","count":10}];
+const REACH = {"updated":"25/08/2026 · 13:57","sampleTotal":150,"sampleN":146,"mean":7978,"median":3200,"p90":18687,"max":120706,"tiers":{"nano":115,"micro":30,"mid":1,"macro":0},"engMedianPct":3.6,"activeBase":6169,"reachActivated":49216282};
 const GAL = [{"id":4,"t":"Meu jeito único com Moça","posts":[{"name":"Taís Dos Santos Jacomassi","ig":"taisdsantos23","prov":"tiktok","ct":"video","link":"https://vt.tiktok.com/ZS4MvDNR9/"},{"name":"Alexandra Cristina Prates","ig":"alexandraprattess","prov":"tiktok","ct":"video","link":"https://vt.tiktok.com/ZS4Mv5yWN/"},{"name":"Liliane Targino Vicente","ig":"lardocelar.lili","prov":"instagram","ct":"reels","link":"https://www.instagram.com/reel/DbdoJEeufG0/?igsh=NWVweHd6cDFsYm1m"},{"name":"Joice Maria da Silva Ribeiro Turbiani","ig":"casinha_da_jhoy","prov":"instagram","ct":"story","link":"https://www.instagram.com/stories/casinha_da_jhoy/3953495255672332638?utm_source=ig_story_item_share&igsh=ZHBmNWtmdnEycmE0"},{"name":"Leticia Mariano Ribeiro","ig":"casa1.05","prov":"tiktok","ct":"video","link":"https://www.instagram.com/reel/Dbde9nWu6IF/?igsh=MWU2MTFuZGQwcmFqNQ=="},{"name":"Bianca Nishimura Sales","ig":"biasalesmake","prov":"tiktok","ct":"video","link":"https://vt.tiktok.com/ZS4M7gxPj/"},{"name":"Bianca Nishimura Sales","ig":"biasalesmake","prov":"instagram","ct":"reels","link":"https://www.instagram.com/reel/DbVz9DvBKtR/?igsh=eDZ1Zml4cHAxY3Vs"},{"name":"eliziane nascimento","ig":"maede3meninas2026","prov":"tiktok","ct":"video","link":"https://vt.tiktok.com/ZS4M7KtWg/"},{"name":"Isabela Simões Bueno","ig":"oolhodojaguar","prov":"instagram","ct":"story","link":"https://www.instagram.com/stories/oolhodojaguar/3953494989737103436?utm_source=ig_story_item_share&igsh=MXNtaHYwZjYzZTRmeQ=="}]},{"id":6,"t":"Desafio de Agosto: Mesa Posta com Moça ✨","posts":[{"name":"Flivia barbosa de sousa","ig":"fliviaemcasa","prov":"instagram","ct":"reels","link":"https://www.instagram.com/reel/DctzCqlhtCz/?igsi=aDFtNXBydHdkdHE2"},{"name":"Gyovana Monteiro","ig":"gyovana.com_y","prov":"tiktok","ct":"video","link":"https://vt.tiktok.com/ZSVTTNSVv/"},{"name":"Angela Guimarães de Souza","ig":"angela.guimaraes.524","prov":"instagram","ct":"reels","link":"https://www.instagram.com/reel/Dcun1f2u6Mh/?igsi=cnhyYzVqbWsxeTA="},{"name":"Vick","ig":"vickysantiagoaltahona","prov":"tiktok","ct":"video","link":"https://vt.tiktok.com/ZSVTTkHM3/"},{"name":"Andreia Cristina de Camargo Franco","ig":"deiadocesesalgados","prov":"tiktok","ct":"video","link":"https://vt.tiktok.com/ZSVTTAmep/"},{"name":"Vanusa","ig":"meu_lindo_lar_403","prov":"instagram","ct":"photo","link":"https://www.instagram.com/p/DcuoCIkRt18/?igsi=MThpNWY5dzJlY29pdg=="},{"name":"Vanusa","ig":"meu_lindo_lar_403","prov":"instagram","ct":"reels","link":"https://www.instagram.com/reel/DcumAB-xBWu/?igsi=YXdiOHp3bGtxdHFw"},{"name":"Maíra Seixas Leite Ribeiro","ig":"blackwhitedoces","prov":"instagram","ct":"photo","link":"https://www.instagram.com/p/DcuoK-2gEwH/?igsi=MTJmOWQzY3h3YTgxZQ=="},{"name":"Jane Aparecida de Almeida Souza","ig":"jane_receitasfacil","prov":"instagram","ct":"photo","link":"https://www.instagram.com/p/DcunV_OuGVE/?igsi=MW5xNzVndnRnZHZoZQ=="}]},{"id":7,"t":"Desafio de Setembro: Mês do Brigadeiro ✨","posts":[{"name":"Natália","ig":"natalia_oliveira_m","prov":"instagram","ct":"carousel","link":"https://www.instagram.com/p/Dc308R4FvlD/?igsi=b2Nhbnd3NGNhdHN6"},{"name":"Carla Cristina Silva Santos","ig":"Cacristty","prov":"tiktok","ct":"video","link":"https://vt.tiktok.com/ZSq891Q9u/"},{"name":"Carla Cristina Silva Santos","ig":"Cacristty","prov":"instagram","ct":"photo","link":"https://www.instagram.com/p/Dc3tuv3uNxu/?igsi=MTdsZHduaWR2MWx0cA=="},{"name":"Carla Cristina Silva Santos","ig":"Cacristty","prov":"instagram","ct":"carousel","link":"https://www.instagram.com/p/Dc3tByOoLEV/?igsi=MW93NDR6MXR6ZGJjOA=="},{"name":"Carla Cristina Silva Santos","ig":"Cacristty","prov":"instagram","ct":"reels","link":"https://www.instagram.com/reel/Dc3rK2vODvX/?igsi=N29nanBqMzB2Mmgx"},{"name":"Thalita de matos lima","ig":"THALITAUGCCREATOR","prov":"tiktok","ct":"video","link":"https://vt.tiktok.com/ZSq8agGqA/"},{"name":"Thalita de matos lima","ig":"THALITAUGCCREATOR","prov":"instagram","ct":"reels","link":"https://www.instagram.com/reel/Dc3pDz-Rrb3/?igsi=Ym41dXN1OGdhOXpy"},{"name":"Bianca nascimento","ig":"casinha_da_bia123","prov":"instagram","ct":"photo","link":"https://www.instagram.com/p/Dc3iolhvVP3/?igsi=MWJpYjRjaTh4NTU3eg=="},{"name":"MARIA FERNANDA LOPES BAVUSO DE CORDOVA","ig":"Mariaa_xz21","prov":"instagram","ct":"photo","link":"https://www.instagram.com/p/Dc3gw04PVhc/?igsi=dnhiNmFia3lwZnlh"}]}];
-const REACH = {"updated":"25/08/2026 · 13:57","sampleTotal":150,"sampleN":146,"mean":7978,"median":3200,"p90":18687,"max":120706,"tiers":{"nano":115,"micro":30,"mid":1,"macro":0},"engMedianPct":3.6,"activeBase":6057,"reachActivated":48322746};
 const KIT = {"updated":"30/09/2026","periodo":"01/09 a 29/09","planilha":720,"ig":481,"tiktok":239,"perfis":639,"medidos":709,"foraDoAr":11,"likes":36687,"comentarios":13001,"views":578079,"mix":{"video":614,"carrossel":57,"imagem":38},"emv":210200,"serie":{"s":"01/09","c":[2,3,4,4,2,2,8,1,6,5,11,6,4,26,37,73,37,18,29,20,45,78,103,56,37,23,24,32,13]},"com":{"coletados":6979,"autores":4861,"postsComCom":437,"curtidas":4297,"emoji":5185,"perguntas":98},"temas":[["Elogio ao conteúdo",2077],["Kit e recebido",835],["Receita e comida",909],["Parabéns",835],["Quero também",368],["Cita a marca",287],["Como participar",3]],"frustracao":18,"quotes":["Pulei de alegria quando o entregador chegou. É muito amor envolvido 💙✨","Arrasou! Quero saber mais como receber esses mimos também 😍","Quero fazer parte do #moçalovers 💙","Nossa, o meu de julho ainda não chegou, já perdi até as esperanças","Demorou muito pra chegar o seu? O meu ainda não chegou."]};
-/* ===== RENDER ===== */
-(function(){
-var D=DATA,DE=DESAFIOS,DL=DAILY,CO=COMM,TP=TOP,GA=GAL,RE=(typeof REACH!=='undefined'?REACH:null);
-var root=document.getElementById('root');
-function br(n){return Number(n||0).toLocaleString('pt-BR');}
-function pct(a,b){return b>0?Math.round(a/b*1000)/10:0;}
-function money(n){if(n>=1e6)return 'R$ '+(n/1e6).toLocaleString('pt-BR',{maximumFractionDigits:1})+' mi';if(n>=1e3)return 'R$ '+Math.round(n/1e3)+' mil';return 'R$ '+br(n);}
+</script>
+<div id="root"></div>
+<script>
+var D=DATA,DE=DESAFIOS,DL=DAILY,CO=COMM,TP=TOP,RE=(typeof REACH!=='undefined')?REACH:null,GA=(typeof GAL!=='undefined')?GAL:[],KT=(typeof KIT!=='undefined')?KIT:null;
+function br(n){return (n||0).toLocaleString('pt-BR');}
+function pct(a,b){return b?Math.round(a/b*100):0;}
+function money(n){if(n>=1e6)return 'R$ '+(n/1e6).toLocaleString('pt-BR',{maximumFractionDigits:2})+' mi';if(n>=1e3)return 'R$ '+Math.round(n/1e3)+' mil';return 'R$ '+br(n);}
 function big(n){if(n>=1e6)return (n/1e6).toLocaleString('pt-BR',{maximumFractionDigits:1})+' mi';if(n>=1e3)return (n/1e3).toLocaleString('pt-BR',{maximumFractionDigits:0})+' mil';return br(n);}
+function f1(n){return (n||0).toLocaleString('pt-BR',{maximumFractionDigits:1});}
 function sum(a){return (a||[]).reduce(function(x,y){return x+y;},0);}
 function E(html){var t=document.createElement('template');t.innerHTML=html.trim();return t.content.firstChild;}
-function nm(t){return t.replace('Desafio de Agosto: ','').replace('Desafio de Agosto ','');}
+function nm(t){return t.replace('Desafio de Agosto: ','').replace('Desafio de Setembro: ','').replace(' ✨','').replace('✨','').trim();}
 function stat(cls,n,l,h){return '<div class="stat"><div class="n '+cls+'">'+n+'</div><div class="l">'+l+'</div>'+(h?'<div class="h">'+h+'</div>':'')+'</div>';}
+function insight(title,lines){return '<div class="insight"><div class="h">'+title+'</div><ul>'+lines.filter(Boolean).map(function(l){return '<li>'+l+'</li>';}).join('')+'</ul></div>';}
+function dmy(s){var p=s.split('/');return new Date(2026,parseInt(p[1],10)-1,parseInt(p[0],10),12);}
+function fmtd(d){return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0');}
+function emvOf(d){var r=CO.emv.rates;return d.stories*r.story+d.reels*r.reels+d.tiktok*r.tiktok+d.outros*r.outros;}
+function durOf(d){var p=d.periodo.split(' a ');return Math.round((dmy(p[1])-dmy(p[0]))/864e5)+1;}
 
 /* aggregates */
 var tApr=sum(DE.map(function(d){return d.aprovados;}));
-var tRej=sum(DE.map(function(d){return d.reprovados;}));
 var tEnv=sum(DE.map(function(d){return d.submissoes;}));
 var taxaG=pct(tApr,tEnv);
-var novos7=sum((DL.su.c||[]).slice(-7));
-var reachTxt=RE?big(RE.reachActivated):big(D.reachEstimate);
+var EMV=CO.emv.total;
+var reach=RE?RE.reachActivated:D.reachEstimate;
+var START=dmy(DL.ch[0].s);var END=dmy(DL.su.s);END.setDate(END.getDate()+DL.su.c.length-1);
+var DAYS=Math.round((END-START)/864e5)+1;
+var minPerContent=Math.round(DAYS*24*60/tApr);
+var META=10000;
+var metaDayIdx=-1,cum=0;for(var i=0;i<DL.su.c.length;i++){cum+=DL.su.c[i];if(cum>=META){metaDayIdx=i;break;}}
+var metaDate=new Date(dmy(DL.su.s));metaDate.setDate(metaDate.getDate()+Math.max(0,metaDayIdx));
+var dataDe=String(D.updated).split(' ')[0];
+var pipeline=D.aprovados-CO.ativas;
+var tres=CO.tres||0;
+var mult=D.total/META;var multApr=D.aprovados/META;
+var CAMP={
+ 4:{cover:'cover-4.jpg',start:'14/06',pts:400,desc:'Todo mundo tem um jeito único de viver seus momentos especiais. Não precisa ser uma grande produção: pode ser uma receita com toque especial, um brigadeiro que nunca falta ou aquele ritual simples que transforma o dia a dia.'},
+ 6:{cover:'cover-6.jpg',start:'07/08',pts:470,desc:'Um vídeo (Reels e/ou TikTok) mostrando a sua versão de uma Mesa Posta linda e criativa com Moça, seja no café da manhã, no brunch, na hora da sobremesa ou naquele momento especial com quem você ama.'},
+ 7:{cover:'cover-7.jpg',start:'01/09',pts:590,desc:'Hora de colocar a mão na massa e mostrar o seu jeito favorito de fazer brigadeiro. Tradicional, de colher, de enrolar ou cheio de criatividade: uma receita com a sua personalidade, feita com Moça. #MeuBrigadeiroMoça'},
+ 8:{cover:'cover-8.jpg',start:'01/10',pts:590,desc:'Celebrar a versatilidade de Moça em receitas que transformam bebidas em momentos únicos: um café especial, um chocolate cremoso, um cappuccino aveludado ou uma bebida gelada para refrescar.',title:'Desafio de Outubro: Bebidas com Moça',periodo:'01/10 a 31/10'}
+};
+var ICAL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>';
+var ICOIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5h3.75a1.75 1.75 0 0 1 0 3.5H10.5a1.75 1.75 0 0 0 0 3.5h4"/></svg>';
+var SHORT={4:'Meu jeito',6:'Mesa Posta',7:'Brigadeiro'};
 
-/* ---------- HEADER ---------- */
-root.appendChild(E(
-'<div class="top">'+
-  '<div><div class="brand">Moça <b>Lovers</b></div><div class="tag">Painel da comunidade · Programa Jornada Doce</div></div>'+
-  '<div class="stamp"><div class="live"><i></i> <span>Atualizado agora</span></div><div><b>'+D.updated+'</b></div></div>'+
-'</div>'
-));
+/* cumulative weekly series */
+function buildCum(){
+  var n=DAYS,apr=new Array(n).fill(0),emv=new Array(n).fill(0),kit=new Array(n).fill(0);
+  DL.ch.forEach(function(c){var d=DE.filter(function(x){return x.id===c.id;})[0];var per=d?emvOf(d)/d.aprovados:0;var off=Math.round((dmy(c.s)-START)/864e5);c.apr.forEach(function(v,i){var k=off+i;if(k>=0&&k<n){apr[k]+=v;emv[k]+=v*per;}});});
+  if(KT&&KT.serie){var per2=KT.emv/KT.medidos;var off2=Math.round((dmy(KT.serie.s)-START)/864e5);KT.serie.c.forEach(function(v,i){var k=off2+i;if(k>=0&&k<n)kit[k]+=v*per2;});}
+  var labels=[],ca=[],ce=[],ck=[],a=0,e=0,kk=0;
+  for(var i=0;i<n;i++){a+=apr[i];e+=emv[i];kk+=kit[i];if(i%7===6||i===n-1){var d=new Date(START);d.setDate(d.getDate()+i);labels.push(fmtd(d));ca.push(a);ce.push(Math.round(e));ck.push(Math.round(kk));}}
+  return {labels:labels,apr:ca,emv:ce,kit:ck};
+}
+var CUM=buildCum();
+var root=document.getElementById('root');
 
-/* ---------- HERO EXEC ---------- */
+/* ---------- HEADER + HERO ---------- */
 root.appendChild(E(
-'<div class="hero"><div class="ey">Resumo executivo</div>'+
-'<p>O programa já recrutou <b>'+br(D.total)+'</b> pessoas, das quais <b>'+br(D.aprovados)+'</b> viraram criadoras aprovadas. '+
-'<b>'+br(CO.ativas)+'</b> delas (<b class="hl">'+CO.ativacaoPct+'%</b>) realmente publicaram, produzindo <b>'+br(tApr)+'</b> conteúdos aprovados '+
-'(e <b>'+br(tRej)+'</b> reprovados na curadoria — <b class="hl">'+taxaG+'% de aprovação</b>). '+
-'Esse trabalho equivale a <b>'+money(CO.emv.total)+'</b> em mídia e alcance real estimado de <b>~'+reachTxt+'</b> de pessoas. '+
-'Só nos últimos 7 dias entraram <b>'+br(novos7)+'</b> novos cadastros.</p></div>'
+'<div class="band"><div class="wrap">'+
+ '<div class="top">'+
+  '<div class="brand"><img src="img-lata.png" alt="Moça"><div><div class="t1">Moça Lovers<i>painel</i></div><div class="t2">Painel da comunidade · Programa Jornada Doce</div></div></div>'+
+  '<div class="stamp"><div class="pill"><i></i> Dados de '+dataDe+'</div><div class="src">Fonte: plataforma Moça Lovers · Publination para Nestlé</div></div>'+
+ '</div>'+
+ '<div class="hero"><div>'+
+   '<div class="sc">'+br(D.total)+' lovers cadastradas · '+f1(mult)+'x a meta</div>'+
+   '<h1>O maior programa de comunidade da história de Moça</h1>'+
+   '<p>A meta era 10 mil cadastros. Em <b>'+DAYS+' dias</b>, <b>'+br(D.total)+' pessoas</b> se cadastraram na comunidade, e <b>'+br(D.aprovados)+'</b> já passaram pela curadoria. '+
+   'As que já publicaram produziram <b>'+br(tApr)+' conteúdos aprovados</b>, o equivalente a <b>'+money(EMV)+'</b> em mídia que a marca não precisou comprar, para um público potencial de <b>~'+big(reach)+' pessoas</b>.</p>'+
+ '</div>'+
+ '<div class="art"><img src="cover-7.jpg" alt=""><div class="cap">3 desafios · 110 dias</div></div>'+
+ '</div>'+
+'</div></div>'
 ));
 
 /* ---------- KPIs ---------- */
-function kpi(ac,label,val,sub,badge,bcls){
-  return '<div class="kpi" style="--ac:'+ac+'"><div class="kl">'+label+'</div>'+
-  '<div class="kv">'+val+'</div><div class="ks">'+sub+'</div>'+
-  (badge?'<div class="kb '+bcls+'">'+badge+'</div>':'')+'</div>';
-}
-root.appendChild(E('<div class="kpis">'+
-  kpi('var(--gold)','Criadoras aprovadas',br(D.aprovados),'de '+br(D.total)+' cadastros', '+'+br(novos7)+' em 7 dias','up')+
-  kpi('var(--green)','Já publicaram',br(CO.ativas),'ativação de '+CO.ativacaoPct+'%', pct(CO.ativas,CO.metaAtivas)+'% da meta','nt')+
-  kpi('var(--blue)','Conteúdos aprovados',br(tApr),taxaG+'% de aprovação', br(tRej)+' reprovados','nt')+
-  kpi('var(--violet)','Alcance real','~'+reachTxt,'pessoas impactadas', 'via '+(RE?RE.sampleN:0)+' perfis','nt')+
-  kpi('var(--amber)','Mídia equivalente',money(CO.emv.total),'valor do conteúdo', 'EMV estimado','nt')+
+function kpi(ac,label,val,sub,badge,gold){return '<div class="kpi" style="--ac:'+ac+'"><div class="kl">'+label+'</div><div class="kv">'+val+'</div><div class="ks">'+sub+'</div>'+(badge?'<div class="kb'+(gold?' gold':'')+'">'+badge+'</div>':'')+'</div>';}
+var W=E('<div class="wrap"></div>');root.appendChild(W);
+W.appendChild(E('<div class="kpis">'+
+  kpi('var(--gold)','Lovers cadastradas',br(D.total),'pessoas que entraram na comunidade',f1(mult)+'x a meta de 10 mil',true)+
+  kpi('var(--navy3)','Lovers aprovadas',br(D.aprovados),Math.round(D.aprovados/D.total*100)+'% da base · passaram pela curadoria',f1(multApr)+'x a meta de 10 mil')+
+  kpi('var(--gold2)','Lovers ativas',br(CO.ativas),'já publicaram ao menos 1 vez',br(CO.recorrentes)+' voltaram em 2+ desafios')+
+  kpi('var(--sky)','Conteúdos aprovados',br(tApr),taxaG+'% de aprovação na curadoria','1 a cada '+minPerContent+' min')+
+  kpi('var(--gold)','Mídia conquistada',money(EMV),'valor equivalente do conteúdo','sem custo de mídia',true)+
+  kpi('var(--navy)','Alcance potencial','~'+big(reach),'público das lovers ativas','via '+(RE?RE.sampleN:0)+' perfis medidos')+
 '</div>'));
 
-/* ---------- NAV + MAIN ---------- */
-var TABS=[['overview','Visão geral'],['negocio','Negócio & valor'],['desafios','Desafios'],['kit','Kit / Recebidos'],['comparativo','Comparativo'],['evolucao','Evolução'],['ranking','Ranking'],['galeria','Galeria']];
-var nav=E('<div class="nav"></div>');
-TABS.forEach(function(t){var b=E('<button class="tab" data-v="'+t[0]+'">'+t[1]+'</button>');nav.appendChild(b);});
-root.appendChild(nav);
-var main=E('<div id="main"></div>');root.appendChild(main);
-function view(id){var v=E('<div class="view" id="v-'+id+'"></div>');v.hidden=true;main.appendChild(v);return v;}
-function insight(title,lines){return '<div class="insight"><div class="h">'+title+'</div><ul>'+lines.filter(Boolean).map(function(l){return '<li>'+l+'</li>';}).join('')+'</ul></div>';}
-
-var built={};var charts={};
+/* ---------- NAV ---------- */
+var SECS=[['resumo','Resumo'],['valor','Valor de negócio'],['comunidade','Comunidade'],['desafios','Desafios'],['kit','Kit de boas-vindas'],['lovers','Lovers']];
+var navwrap=E('<div class="navwrap"><div class="wrap"><div class="nav"></div></div></div>');root.appendChild(navwrap);
+var nav=navwrap.querySelector('.nav');
+SECS.forEach(function(s){nav.appendChild(E('<a class="tab" href="#'+s[0]+'" data-v="'+s[0]+'">'+s[1]+'</a>'));});
+var W2=E('<div class="wrap"></div>');root.appendChild(W2);
+function sec(id,num,sc,h2,lead){var s=E('<section class="sec" id="'+id+'"><div class="sechd"><div><div class="num">'+num+'</div><div class="sc">'+sc+'</div><h2>'+h2+'</h2>'+(lead?'<div class="lead">'+lead+'</div>':'')+'</div></div><div class="body"></div></section>');W2.appendChild(s);return s.querySelector('.body');}
+var charts={};
 function mk(id,cfg){var el=document.getElementById(id);if(!el)return;if(charts[id])charts[id].destroy();charts[id]=new Chart(el,cfg);}
-Chart.defaults.font.family="Manrope";Chart.defaults.color="#9aa6c0";Chart.defaults.plugins.legend.labels.boxWidth=10;Chart.defaults.plugins.legend.labels.padding=14;
-var GC={grid:{color:'rgba(255,255,255,.05)'},ticks:{color:'#69748f',font:{size:11}}};
+Chart.defaults.font.family="'Nunito',sans-serif";Chart.defaults.color='#4B5B86';
+var GC={grid:{color:'rgba(36,60,130,.08)'},border:{display:false},ticks:{color:'#7C8AAE',font:{size:11}}};
+var TT={backgroundColor:'#243C82',titleColor:'#F6ECE2',bodyColor:'#F6ECE2',padding:10,cornerRadius:8,displayColors:false};
+function donut(id,labs,data,colors){mk(id,{type:'doughnut',data:{labels:labs,datasets:[{data:data,backgroundColor:colors,borderWidth:2,borderColor:'#FBF6F0'}]},options:{maintainAspectRatio:false,cutout:'68%',plugins:{legend:{position:'bottom',labels:{boxWidth:10,padding:12,font:{size:12}}},tooltip:TT}}});}
+var CAT=['#2E4A9E','#A87B2A','#3E9ACC','#B0522E'];
 
-function donut(id,labs,data,colors){mk(id,{type:'doughnut',data:{labels:labs,datasets:[{data:data,backgroundColor:colors,borderColor:'rgba(8,11,20,.9)',borderWidth:3,hoverOffset:6}]},options:{maintainAspectRatio:false,cutout:'64%',plugins:{legend:{position:'bottom'}}}});}
-function ringc(id,ap,rej){mk(id,{type:'doughnut',data:{labels:['Aprovado','Reprovado'],datasets:[{data:[ap,rej],backgroundColor:['#3ddc9a','rgba(255,109,109,.85)'],borderColor:'rgba(8,11,20,.9)',borderWidth:3}]},options:{maintainAspectRatio:false,cutout:'72%',plugins:{legend:{display:false}}}});}
-
-/* ---------- VISÃO GERAL ---------- */
+/* ---------- 01 RESUMO ---------- */
 (function(){
-  var v=view('overview');
-  var f=CO.funil;
-  var steps=[['Convites enviados',f.convites,'var(--grad-gold)',null],['Cadastros completos',f.completos,'linear-gradient(135deg,#bfe0ff,#7fb0ff)',f.convites],['Criadoras aprovadas',f.aprovadas,'var(--grad-blue)',f.completos],['Já publicaram',f.ativas,'var(--grad-green)',f.aprovadas]];
-  var maxv=f.convites;
-  var fnl='';
-  steps.forEach(function(s){
-    var w=Math.max(14,Math.round(s[1]/maxv*100));
-    var conv=s[3]?pct(s[1],s[3])+'% do passo anterior':'ponto de partida';
-    fnl+='<div class="frow"><div class="fbar" style="width:'+w+'%;background:'+s[2]+'">'+br(s[1])+'</div>'+
-    '<div class="fmeta"><b>'+s[0]+'</b><div class="fconv">'+conv+'</div></div></div>';
-  });
-  var goalPct=pct(CO.ativas,CO.metaAtivas);
+  var v=sec('resumo','01 · Resumo','o que importa','A meta era 10 mil. A comunidade passou de '+br(Math.floor(D.total/1000)*1000)+'.','Os números que resumem o programa, do jeito que a diretoria lê: valor primeiro, operação depois.');
   v.innerHTML=
-    '<div class="grid g2">'+
-      '<div class="card"><div class="sechead"><h3>Da inscrição ao conteúdo</h3><div class="psub">O caminho de cada pessoa até virar criadora ativa</div></div>'+
-        '<div class="fnl">'+fnl+'</div>'+
-        '<div class="mean"><div><b>Ler assim:</b> de cada 100 pessoas convidadas, '+pct(f.ativas,f.convites)+' chegam a publicar conteúdo aprovado.</div></div>'+
-      '</div>'+
-      '<div class="card"><div class="sechead"><h3>Rumo à meta</h3><div class="psub">Meta de '+br(CO.metaAtivas)+' criadoras ativas (que publicam)</div></div>'+
-        '<div class="goal"><div class="gtop"><div class="gbig cgreen">'+br(CO.ativas)+'</div><div class="mut">'+goalPct+'% da meta</div></div>'+
-        '<div class="gbar"><div class="gfill" style="width:'+goalPct+'%"></div></div>'+
-        '<div class="mut" style="font-size:12px;margin-top:8px">Faltam <b style="color:var(--ink)">'+br(Math.max(0,CO.metaAtivas-CO.ativas))+'</b> criadoras ativas para bater a meta.</div></div>'+
-        '<div class="spacer"></div>'+
-        '<div class="grid g2">'+stat('gold',br(CO.recorrentes),'Fizeram 2+ desafios',CO.recorrenciaPct+'% de retenção (ativas que voltaram)')+stat('cblue',br(DE.length),'Desafios rodados','no período')+'</div>'+
-      '</div>'+
-    '</div>'+
-    '<div class="spacer"></div>'+
-    '<div class="grid g2">'+
-      '<div class="card"><div class="sechead"><h3>Como estão os cadastros</h3><div class="psub">Situação das '+br(D.total)+' pessoas que entraram</div></div><div class="chartbox"><canvas id="ovd"></canvas></div></div>'+
-      '<div class="card"><div class="sechead"><h3>O que a comunidade já produziu</h3><div class="psub">Conteúdo aprovado somando todos os desafios</div></div>'+
-        '<div class="grid g2" style="margin-top:4px">'+
-          stat('cgreen',br(tApr),'Conteúdos aprovados','passaram na curadoria')+
-          stat('cred',br(tRej),'Reprovados','barrados na curadoria')+
-          stat('gold',br(CO.ativas),'Criadoras ativas','publicaram ao menos 1x')+
-          stat('cblue',taxaG+'%','Taxa de aprovação','aprovados ÷ enviados')+
-        '</div>'+
-        insight('Como ler',['Ativação alta = as criadoras aprovadas realmente engajam.','Taxa de aprovação alta = menos retrabalho da curadoria.'])+
-      '</div>'+
-    '</div>';
-})();
-
-/* ---------- NEGÓCIO & VALOR ---------- */
-(function(){
-  var v=view('negocio');
-  var e=CO.emv,r=e.rates;
-  var reachBig=RE?big(RE.reachActivated):big(D.reachEstimate);
-  var tierBox=RE?('<div class="tiers">'+
-    stat('gold',br(RE.tiers.nano),'Nano','< 10 mil seg.')+
-    stat('cblue',br(RE.tiers.micro),'Micro','10–100 mil')+
-    stat('cviolet',br(RE.tiers.mid),'Mid','100–500 mil')+
-    stat('camber',br(RE.tiers.macro),'Macro','500 mil +')+'</div>'):'';
-  v.innerHTML=
-    '<div class="grid g2">'+
-      '<div class="card"><div class="sechead"><div class="ey">Alcance real</div><h3 style="margin-top:6px">~'+reachBig+' de pessoas impactadas</h3>'+
-        '<div class="psub">Estimado a partir de '+(RE?RE.sampleN:0)+' perfis de criadoras ativas × seguidores médios</div></div>'+
-        '<div class="grid g3" style="margin-top:4px">'+
-          stat('gold',RE?big(RE.mean):'—','Média seguidores','por criadora')+
-          stat('cblue',RE?big(RE.median):'—','Mediana','metade tem menos')+
-          stat('cviolet',RE?(RE.engMedianPct+'%'):'—','Engajamento','curtidas+coment. ÷ seg.')+
-        '</div>'+tierBox+
-        '<div class="mean"><div><b>Alcance real</b> = base de '+br(RE?RE.activeBase:CO.ativas)+' criadoras ativas × média de seguidores. É o público potencial, não visualizações garantidas.</div></div>'+
-      '</div>'+
-      '<div class="card"><div class="sechead"><div class="ey">Mídia equivalente (EMV)</div><h3 style="margin-top:6px">'+money(e.total)+' em valor de mídia</h3>'+
-        '<div class="psub">Quanto custaria pagar por esse volume de conteúdo</div></div>'+
-        '<div class="chartbox sm"><canvas id="emv"></canvas></div>'+
-        '<div class="mean">'+
-          '<div><span class="dot" style="background:#e7c66b"></span><b>Stories</b> '+br(e.story)+' × '+money(r.story)+'</div>'+
-          '<div><span class="dot" style="background:#6aa8ff"></span><b>Reels</b> '+br(e.reels)+' × '+money(r.reels)+'</div>'+
-          '<div><span class="dot" style="background:#a98bff"></span><b>TikTok</b> '+br(e.tiktok)+' × '+money(r.tiktok)+'</div>'+
-          '<div><span class="dot" style="background:#3ddc9a"></span><b>Outros</b> '+br(e.outros)+' × '+money(r.outros)+'</div>'+
-        '</div>'+
-      '</div>'+
-    '</div>'+
-    '<div class="spacer"></div>'+
-    '<div class="card"><div class="sechead"><h3>Fidelização da base</h3><div class="psub">Criadoras que voltaram a participar de mais de um desafio</div></div>'+
-      '<div class="grid g3" style="margin-top:4px">'+
-        stat('gold',br(CO.ativas),'Criadoras ativas','publicaram ao menos 1x')+
-        stat('cgreen',br(CO.recorrentes),'Recorrentes','ativas em 2+ desafios')+
-        stat('cblue',CO.recorrenciaPct+'%','Taxa de recorrência','recorrentes ÷ ativas')+
-      '</div>'+
-      insight('Por que importa',['Recorrência mostra que a comunidade retém — cada novo desafio reaproveita criadoras já ativadas.','Quanto maior a recorrência, menor o custo de reativação.'])+
-    '</div>';
-})();
-
-/* ---------- DESAFIOS ---------- */
-function emvOf(d){var r=CO.emv.rates;return d.stories*r.story+d.reels*r.reels+d.tiktok*r.tiktok+d.outros*r.outros;}
-function reachOf(d){return RE?RE.mean*d.participantes:0;}
-function cpcOf(d){return d.aprovados>0?Math.round(emvOf(d)/d.aprovados):0;}
-(function(){
-  var v=view('desafios');
-  var r=CO.emv.rates;
-  var comoLer='<div class="card" style="margin-top:18px"><div class="sechead"><div class="ey">Como ler estes números</div>'+
-    '<h3 style="margin-top:6px">De onde vêm a mídia equivalente e o alcance de cada desafio</h3>'+
-    '<div class="psub">Os dois números são calculados por desafio, e cada um se comporta de um jeito diferente quando somado.</div></div>'+
-    insight('Mídia equivalente',[
-      'É a soma dos conteúdos aprovados multiplicados pelo valor de cada formato: story '+money(r.story)+', reels '+money(r.reels)+', TikTok '+money(r.tiktok)+', foto e carrossel '+money(r.outros)+'.',
-      'Somando os desafios, o valor fecha exatamente com os '+money(CO.emv.total)+' do programa. Nenhum conteúdo é contado duas vezes.',
-      '<b>O valor por conteúdo muda de um desafio para o outro porque depende do mix de formato, não do volume.</b> Um desafio puxado por reels vale mais por peça do que um puxado por story ou foto, mesmo com a mesma quantidade de posts. É por isso que o desafio maior não é necessariamente o mais valioso por conteúdo.'])+
-    insight('Alcance estimado',[
-      'Aplica a média de '+br(RE?RE.mean:0)+' pessoas por perfil ativo, medida na amostra de '+(RE?RE.sampleN:0)+' perfis em '+(RE?String(RE.updated).split(' ')[0]:'')+', ao número de criadoras de cada desafio.',
-      '<b>O alcance dos desafios não soma.</b> A mesma criadora participa de mais de um, então somar os três dá mais que o alcance total do programa, que conta pessoas únicas. Use o número de cada desafio para dimensionar aquela ação, e o total do programa para falar de audiência acumulada.'])+
-    '</div>';
-  var html='';
-  DE.forEach(function(d){
-    var taxa=pct(d.aprovados,d.submissoes);
-    var pc=d.status==='ativo'?'ok':(d.status==='encerrado'?'off':'soon');
-    var pt=d.status==='ativo'?'Em andamento':(d.status==='encerrado'?'Encerrado':'Em breve');
-    html+='<div class="chal">'+
-      '<div class="chead"><div class="cttl">'+nm(d.title)+'</div>'+
-        '<div class="cmeta"><span class="pill '+pc+'">'+pt+'</span><span class="cper">'+d.periodo+'</span></div></div>'+
-      '<div class="grid g4" style="margin-bottom:14px">'+
-        stat('gold',br(d.participantes),'Criadoras','pessoas diferentes')+
-        stat('',br(d.submissoes),'Conteúdos enviados','posts submetidos')+
-        stat('cgreen',br(d.aprovados),'Aprovados','passaram')+
-        stat('cred',br(d.reprovados),'Reprovados','barrados')+
-      '</div>'+
-      '<div class="grid g3" style="margin-bottom:14px">'+
-        stat('camber',money(emvOf(d)),'Mídia equivalente','valor do conteúdo deste desafio')+
-        stat('cblue','~'+big(reachOf(d)),'Alcance estimado',br(d.participantes)+' criadoras × '+br(RE?RE.mean:0)+' por perfil')+
-        stat('',money(cpcOf(d)),'Valor por conteúdo','mídia equivalente ÷ aprovados')+
-      '</div>'+
-      '<div class="grid g2">'+
-        '<div class="stat" style="padding:16px"><h3 style="font-size:14px">Mix de conteúdo</h3><div class="psub">Formato dos aprovados</div><div class="chartbox sm"><canvas id="mix'+d.id+'"></canvas></div></div>'+
-        '<div class="stat" style="padding:16px"><h3 style="font-size:14px">Curadoria</h3><div class="psub">Aproveitamento dos envios</div>'+
-          '<div style="display:flex;align-items:center;gap:18px;margin-top:10px;flex-wrap:wrap">'+
-          '<div class="ring"><canvas id="ring'+d.id+'"></canvas><div class="rc"><div class="rp cgreen">'+taxa+'%</div><div class="rs">aprovação</div></div></div>'+
-          '<div style="flex:1;min-width:140px;font-size:13.5px;line-height:2">'+
-            '<div><span class="dot" style="background:#3ddc9a"></span>Aprovados <b>'+br(d.aprovados)+'</b></div>'+
-            '<div><span class="dot" style="background:#ff6d6d"></span>Reprovados <b>'+br(d.reprovados)+'</b></div>'+
-            '<div class="mut" style="font-size:12px;margin-top:6px">A cada 100 posts, '+taxa+' foram aprovados.</div>'+
-          '</div></div>'+
-        '</div>'+
-      '</div>'+
-    '</div>';
-  });
-  v.innerHTML=html+comoLer;
-})();
-
-/* ---------- KIT / RECEBIDOS ---------- */
-(function(){
-  if(typeof KIT==='undefined')return;
-  var v=view('kit'), K=KIT, C=K.com;
-  var engaj=K.views>0?Math.round((K.likes+K.comentarios)/K.views*1000)/10:0;
-  var maxTema=Math.max.apply(null,K.temas.map(function(t){return t[1];}));
-  var barras=K.temas.map(function(t){
-    var pc=Math.round(t[1]/C.coletados*100);
-    return '<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>'+t[0]+'</span><b>'+br(t[1])+' <span class="mut" style="font-weight:400">('+pc+'%)</span></b></div>'+
-      '<div style="height:8px;border-radius:99px;background:rgba(255,255,255,.06)"><div style="height:100%;border-radius:99px;width:'+Math.max(1,Math.round(t[1]/maxTema*100))+'%;background:var(--grad-gold)"></div></div></div>';
-  }).join('');
-  var aspas=K.quotes.map(function(q){
-    return '<div style="border-left:2px solid rgba(231,198,107,.45);padding:2px 0 2px 12px;margin-bottom:10px;font-size:13.5px;color:#d5deee;line-height:1.55">'+q+'</div>';
-  }).join('');
-  v.innerHTML=
-   '<div class="card" style="margin-bottom:18px"><div class="sechead"><div class="ey">Fora do desafio</div>'+
-     '<h3 style="margin-top:6px">O kit do primeiro desafio virou conteúdo espontâneo</h3>'+
-     '<div class="psub">Quem concluiu o desafio "Meu jeito único com Moça" recebeu um kit de boas-vindas. Os kits começaram a chegar em setembro e as criadoras publicaram por conta própria, sem briefing e sem contar como submissão. É entrega de marca que não aparece em nenhum número de desafio.</div></div>'+
-     '<div class="grid g3" style="margin-top:16px">'+
-       stat('gold',br(K.planilha),'Conteúdos mapeados',br(K.ig)+' no Instagram + '+br(K.tiktok)+' no TikTok')+
-       stat('cblue',br(K.perfis),'Perfis diferentes','publicaram sem serem pedidas')+
-       stat('camber',money(K.emv),'Mídia equivalente','pelas mesmas taxas do programa')+
-     '</div>'+
-     '<div class="sechead" style="margin-top:18px"><h3 style="font-size:15px">Engajamento medido</h3>'+
-       '<div class="psub">Coleta direta nos '+br(K.medidos)+' conteúdos que estão no ar; '+K.foraDoAr+' saíram do ar ou ficaram restritos.</div></div>'+
-     '<div class="grid g3" style="margin-top:12px">'+
-       stat('',br(K.views),'Views nos vídeos',''+br(K.mix.video)+' reels de unboxing')+
-       stat('cgreen',br(K.likes),'Curtidas','mediana de 22 por post')+
-       stat('cviolet',br(K.comentarios),'Comentários',engaj+'% de engajamento sobre views')+
-     '</div>'+
-   '</div>'+
-   '<div class="grid g2" style="margin-bottom:18px">'+
-     '<div class="card"><div class="sechead"><h3>Quando os kits chegaram</h3><div class="psub">Publicações por dia, '+K.periodo+'</div></div>'+
-       '<div class="chartbox"><canvas id="kitserie"></canvas></div>'+
-       '<div class="mean">A onda começa no dia 14, sobe até o pico do dia 23, com 103 posts em 24 horas, e perde força na última semana do mês.</div></div>'+
-     '<div class="card"><div class="sechead"><h3>Formato escolhido</h3><div class="psub">Sem briefing, a comunidade escolheu vídeo</div></div>'+
-       '<div class="chartbox"><canvas id="kitmix"></canvas></div>'+
-       '<div class="mean"><b>'+Math.round(K.mix.video/K.medidos*100)+'%</b> do conteúdo é vídeo, somando reels e TikTok. No desafio de setembro, onde há briefing, reels não passa de 35%.</div></div>'+
-   '</div>'+
    '<div class="grid g2">'+
-     '<div class="card"><div class="sechead"><h3>O que os comentários dizem</h3>'+
-       '<div class="psub">'+br(C.coletados)+' comentários lidos, de '+br(C.autores)+' pessoas diferentes, em '+br(C.postsComCom)+' posts. Só Instagram: a coleta do TikTok travou no limite de uso da conta Apify.</div></div>'+
-       '<div style="margin-top:14px">'+barras+'</div>'+
-       '<div class="mean"><b>'+br(C.autores)+' pessoas</b> comentaram, quase todas de fora da base. É audiência nova sendo exposta à marca sem custo de mídia.</div></div>'+
-     '<div class="card"><div class="sechead"><h3>Na voz da comunidade</h3><div class="psub">Comentários reais, sem edição</div></div>'+
-       '<div style="margin-top:14px">'+aspas+'</div></div>'+
+    '<div class="card navy"><div class="ey">A meta do ano</div><div class="meta" style="margin-top:8px">'+
+      '<div><div class="bigno">'+f1(mult)+'x<small>a meta</small></div>'+
+        '<div style="margin-top:10px;font-size:15px;line-height:1.5">A meta era reunir <b>10 mil lovers cadastradas</b> até dezembro de 2026. A comunidade passou desse número em <b>'+fmtd(metaDate)+'</b>, no dia '+(metaDayIdx+1)+' do programa. Hoje são <b>'+br(D.total)+'</b> cadastradas, das quais <b>'+br(D.aprovados)+'</b> já aprovadas na curadoria, sozinhas '+f1(multApr)+'x a meta.</div>'+
+        '<div class="gbar"><div class="gfill" style="width:100%"></div><div class="gmark" style="left:'+Math.round(META/D.total*100)+'%"><span>meta 10 mil</span></div></div>'+
+        '<div class="gleg"><span>0</span><span>Hoje: '+br(D.total)+' cadastradas</span></div></div>'+
+      '<div class="illus" style="min-height:220px"><img src="img-receitas.png" alt=""></div>'+
+    '</div></div>'+
+    '<div class="card"><div class="sechead"><div class="ey">Ritmo de produção</div><h3 class="big" style="margin-top:6px">1 conteúdo aprovado a cada '+minPerContent+' minutos</h3><div class="psub">De dia e de noite, por '+DAYS+' dias seguidos, desde o primeiro desafio.</div></div>'+
+      '<div class="grid g3" style="margin-top:14px">'+stat('',br(Math.round(tApr/DAYS)),'conteúdos por dia','média do programa')+stat('gold',br(tres),'lovers nos 3 desafios','fizeram todos')+stat('',f1(tApr/CO.ativas),'conteúdos por lover ativa','média de entrega')+'</div>'+
+      '<div class="mean">Comprar o mesmo volume de conteúdo de nano e micro criadoras custaria <b>'+money(EMV)+'</b>. São <b>'+money(Math.round(EMV/tApr))+' por conteúdo</b> e <b>'+money(Math.round(EMV/CO.ativas))+' por lover ativa</b>.</div>'+
+    '</div>'+
    '</div>'+
-   insight('Como ler isso',[
-     'O kit já gerou <b>'+br(K.planilha)+' conteúdos de '+br(K.perfis)+' perfis</b> no mesmo período do Desafio do Brigadeiro, sem nenhum custo de ativação e sem contar como submissão. Parte da queda aparente de setembro no desafio está aqui, diluída.',
-     'Em uma semana a planilha saltou de 453 para '+br(K.planilha)+' conteúdos, e o TikTok multiplicou por quatro, de 57 para '+br(K.tiktok)+' vídeos. Hoje ele é um terço de tudo que o kit gerou.',
-     'A reação é afetiva, não transacional: 30% dos comentários são elogio, 74% trazem emoji e só <b>3 pessoas</b> perguntaram como participar. O kit constrói desejo e prova social, mas não recruta sozinho. Se a ideia for usar o unboxing como porta de entrada, falta um chamado explícito no conteúdo.',
-     '<b>'+K.frustracao+' comentários</b> são de quem ainda não recebeu o kit, e alguns citam envios de julho que não chegaram. Vale cruzar com a aba Envios da plataforma antes que isso vire assunto nas próximas ondas.'
-   ]);
+   '<div class="spacer"></div>'+
+   '<div class="card"><div class="sechead"><h3>Uma curva que só sobe</h3><div class="psub">Mídia conquistada acumulada, semana a semana, somando os três desafios e a onda espontânea do kit</div></div>'+
+     '<div class="chartbox lg"><canvas id="cum"></canvas></div>'+
+     '<div class="mean">Cada desafio adiciona um degrau. O programa fechou setembro com <b>'+money(EMV)+'</b> em conteúdo de desafio'+(KT?' e mais <b>'+money(KT.emv)+'</b> gerados pelo kit de boas-vindas, sem briefing':'')+'.</div>'+
+   '</div>'+
+   '<div class="spacer"></div>'+
+   '<div class="grid g2">'+
+    (KT?('<div class="card"><div class="sechead"><div class="ey">Prova de comunidade</div><h3 style="margin-top:6px">O kit de boas-vindas virou conteúdo espontâneo</h3><div class="psub">Sem briefing, sem pontos e sem pedido: as lovers publicaram a chegada do kit por conta própria.</div></div>'+
+      '<div class="grid g2" style="margin-top:14px">'+stat('gold',br(KT.planilha),'conteúdos publicados',br(KT.perfis)+' perfis diferentes')+stat('',money(KT.emv),'em mídia conquistada','pela mesma régua do programa')+stat('',big(KT.views),'visualizações',br(KT.likes)+' curtidas')+stat('',br(KT.com.autores),'pessoas comentaram','audiência nova para a marca')+'</div>'+
+      '<div style="margin-top:12px"><a class="btn" href="#kit" style="text-decoration:none;display:inline-block">Ver o kit</a></div></div>'):'')+
+    '<div class="card"><div class="sechead"><h3>Três leituras para a diretoria</h3><div class="psub">O que os números dizem sobre o programa</div></div>'+
+      insight('O que ficou provado',[
+        '<b>A base é um ativo.</b> '+br(D.total)+' lovers cadastradas, quase 6x a meta, e '+br(D.aprovados)+' já aprovadas: uma audiência proprietária da marca, com alcance potencial de ~'+big(reach)+' pessoas. As '+br(pipeline)+' que ainda não publicaram não são perda: são pipeline para os próximos desafios.',
+        '<b>A qualidade subiu com o tempo.</b> O Brigadeiro fechou com '+pct(DE[2].aprovados,DE[2].submissoes)+'% de aprovação e '+f1(DE[2].aprovados/DE[2].participantes)+' conteúdos por lover, o mais eficiente dos três.',
+        '<b>Existe uma camada de embaixadoras.</b> '+br(CO.recorrentes)+' lovers voltaram em dois ou mais desafios e '+br(tres)+' fizeram os três. É recorrência orgânica, sem contrato.'
+      ])+
+      '<div style="margin-top:14px;text-align:right"><button class="btn" onclick="window.print()">Imprimir</button></div>'+
+    '</div>'+
+   '</div>';
 })();
 
-/* ---------- COMPARATIVO ---------- */
+/* ---------- 02 VALOR ---------- */
 (function(){
-  var v=view('comparativo');
-  function col(d){return '<td><div class="val cgreen">'+br(d.aprovados)+'</div></td>';}
-  var heads='<th></th>'+DE.map(function(d){return '<th>'+nm(d.title)+'</th>';}).join('');
-  function row(lbl,mm,cls,fn){
-    return '<tr><th>'+lbl+'<span class="mm">'+mm+'</span></th>'+
-      DE.map(function(d){var r=fn(d);return '<td><div class="val '+cls+'">'+r[0]+'</div>'+(r[1]?'<div class="sub">'+r[1]+'</div>':'')+'</td>';}).join('')+'</tr>';
-  }
-  var table='<div class="cmpwrap"><table class="cmpt"><thead><tr>'+heads+'</tr></thead><tbody>'+
-    row('Criadoras','pessoas diferentes que publicaram','gold',function(d){return [br(d.participantes)];})+
-    row('Conteúdos enviados','posts submetidos','',function(d){return [br(d.submissoes)];})+
-    row('Aprovados','passaram na curadoria','cgreen',function(d){return [br(d.aprovados)];})+
-    row('Reprovados','barrados na curadoria','cred',function(d){return [br(d.reprovados)];})+
-    row('Taxa de aprovação','aprovados ÷ enviados','cblue',function(d){return [pct(d.aprovados,d.submissoes)+'%'];})+
+  var v=sec('valor','02 · Valor de negócio','o que a marca não precisou comprar',money(EMV)+' em mídia conquistada','Quanto custaria contratar o mesmo volume de conteúdo e alcançar o mesmo público com mídia paga.');
+  var e=CO.emv,r=e.rates;
+  var tierBox=RE?('<div class="grid g4" style="margin-top:12px">'+stat('gold',br(RE.tiers.nano),'nano','até 10 mil seguidores')+stat('',br(RE.tiers.micro),'micro','10 a 100 mil')+stat('',br(RE.tiers.mid),'mid','100 a 500 mil')+stat('',br(RE.tiers.macro),'macro','500 mil +')+'</div>'):'';
+  v.innerHTML=
+   '<div class="grid g2">'+
+    '<div class="card"><div class="sechead"><div class="ey">Mídia conquistada</div><h3 style="margin-top:6px">Por formato</h3><div class="psub">Pelas tabelas de nano e micro criadoras usadas no programa. Só conteúdo aprovado entra na conta.</div></div>'+
+      '<div class="chartbox sm"><canvas id="emv"></canvas></div>'+
+      '<div class="mean"><b>Stories</b> '+br(e.story)+' × '+money(r.story)+' · <b>Reels</b> '+br(e.reels)+' × '+money(r.reels)+' · <b>TikTok</b> '+br(e.tiktok)+' × '+money(r.tiktok)+' · <b>Foto e carrossel</b> '+br(e.outros)+' × '+money(r.outros)+'.</div>'+
+    '</div>'+
+    '<div class="card"><div class="sechead"><div class="ey">Eficiência</div><h3 style="margin-top:6px">O valor por unidade</h3><div class="psub">Os denominadores que dão escala ao número de mídia</div></div>'+
+      '<div class="grid g2" style="margin-top:14px">'+stat('gold',money(Math.round(e.total/tApr)),'por conteúdo aprovado','mídia ÷ conteúdos')+stat('',money(Math.round(e.total/CO.ativas)),'por lover ativa','mídia ÷ ativas')+stat('',money(Math.round(e.total/D.aprovados)),'por lover na base','mídia ÷ aprovadas')+stat('',money(Math.round(e.total/DAYS)),'por dia de programa','em '+DAYS+' dias')+'</div>'+
+      insight('Como ler',['O valor por conteúdo muda com o mix de formato: um desafio puxado por reels vale mais por peça do que um puxado por story ou foto.','O valor por lover na base é o mais conservador: considera todas as aprovadas, inclusive as que ainda não publicaram.'])+
+    '</div>'+
+   '</div>'+
+   '<div class="spacer"></div>'+
+   '<div class="grid g2">'+
+    '<div class="card"><div class="sechead"><div class="ey">Alcance potencial</div><h3 class="big" style="margin-top:6px">~'+big(reach)+' de pessoas</h3><div class="psub">'+br(RE?RE.activeBase:CO.ativas)+' lovers ativas × média de '+br(RE?RE.mean:0)+' seguidores, medida em '+(RE?RE.sampleN:0)+' perfis</div></div>'+
+      '<div class="grid g3" style="margin-top:14px">'+stat('gold',RE?big(RE.mean):'—','média de seguidores','por lover ativa')+stat('',RE?big(RE.median):'—','mediana','metade tem menos')+stat('',RE?(RE.engMedianPct+'%'):'—','engajamento mediano','curtidas e comentários ÷ seguidores')+'</div>'+tierBox+
+      '<div class="mean">É o público que as lovers alcançam quando publicam, não visualizações garantidas. A base é majoritariamente nano, onde confiança e conversão são maiores.</div>'+
+    '</div>'+
+    '<div class="card"><div class="sechead"><div class="ey">Fidelização</div><h3 style="margin-top:6px">A comunidade retém</h3><div class="psub">Lovers que voltaram a participar de mais de um desafio</div></div>'+
+      '<div class="grid g3" style="margin-top:14px">'+stat('',br(CO.ativas),'ativas','publicaram ao menos 1 vez')+stat('gold',br(CO.recorrentes),'recorrentes','ativas em 2+ desafios')+stat('',CO.recorrenciaPct+'%','taxa de recorrência','recorrentes ÷ ativas')+'</div>'+
+      '<div class="grid g2" style="margin-top:12px">'+stat('gold',br(tres),'fizeram os 3 desafios','núcleo de embaixadoras')+stat('',br(pipeline),'aprovadas sem publicar','pipeline de ativação')+'</div>'+
+      insight('Por que importa',['Cada novo desafio reaproveita lovers já ativadas: o custo de reativação cai a cada ciclo.','O núcleo que fez os três desafios é o grupo natural para o programa de embaixadoras de 2027.'])+
+    '</div>'+
+   '</div>';
+})();
+
+/* ---------- 03 COMUNIDADE ---------- */
+(function(){
+  var v=sec('comunidade','03 · Comunidade','quem são as lovers',br(D.total)+' lovers cadastradas, uma base proprietária da marca','Cada camada da comunidade é um ativo: quem entrou, quem foi aprovada, quem publica e quem volta.');
+  var steps=[['Lovers cadastradas',D.total,'linear-gradient(90deg,#1B2F6A,#2E4A9E)',null,'ponto de partida'],['Lovers aprovadas',D.aprovados,'linear-gradient(90deg,#2E4A9E,#3E6BC4)',D.total,'passaram pela curadoria de perfil'],['Lovers ativas',CO.ativas,'linear-gradient(90deg,#A87B2A,#C99A3E)',D.aprovados,'publicaram ao menos 1 conteúdo aprovado'],['Recorrentes',CO.recorrentes,'linear-gradient(90deg,#C99A3E,#E8C86A)',CO.ativas,'voltaram em 2+ desafios']];
+  var fnl='';steps.forEach(function(s){var w=Math.max(16,Math.round(s[1]/D.total*100));fnl+='<div class="frow"><div class="fbar" style="width:'+w+'%;background:'+s[2]+'">'+br(s[1])+'</div><div class="fmeta"><b>'+s[0]+'</b><div class="fconv">'+(s[3]?pct(s[1],s[3])+'% do passo anterior · ':'')+s[4]+'</div></div></div>';});
+  v.innerHTML=
+   '<div class="grid g2">'+
+    '<div class="card"><div class="sechead"><h3>Da inscrição à recorrência</h3><div class="psub">As quatro camadas da comunidade</div></div><div class="fnl">'+fnl+'</div>'+
+      '<div class="mean"><b>'+br(pipeline)+' lovers aprovadas ainda não publicaram.</b> É a reserva de ativação para os próximos desafios: gente já dentro da comunidade, com perfil validado, esperando o convite certo.</div></div>'+
+    '<div class="card"><div class="sechead"><h3>Como estão os cadastros</h3><div class="psub">Situação das '+br(D.total)+' pessoas que entraram</div></div><div class="chartbox"><canvas id="ovd"></canvas></div>'+
+      '<div class="grid g2" style="margin-top:12px">'+stat('',br(D.pendentes),'pendentes','não concluíram o cadastro')+stat('',br(D.aguardando),'aguardando aprovação','fila da curadoria')+'</div></div>'+
+   '</div>'+
+   '<div class="spacer"></div>'+
+   '<div class="card"><div class="sechead"><h3>Inscrições por dia</h3><div class="psub">Desde '+DL.su.s+' · linha = média móvel de 7 dias</div></div><div class="chartbox lg"><canvas id="evsu"></canvas></div>'+
+     '<div class="mean">Entraram <b>'+br(sum(DL.su.c))+'</b> pessoas no total, <b>'+br(sum(DL.su.c.slice(-7)))+'</b> só nos últimos 7 dias. O recrutamento não desacelerou em nenhum momento do programa.</div></div>'+
+   '<div class="spacer"></div>'+
+   '<div class="card"><div class="sechead"><h3>Novas lovers por dia de desafio</h3><div class="psub">Quando cada desafio trouxe gente nova para publicar</div></div><div class="chartbox lg"><canvas id="evnov"></canvas></div></div>';
+})();
+
+/* ---------- 04 DESAFIOS ---------- */
+(function(){
+  var v=sec('desafios','04 · Desafios','três meses, três desafios','Clique em um desafio para abrir os resultados','Os mesmos desafios que as lovers veem na plataforma, com o resultado de cada um. O detalhe traz formatos, ritmo e valor.');
+  var r=CO.emv.rates;
+  var cards=DE.map(function(d,i){var dur=durOf(d);var c=CAMP[d.id]||{};var live=d.status==='ativo';
+    return '<button class="dcard" data-id="'+d.id+'"><div class="dimg"><img src="'+(c.cover||'img-celular.png')+'" alt=""><div class="st'+(live?' live':'')+'">'+(live?'Em andamento':'Encerrado')+'</div></div>'+
+      '<div class="db"><div class="dt">'+nm(d.title)+'</div><div class="dd">'+(c.desc||'')+'</div>'+
+      '<div class="dm"><span>'+ICAL+(live?'A partir de '+(c.start||''):d.periodo+' · '+dur+' dias')+'</span><span class="pts">'+ICOIN+'Até '+(c.pts||'')+' colheradas</span></div>'+
+      '<div class="dn"><div><b>'+br(d.participantes)+'</b><span>lovers</span></div><div><b>'+br(d.aprovados)+'</b><span>conteúdos</span></div><div><b>'+money(emvOf(d))+'</b><span>mídia</span></div></div>'+
+      '<div class="go">Ver resultados ↓</div></div></button>';}).join('');
+  var nx=CAMP[8];var next='<div class="dcard soon"><div class="dimg"><img src="'+nx.cover+'" alt=""><div class="st new">Novidade</div></div>'+
+      '<div class="db"><div class="dt">'+nx.title+'</div><div class="dd">'+nx.desc+'</div>'+
+      '<div class="dm"><span>'+ICAL+'A partir de '+nx.start+'</span><span class="pts">'+ICOIN+'Até '+nx.pts+' colheradas</span></div>'+
+      '<div class="soonbox">Começou hoje. Os resultados entram neste painel a partir da próxima atualização.</div></div></div>';
+  var details=DE.map(function(d){var dur=durOf(d);
+    return '<div class="ddetail" id="dd'+d.id+'"><div class="card"><div class="sechead"><div class="ey">'+d.periodo+' · '+dur+' dias</div><h3 class="big" style="margin-top:6px">'+nm(d.title)+'</h3></div>'+
+      '<div class="grid g4" style="margin-top:14px">'+stat('gold',br(d.participantes),'lovers','pessoas diferentes')+stat('',br(d.aprovados),'conteúdos aprovados',br(d.submissoes)+' enviados')+stat('',pct(d.aprovados,d.submissoes)+'%','taxa de aprovação',br(d.reprovados)+' reprovados')+stat('gold',money(emvOf(d)),'mídia conquistada',money(Math.round(emvOf(d)/d.aprovados))+' por conteúdo')+'</div>'+
+      '<div class="grid g2" style="margin-top:14px"><div><div class="ey" style="font-size:11px">Formatos aprovados</div><div class="chartbox"><canvas id="mix'+d.id+'"></canvas></div></div>'+
+      '<div><div class="ey" style="font-size:11px">Ritmo e densidade</div><div class="grid g2" style="margin-top:10px">'+stat('',f1(d.participantes/dur),'lovers por dia','normalizado pela duração')+stat('',f1(d.aprovados/d.participantes),'conteúdos por lover','densidade de entrega')+stat('',f1(d.aprovados/dur),'conteúdos por dia','ritmo do desafio')+stat('',RE?big(RE.mean*d.participantes):'—','alcance potencial','lovers × média de seguidores')+'</div></div></div>'+
+      '<div class="chartbox" style="margin-top:14px"><canvas id="ser'+d.id+'"></canvas></div><div class="psub" style="margin-top:6px">Conteúdos aprovados por dia do desafio</div>'+
+    '</div></div>';}).join('');
+  function row(lbl,mm,cls,fn,hi){return '<tr'+(hi?' class="hi"':'')+'><th>'+lbl+'<span class="mm">'+mm+'</span></th>'+DE.map(function(d){var x=fn(d);return '<td><div class="val '+cls+'">'+x[0]+'</div>'+(x[1]?'<div class="sub">'+x[1]+'</div>':'')+'</td>';}).join('')+'</tr>';}
+  var table='<div class="cmpwrap"><table class="cmpt"><thead><tr><th></th>'+DE.map(function(d){return '<th>'+nm(d.title)+'</th>';}).join('')+'</tr></thead><tbody>'+
+    row('Duração','dias de desafio','',function(d){return [durOf(d)+' dias',d.periodo];})+
+    row('Lovers','pessoas diferentes que publicaram','gold',function(d){return [br(d.participantes)];})+
+    row('Lovers por dia','comparável entre desafios de tamanhos diferentes','gold',function(d){return [f1(d.participantes/durOf(d))];},true)+
+    row('Conteúdos aprovados','passaram na curadoria','',function(d){return [br(d.aprovados),br(d.submissoes)+' enviados'];})+
+    row('Taxa de aprovação','aprovados ÷ enviados','',function(d){return [pct(d.aprovados,d.submissoes)+'%',br(d.reprovados)+' reprovados'];},true)+
+    row('Conteúdos por lover','densidade de entrega','',function(d){return [f1(d.aprovados/d.participantes)];},true)+
+    row('Mídia conquistada','pelas taxas do programa','gold',function(d){return [money(emvOf(d)),money(Math.round(emvOf(d)/d.aprovados))+' por conteúdo'];})+
     '</tbody></table></div>';
+  v.innerHTML='<div class="dgrid">'+cards+next+'</div>'+details+
+   '<div class="spacer"></div>'+
+   '<div class="grid g2">'+
+    '<div class="card"><div class="sechead"><h3>Lado a lado</h3><div class="psub">Os desafios tiveram durações diferentes. As linhas destacadas comparam com justiça.</div></div>'+table+'</div>'+
+    '<div class="card"><div class="sechead"><h3>Por dia de desafio</h3><div class="psub">Participação e produção normalizadas pela duração</div></div><div class="chartbox"><canvas id="cmp"></canvas></div>'+
+      insight('Como ler',['Em volume absoluto o primeiro desafio é o maior porque durou 48 dias e abriu a comunidade. Por dia, os dois primeiros ficam próximos.','O Brigadeiro foi o mais eficiente: melhor taxa de aprovação, mais conteúdos por lover e mais valor por peça, com o conteúdo já chegando no padrão da marca.'])+'</div>'+
+   '</div>'+
+   '<div class="card" style="margin-top:16px"><div class="sechead"><div class="ey">Como ler estes números</div><h3 style="margin-top:6px">De onde vêm a mídia conquistada e o alcance de cada desafio</h3></div>'+
+     insight('Mídia conquistada',['Soma dos conteúdos aprovados multiplicados pelo valor de cada formato: story '+money(r.story)+', reels '+money(r.reels)+', TikTok '+money(r.tiktok)+', foto e carrossel '+money(r.outros)+'. Somando os desafios, fecha exatamente com os '+money(CO.emv.total)+' do programa.'])+
+     insight('Alcance',['Aplica a média de '+br(RE?RE.mean:0)+' seguidores por perfil ativo ao número de lovers. O alcance dos desafios não soma, porque a mesma lover participa de mais de um; use o total do programa para falar de audiência acumulada.'])+
+   '</div>';
+  v.addEventListener('click',function(ev){var b=ev.target.closest('.dcard');if(!b)return;var id=b.dataset.id;var was=b.classList.contains('on');v.querySelectorAll('.dcard').forEach(function(x){x.classList.remove('on');});v.querySelectorAll('.ddetail').forEach(function(x){x.classList.remove('on');});if(!was){b.classList.add('on');var dd=document.getElementById('dd'+id);dd.classList.add('on');drawDetail(parseInt(id,10));setTimeout(function(){dd.scrollIntoView({behavior:'smooth',block:'nearest'});},50);}});
+})();
+
+/* ---------- 05 KIT ---------- */
+(function(){
+  var v=sec('kit','05 · Kit de boas-vindas','fora do desafio','O kit virou conteúdo espontâneo','Quem concluiu o primeiro desafio recebeu um kit. As lovers publicaram a chegada por conta própria, sem briefing, sem pontos e sem contar como submissão.');
+  if(!KT){v.innerHTML='';return;}
+  var K=KT,C=K.com;var engaj=K.views>0?Math.round((K.likes+K.comentarios)/K.views*1000)/10:0;
+  var maxT=Math.max.apply(null,K.temas.map(function(t){return t[1];}));
+  var barras=K.temas.map(function(t){return '<div class="bar"><div class="t"><span>'+t[0]+'</span><b>'+br(t[1])+' <span class="mut" style="font-weight:600">('+Math.round(t[1]/C.coletados*100)+'%)</span></b></div><div class="tr"><div class="fl" style="width:'+Math.max(1,Math.round(t[1]/maxT*100))+'%"></div></div></div>';}).join('');
+  var aspas=K.quotes.map(function(q){return '<div class="quote">'+q+'</div>';}).join('');
   v.innerHTML=
-    '<div class="card" style="margin-bottom:16px"><div class="sechead"><h3>Comparativo dos desafios</h3><div class="psub">Participação e conteúdo aprovado por desafio</div></div><div class="chartbox"><canvas id="cmp"></canvas></div></div>'+
-    '<div class="card"><div class="sechead"><h3>Desempenho lado a lado</h3><div class="psub">Os mesmos números, com o significado de cada linha</div></div>'+
-      table+
-      '<div class="mean"><div><b>Taxa de aprovação</b> — de cada 100 posts enviados, quantos foram aprovados. Ex.: 96% = 96 aprovados e 4 reprovados a cada 100.</div>'+
-      '<div><b>Criadoras</b> conta pessoas diferentes; uma pessoa pode enviar vários conteúdos.</div></div>'+
-    '</div>'+
-    insight('Como ler',['Compare Criadoras para ver qual desafio mobilizou mais gente.','Taxa de aprovação alta = conteúdo já vem no padrão, menos curadoria.']);
+   '<div class="card navy"><div class="grid g2" style="align-items:center"><div>'+
+     '<div class="ey">Entrega de marca que não aparece em nenhum desafio</div>'+
+     '<div class="grid g3" style="margin-top:16px">'+stat('gold',br(K.planilha),'conteúdos mapeados',br(K.ig)+' Instagram + '+br(K.tiktok)+' TikTok')+stat('',br(K.perfis),'perfis diferentes','publicaram sem serem pedidos')+stat('gold',money(K.emv),'mídia conquistada','pela mesma régua do programa')+'</div>'+
+     '<div class="grid g3" style="margin-top:12px">'+stat('',br(K.views),'visualizações',br(K.mix.video)+' vídeos')+stat('',br(K.likes),'curtidas','mediana de 22 por post')+stat('',br(K.comentarios),'comentários',engaj+'% sobre views')+'</div>'+
+     '<div class="mean">Coleta direta nos '+br(K.medidos)+' conteúdos que estão no ar; '+K.foraDoAr+' saíram do ar ou ficaram restritos.</div>'+
+   '</div><div class="illus" style="min-height:300px"><img src="img-caderno.png" alt=""></div></div></div>'+
+   '<div class="spacer"></div>'+
+   '<div class="grid g2">'+
+     '<div class="card"><div class="sechead"><h3>Quando os kits chegaram</h3><div class="psub">Publicações por dia, '+K.periodo+'</div></div><div class="chartbox"><canvas id="kitserie"></canvas></div><div class="mean">A onda começa no dia 14, sobe até o pico do dia 23, com 103 posts em 24 horas, e perde força na última semana. É o ciclo natural de um recebido: curto e intenso.</div></div>'+
+     '<div class="card"><div class="sechead"><h3>Formato escolhido</h3><div class="psub">Sem briefing, a comunidade escolheu vídeo</div></div><div class="chartbox"><canvas id="kitmix"></canvas></div><div class="mean"><b>'+Math.round(K.mix.video/K.medidos*100)+'%</b> do conteúdo é vídeo, somando reels e TikTok. Nos desafios, com briefing, reels não passa de 35%.</div></div>'+
+   '</div>'+
+   '<div class="spacer"></div>'+
+   '<div class="grid g2">'+
+     '<div class="card"><div class="sechead"><h3>O que os comentários dizem</h3><div class="psub">'+br(C.coletados)+' comentários lidos, de '+br(C.autores)+' pessoas diferentes, em '+br(C.postsComCom)+' posts do Instagram</div></div><div style="margin-top:14px">'+barras+'</div>'+
+       '<div class="mean"><b>'+br(C.autores)+' pessoas</b> comentaram, quase todas de fora da base. É audiência nova sendo exposta à marca sem custo de mídia. Só <b>'+br(K.frustracao)+'</b> comentários são de quem ainda não recebeu.</div></div>'+
+     '<div class="card"><div class="sechead"><h3>Na voz da comunidade</h3><div class="psub">Comentários reais, sem edição</div></div><div style="margin-top:14px">'+aspas+'</div>'+
+       insight('Como ler',['A reação é afetiva, não transacional: a maioria dos comentários é elogio, e quase ninguém pergunta como participar. O kit constrói desejo e prova social; recrutar exige um chamado explícito.'])+'</div>'+
+   '</div>';
 })();
 
-/* ---------- EVOLUÇÃO ---------- */
+/* ---------- 06 LOVERS ---------- */
 (function(){
-  var v=view('evolucao');
-  v.innerHTML=
-    '<div class="card" style="margin-bottom:16px"><div class="sechead"><h3>Cadastros por dia</h3><div class="psub">Desde 15/06 · linha suave = média de 7 dias</div></div><div class="chartbox lg"><canvas id="evsu"></canvas></div>'+
-      '<div class="mean"><div>Entraram <b>'+br(sum(DL.su.c))+'</b> cadastros no total · <b>'+br(novos7)+'</b> nos últimos 7 dias.</div></div>'+
-    '</div>'+
-    '<div class="card"><div class="sechead"><h3>Novas criadoras por desafio</h3><div class="psub">Quando cada desafio trouxe gente nova para publicar</div></div><div class="chartbox lg"><canvas id="evnov"></canvas></div></div>';
+  var v=sec('lovers','06 · Lovers','quem faz acontecer','As lovers que mais entregaram','Top 20 por conteúdo aprovado e os conteúdos mais recentes de cada desafio.');
+  var items=TP.slice(0,20).map(function(c,i){var prof=c.ig?('https://instagram.com/'+encodeURIComponent(c.ig)):null;var av=c.photo?'<img class="av" src="'+c.photo+'" onerror="this.style.visibility=\'hidden\'">':'<div class="av"></div>';var handle=c.ig?('@'+c.ig):(c.tk?('TikTok @'+c.tk):'');
+    return '<li class="ritem"><div class="pos">'+(i+1)+'</div>'+av+'<div class="nm"><div class="n1">'+(c.name||c.nick||'—')+'</div><div class="n2">'+handle+'</div></div><div class="ct">'+br(c.count)+' <span>aprov.</span></div>'+(prof?'<a class="rlink" href="'+prof+'" target="_blank" rel="noopener">ver</a>':'')+'</li>';}).join('');
+  var gal='';GA.forEach(function(g){var cards=(g.posts||[]).map(function(p){var prov=p.prov==='tiktok'?'TikTok':'Instagram';var fmt=(p.ct||'').replace('reels','Reels').replace('story','Story').replace('video','Vídeo').replace('photo','Foto').replace('carousel','Carrossel');return '<a class="gcard" href="'+p.link+'" target="_blank" rel="noopener"><div class="gname">'+(p.name||'—')+'</div><div class="gfmt">'+prov+' · '+fmt+'</div><div class="gopen">Abrir post ↗</div></a>';}).join('');gal+='<div class="card" style="margin-top:16px"><div class="sechead"><h3>'+nm(g.t)+'</h3><div class="psub">Conteúdos aprovados mais recentes</div></div><div class="gal">'+cards+'</div></div>';});
+  v.innerHTML='<div class="card"><div class="sechead"><div class="ey">Ranking</div><h3 style="margin-top:6px">Top 20</h3></div><ul class="rank">'+items+'</ul></div>'+gal;
 })();
 
-/* ---------- RANKING ---------- */
-(function(){
-  var v=view('ranking');
-  var items=TP.slice(0,20).map(function(c,i){
-    var prof=c.ig?('https://instagram.com/'+encodeURIComponent(c.ig)):null;
-    var av=c.photo?'<img class="av" src="'+c.photo+'" onerror="this.style.visibility=\'hidden\'">':'<div class="av"></div>';
-    var handle=c.ig?('@'+c.ig):(c.tk?('TikTok @'+c.tk):'');
-    return '<li class="ritem"><div class="pos">'+(i+1)+'</div>'+av+
-      '<div class="nm"><div class="n1">'+(c.name||c.nick||'—')+'</div><div class="n2">'+handle+'</div></div>'+
-      '<div class="ct">'+br(c.count)+' <span>aprov.</span></div>'+
-      (prof?'<a class="rlink" href="'+prof+'" target="_blank" rel="noopener">ver</a>':'')+'</li>';
-  }).join('');
-  v.innerHTML='<div class="card"><div class="sechead"><h3>Top criadoras por conteúdo aprovado</h3><div class="psub">As que mais entregaram posts aprovados no período</div></div><ul class="rank">'+items+'</ul></div>';
-})();
+W2.appendChild(E('<div class="foot"><div>Moça Lovers · Painel da comunidade · dados de '+dataDe+'</div><div>Fontes: plataforma Moça Lovers (cadastros e desafios) · monitoramento de publicações espontâneas (kit) · amostra de perfis (alcance)</div></div>'));
 
-/* ---------- GALERIA ---------- */
-(function(){
-  var v=view('galeria');
-  var html='';
-  GA.forEach(function(g){
-    var cards=(g.posts||[]).map(function(p){
-      var prov=p.prov==='tiktok'?'TikTok':'Instagram';
-      var fmt=(p.ct||'').replace('reels','Reels').replace('story','Story').replace('video','Vídeo').replace('photo','Foto');
-      return '<a class="gcard" href="'+p.link+'" target="_blank" rel="noopener"><div class="gtop2"><div class="gav"></div><div style="min-width:0"><div class="gname">'+(p.name||'—')+'</div><div class="gfmt">'+prov+' · '+fmt+'</div></div></div><div class="gopen">Abrir post ↗</div></a>';
-    }).join('');
-    html+='<div class="card" style="margin-bottom:16px"><div class="sechead"><h3>'+nm(g.t)+'</h3><div class="psub">Conteúdos aprovados mais recentes</div></div><div class="gal">'+cards+'</div></div>';
-  });
-  v.innerHTML=html;
-})();
-
-/* ---------- DRAW CHARTS (lazy) ---------- */
+/* ---------- CHARTS ---------- */
+var markerPlugin={id:'mk',afterDraw:function(ch,args,opts){if(!opts||!opts.marks)return;var ctx=ch.ctx,x=ch.scales.x,top=ch.chartArea.top,bot=ch.chartArea.bottom;opts.marks.forEach(function(m){var i=ch.data.labels.indexOf(m.at);if(i<0)return;var px=x.getPixelForValue(i);ctx.save();ctx.strokeStyle='rgba(36,60,130,.35)';ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(px,top);ctx.lineTo(px,bot);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#243C82';ctx.font='800 11px Nunito';ctx.textAlign='left';ctx.fillText(m.label,px+5,top+12);ctx.restore();});}};
+var drawn={};
+function drawDetail(id){if(drawn['d'+id])return;drawn['d'+id]=true;var d=DE.filter(function(x){return x.id===id;})[0];var c=DL.ch.filter(function(x){return x.id===id;})[0];
+  donut('mix'+id,['Stories','Reels','TikTok','Foto e carrossel'],[d.stories,d.reels,d.tiktok,d.outros],CAT);
+  if(c){var s=dmy(c.s);var labs=c.apr.map(function(_,i){var dd=new Date(s);dd.setDate(dd.getDate()+i);return fmtd(dd);});
+    mk('ser'+id,{type:'bar',data:{labels:labs,datasets:[{label:'Aprovados',data:c.apr,backgroundColor:'#2E4A9E',borderRadius:3},{label:'Lovers novas',data:c.nov,backgroundColor:'#C99A3E',borderRadius:3}]},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:12}}},tooltip:Object.assign({},TT,{displayColors:true})},scales:{x:Object.assign({},GC,{ticks:{color:'#7C8AAE',font:{size:11},maxTicksLimit:10}}),y:GC}}});}
+}
 function draw(id){
-  if(built[id])return;built[id]=true;
-  if(id==='overview'){donut('ovd',['Aprovadas','Aguardando','Incompletos','Pendentes','Outros'],[D.aprovados,D.aguardando,D.incompletos,D.pendentes,Math.max(0,D.total-D.aprovados-D.aguardando-D.incompletos-D.pendentes)],['#3ddc9a','#e7c66b','#a98bff','#6aa8ff','rgba(255,255,255,.14)']);}
-  if(id==='negocio'){var e=CO.emv;mk('emv',{type:'bar',data:{labels:['Stories','Reels','TikTok','Outros'],datasets:[{label:'Valor (R$)',data:[e.story*e.rates.story,e.reels*e.rates.reels,e.tiktok*e.rates.tiktok,e.outros*e.rates.outros],backgroundColor:['#e7c66b','#6aa8ff','#a98bff','#3ddc9a'],borderRadius:8}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:GC,y:Object.assign({},GC,{ticks:{color:'#69748f',font:{size:11},callback:function(val){return 'R$ '+(val/1e6).toFixed(1)+'mi';}}})}}});}
-  if(id==='desafios'){DE.forEach(function(d){donut('mix'+d.id,['Stories','Reels','TikTok','Outros'],[d.stories,d.reels,d.tiktok,d.outros],['#e7c66b','#6aa8ff','#a98bff','#3ddc9a']);ringc('ring'+d.id,d.aprovados,d.reprovados);});}
-  if(id==='kit'&&typeof KIT!=='undefined'){
-    mk('kitserie',{type:'bar',data:{labels:KIT.serie.c.map(function(_,i){return i+1;}),datasets:[{label:'Posts/dia',data:KIT.serie.c,backgroundColor:'#e7c66b',borderRadius:6}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:Object.assign({},GC,{ticks:{display:false}}),y:GC}}});
-    donut('kitmix',['Vídeo','Carrossel','Foto'],[KIT.mix.video,KIT.mix.carrossel,KIT.mix.imagem],['#6aa8ff','#a98bff','#e7c66b']);
+  if(drawn[id])return;drawn[id]=true;
+  if(id==='resumo'){
+    var marks=DL.ch.map(function(c){var idx=Math.round((dmy(c.s)-START)/864e5);var wk=Math.min(CUM.labels.length-1,Math.floor(idx/7));return {at:CUM.labels[wk],label:SHORT[c.id]||''};});
+    mk('cum',{type:'line',plugins:[markerPlugin],data:{labels:CUM.labels,datasets:[{label:'Desafios',data:CUM.emv,borderColor:'#A87B2A',backgroundColor:'rgba(201,154,62,.18)',fill:true,tension:.3,borderWidth:2.5,pointRadius:0,pointHoverRadius:5},{label:'Kit de boas-vindas',data:CUM.kit,borderColor:'#2E4A9E',backgroundColor:'rgba(46,74,158,.10)',fill:true,tension:.3,borderWidth:2,pointRadius:0,pointHoverRadius:5}]},
+      options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{mk:{marks:marks},legend:{position:'bottom',labels:{boxWidth:10,font:{size:12}}},tooltip:Object.assign({},TT,{displayColors:true,callbacks:{title:function(it){return 'Semana até '+it[0].label;},label:function(it){var extra=it.datasetIndex===0?' · '+br(CUM.apr[it.dataIndex])+' conteúdos':'';return it.dataset.label+': '+money(it.parsed.y)+extra;}}})},scales:{x:Object.assign({},GC,{ticks:{color:'#7C8AAE',font:{size:11},maxTicksLimit:9}}),y:Object.assign({},GC,{ticks:{color:'#7C8AAE',font:{size:11},callback:function(v){return 'R$ '+(v/1e6).toFixed(1)+' mi';}}})}}});
   }
-  if(id==='comparativo'){mk('cmp',{type:'bar',data:{labels:DE.map(function(d){return nm(d.title);}),datasets:[{label:'Criadoras',data:DE.map(function(d){return d.participantes;}),backgroundColor:'#e7c66b',borderRadius:7},{label:'Aprovados',data:DE.map(function(d){return d.aprovados;}),backgroundColor:'#6aa8ff',borderRadius:7}]},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{x:GC,y:GC}}});}
-  if(id==='evolucao'){
-    var labs=DL.su.c.map(function(_,i){return i;});
-    function ma(a,w){var o=[];for(var i=0;i<a.length;i++){var s=0,c=0;for(var j=Math.max(0,i-w+1);j<=i;j++){s+=a[j];c++;}o.push(Math.round(s/c));}return o;}
-    mk('evsu',{type:'line',data:{labels:labs,datasets:[{label:'Cadastros/dia',data:DL.su.c,borderColor:'rgba(231,198,107,.35)',backgroundColor:'rgba(231,198,107,.10)',fill:true,pointRadius:0,tension:.3},{label:'Média 7 dias',data:ma(DL.su.c,7),borderColor:'#e7c66b',borderWidth:2.5,pointRadius:0,tension:.3}]},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{x:Object.assign({},GC,{ticks:{display:false}}),y:GC}}});
-    var ds=DE.map(function(d,i){var ch=DL.ch.find(function(c){return c.id===d.id;});return {label:nm(d.title),data:ch?ch.nov:[],borderColor:[ '#e7c66b','#6aa8ff','#a98bff'][i%3],backgroundColor:'transparent',borderWidth:2.5,pointRadius:0,tension:.3};});
-    var maxlen=Math.max.apply(null,DL.ch.map(function(c){return c.nov.length;}));
-    mk('evnov',{type:'line',data:{labels:Array.from({length:maxlen},function(_,i){return i;}),datasets:ds},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{x:Object.assign({},GC,{ticks:{display:false}}),y:GC}}});
+  if(id==='valor'){var e=CO.emv;mk('emv',{type:'bar',data:{labels:['Stories','Reels','TikTok','Foto e carrossel'],datasets:[{data:[e.story*e.rates.story,e.reels*e.rates.reels,e.tiktok*e.rates.tiktok,e.outros*e.rates.outros],backgroundColor:CAT,borderRadius:6,maxBarThickness:48}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:Object.assign({},TT,{callbacks:{label:function(it){return money(it.parsed.y);}}})},scales:{x:GC,y:Object.assign({},GC,{ticks:{color:'#7C8AAE',font:{size:11},callback:function(v){return 'R$ '+(v/1e6).toFixed(1)+' mi';}}})}}});}
+  if(id==='comunidade'){
+    donut('ovd',['Aprovadas','Aguardando','Incompletos','Pendentes','Outros'],[D.aprovados,D.aguardando,D.incompletos,D.pendentes,Math.max(0,D.total-D.aprovados-D.aguardando-D.incompletos-D.pendentes)],['#2E4A9E','#C99A3E','#3E9ACC','#B0522E','#E4D3BE']);
+    var su=DL.su.c,labs=[],d0=dmy(DL.su.s);for(var i=0;i<su.length;i++){var d=new Date(d0);d.setDate(d.getDate()+i);labs.push(fmtd(d));}
+    var ma=su.map(function(_,i){var a=su.slice(Math.max(0,i-6),i+1);return Math.round(sum(a)/a.length);});
+    mk('evsu',{type:'bar',data:{labels:labs,datasets:[{type:'line',label:'Média 7 dias',data:ma,borderColor:'#A87B2A',borderWidth:2.5,pointRadius:0,tension:.35,order:0},{label:'Inscrições',data:su,backgroundColor:'rgba(46,74,158,.75)',borderRadius:3,order:1}]},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:12}}},tooltip:Object.assign({},TT,{displayColors:true})},scales:{x:Object.assign({},GC,{ticks:{color:'#7C8AAE',font:{size:11},maxTicksLimit:12}}),y:GC}}});
+    var ds=DL.ch.map(function(c,i){return {label:SHORT[c.id]||nm(DE.filter(function(x){return x.id===c.id;})[0].title),data:c.nov,borderColor:CAT[i],backgroundColor:CAT[i],borderWidth:2,pointRadius:0,tension:.3};});
+    var maxLen=Math.max.apply(null,DL.ch.map(function(c){return c.nov.length;}));var dayLabs=[];for(var k=0;k<maxLen;k++)dayLabs.push('Dia '+(k+1));
+    mk('evnov',{type:'line',data:{labels:dayLabs,datasets:ds},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:12}}},tooltip:Object.assign({},TT,{displayColors:true})},scales:{x:Object.assign({},GC,{ticks:{color:'#7C8AAE',font:{size:11},maxTicksLimit:12}}),y:GC}}});
+  }
+  if(id==='desafios'){
+    mk('cmp',{type:'bar',data:{labels:DE.map(function(d){return SHORT[d.id]||nm(d.title);}),datasets:[{label:'Lovers por dia',data:DE.map(function(d){return Math.round(d.participantes/durOf(d)*10)/10;}),backgroundColor:'#2E4A9E',borderRadius:6,maxBarThickness:60},{label:'Conteúdos por dia',data:DE.map(function(d){return Math.round(d.aprovados/durOf(d)*10)/10;}),backgroundColor:'#C99A3E',borderRadius:6,maxBarThickness:60}]},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:12}}},tooltip:Object.assign({},TT,{displayColors:true})},scales:{x:GC,y:GC}}});
+  }
+  if(id==='kit'&&KT){
+    mk('kitserie',{type:'bar',data:{labels:KT.serie.c.map(function(_,i){return (i+1)+'/9';}),datasets:[{label:'Posts por dia',data:KT.serie.c,backgroundColor:'#C99A3E',borderRadius:4}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:TT},scales:{x:Object.assign({},GC,{ticks:{color:'#7C8AAE',font:{size:11},maxTicksLimit:10}}),y:GC}}});
+    donut('kitmix',['Vídeo','Carrossel','Foto'],[KT.mix.video,KT.mix.carrossel,KT.mix.imagem],['#2E4A9E','#C99A3E','#3E9ACC']);
   }
 }
-
-/* ---------- TAB LOGIC ---------- */
-function activate(id){
-  TABS.forEach(function(t){var el=document.getElementById('v-'+t[0]);if(el)el.hidden=(t[0]!==id);});
-  nav.querySelectorAll('.tab').forEach(function(b){b.classList.toggle('on',b.dataset.v===id);});
-  requestAnimationFrame(function(){draw(id);});
-}
-nav.addEventListener('click',function(e){var b=e.target.closest('.tab');if(b)activate(b.dataset.v);});
-activate('overview');
-})();
-
+/* lazy draw + active nav */
+var io=new IntersectionObserver(function(ents){ents.forEach(function(en){if(en.isIntersecting){draw(en.target.id);}});},{rootMargin:'200px 0px'});
+document.querySelectorAll('section.sec').forEach(function(s){io.observe(s);});
+var io2=new IntersectionObserver(function(ents){ents.forEach(function(en){if(en.isIntersecting){nav.querySelectorAll('.tab').forEach(function(b){b.classList.toggle('on',b.dataset.v===en.target.id);});}});},{rootMargin:'-40% 0px -55% 0px'});
+document.querySelectorAll('section.sec').forEach(function(s){io2.observe(s);});
+draw('resumo');
 </script>
 </body>
 </html>
